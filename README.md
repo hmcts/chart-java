@@ -1,7 +1,7 @@
 # chart-java
 This chart should be used by simple java microservices.
 
-We will take small PRs and small features to this chart but more complicated needs should be handled in your own chart or another chart here that may extend this one.
+We will take small PRs and small features to this chart but more complicated needs should be handled in your own chart.
 
 ## Example configuration
 ```
