@@ -31,7 +31,7 @@ The following table lists the configurable parameters of the Java chart and thei
 | `readinessPath`    | Path of HTTP readiness probe                              | `/health`                   |
 | `readinessDelay`   | Readiness probe inital delay (seconds)                    | `30`                        |
 | `readinessTimeout` | Readiness probe timeout (seconds)                         | `3`                         |
-| `readinessperiod`  | Readiness probe period (seconds)                          | `15`                        |
+| `readinessPeriod`  | Readiness probe period (seconds)                          | `15`                        |
 | `livenessPath`     | Path of HTTP liveness probe                               | `/health`                   |
 | `livenessDelay`    | Liveness probe inital delay (seconds)                     | `30`                        |
 | `livenessTimeout`  | Liveness probe timeout (seconds)                          | `3`                         |
