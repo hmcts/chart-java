@@ -5,6 +5,7 @@ We will take small PRs and small features to this chart but more complicated nee
 
 ## Example configuration
 ```
+applicationPort: 8080
 environment:
   REFORM_TEAM: cnp
   REFORM_SERVICE_NAME: rhubarb-backend
