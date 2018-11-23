@@ -1,0 +1,18 @@
+applicationPort: 4550
+image: hmctssandbox.azurecr.io/hmcts/spring-boot-template
+environment:
+configmap:
+memoryRequests: "512Mi"
+cpuRequests: "200m"
+memoryLimits: "1024Mi"
+cpuLimits: "2500m"
+ingressHost: chart-java.service.core-compute-saat.internal
+readinessPath: "/health"
+readinessDelay: 30
+readinessTimeout: 3
+readinessPeriod: 15
+livenessPath: "/health"
+livenessDelay: 30
+livenessTimeout: 3
+livenessPeriod: 15
+livenessFailureThreshold: 3
