@@ -1,5 +1,5 @@
 # chart-java
-This chart should be used by simple java microservices.
+This chart is intended for simple Java microservices.
 
 We will take small PRs and small features to this chart but more complicated needs should be handled in your own chart.
 
@@ -14,11 +14,11 @@ environment:
 
 ## Configuration
 
-The following table lists the configurable parameters of the java chart and their default values.
+The following table lists the configurable parameters of the Java chart and their default values.
 
 | Parameter          | Description                                               | Default                     |
 |--------------------|-----------------------------------------------------------|-----------------------------|
-| `applicationPort`  | The port your app runs on in its container                | `8080`                      |
+| `applicationPort`  | The port your app runs on in its container                | `4550`                      |
 | `image`            | Full image url                                            | `hmctssandbox.azurecr.io/hmcts/spring-boot-template` (but overridden by pipeline) |
 | `environment`      | A map containing all environment values you wish to set   | `nil`                       |
 | `configmap`        | A config map, can be used for environment specific config | `nil`                       |
