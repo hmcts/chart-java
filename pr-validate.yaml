@@ -1,5 +1,4 @@
 name: Chart Validate Pull Request
-trigger: refs/tags/*
 variables:
   serviceConnection: azurerm-sandbox
 
