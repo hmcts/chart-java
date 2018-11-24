@@ -14,7 +14,7 @@ setup:
 	az acr helm repo add
 
 setup-ci: setup
-	az aks get-credentials --resource-group ${AKS_RESOURCE_GROUP --name ${AKS_CLUSTER}
+	az aks get-credentials --resource-group ${AKS_RESOURCE_GROUP} --name ${AKS_CLUSTER}
 
 clean:
 	-helm delete --purge ${RELEASE}
