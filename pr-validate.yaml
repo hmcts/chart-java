@@ -2,6 +2,7 @@ name: Chart Validate Pull Request
 trigger: none
 variables:
   serviceConnection: azurerm-sandbox
+  release: 
 
 jobs:
 - job: RunBootstrap
@@ -21,3 +22,6 @@ jobs:
       inlineScript: |
         helm package java
         helm lint java
+        az aks get-credentials --resource-group cnp-aks-sandbox-rg --name cnp-aks-sandbox-cluster
+        helm install java --name chart-java-release --namespace chart-tests --wait
+        helm test chart-java-release
