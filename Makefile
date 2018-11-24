@@ -27,8 +27,8 @@ package:
 	helm package ${CHART}
 
 publish:
-	chartFile=$(ls java-*)
-	az acr helm push $chartFile
+	CHART_FILE:=$(ls java-*)
+	az acr helm push ${CHART_FILE}
 
 deploy:
 	helm install ${CHART} --name ${RELEASE} --namespace ${NAMESPACE} --wait
