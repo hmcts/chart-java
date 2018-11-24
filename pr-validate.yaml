@@ -1,10 +1,12 @@
 name: Chart Validate Pull Request
 trigger:
   branches:
-    include: refs/tags/*
+    include:
+    - refs/tags/*
 pr:
   branches:
-    include: master
+    include:
+    - master
 variables:
   serviceConnection: azurerm-sandbox
 
