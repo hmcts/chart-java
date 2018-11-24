@@ -4,26 +4,21 @@ pr:
   branches:
     include:
     - master
-variables:
-  serviceConnection: azurerm-sandbox
+resources:
+  repositories:
+  - repository: cnp-library
+    type: github
+    name: hmcts/cnp-azuredevops-libraries
+    endpoint: 'HMCTS Github'
 
 jobs:
-- job: ValidateChart
-  pool:
-    vmImage: 'Ubuntu 16.04'
-  steps:
-  - task: HelmInstaller@0
-    inputs:
-      helmVersion: '2.11.0'
-      installKubectl: false
-
-  - task: AzureCLI@1
-    displayName: 'Lint and Test'
-    inputs:
-      azureSubscription: $(serviceConnection)
-      scriptLocation: 'inlineScript'
-      inlineScript: make ci-validate
-
-  - script: make clean
-    displayName: 'Cleanup'
-    condition: always()
+- template: jobs/charts/validate.yaml@cnp-library
+  parameters:
+    serviceConnection: azurerm-sandbox
+    acrName: hmctssandbox
+    aksResourceGroup: cnp-aks-sandbox-rg
+    aksCluster: cnp-aks-sandbox-cluster
+    chartName: java
+    chartReleaseName: chart-java-test
+    chartNamespace: chart-tests
+    testPodName: chart-java-test-test-service
