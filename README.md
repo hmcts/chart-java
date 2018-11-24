@@ -39,8 +39,14 @@ The following table lists the configurable parameters of the Java chart and thei
 | `livenessFailureThreshold`| Liveness failure threshold                         | `3`                         |
 
 ## Development and Testing
+Default configuration (e.g. default image and ingress host) is setup for sandbox.  This is suitable for local development and testing.
 * For local development see the `Makefile` for available targets.
 * To execute an end-to-end build, deploy and test in __sandbox__, run `make all`.
 * to clean up deployed releases, charts, test pods and local charts, run `make clean`
 
 `helm test` will deploy a busybox container alongside the release which performs a simple HTTP request against the service health endpoint.  If it doesn't return `HTTP 200` the test will fail.
+
+## Azure DevOps Builds
+### Pull Request Validation
+A build is triggered when pull requests are created.  This build will run `helm lint`, deploy the chart using `ci-values.yaml` and run `helm test` on the __nonprod__ AKS cluster.
+
