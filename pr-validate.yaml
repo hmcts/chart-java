@@ -1,0 +1,23 @@
+name: Chart Validate Pull Request
+trigger: none
+variables:
+  serviceConnection: azurerm-sandbox
+
+jobs:
+- job: RunBootstrap
+  pool:
+    vmImage: 'Ubuntu 16.04'
+  steps:
+  - task: HelmInstaller@0
+    inputs:
+      helmVersion: '2.11.0'
+      installKubectl: false
+  - task: AzureCLI@1
+    displayName: 'Helm Package and Lint'
+    enabled: true
+    inputs:
+      azureSubscription: $(serviceConnection)
+      scriptLocation: 'inlineScript'
+      inlineScript: |
+        helm package java
+        helm lint java
