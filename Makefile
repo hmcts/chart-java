@@ -7,6 +7,7 @@ TEST=${RELEASE}-test-service
 ACR=hmctssandbox
 AKS_RESOURCE_GROUP=cnp-aks-sandbox-rg
 AKS_CLUSTER= cnp-aks-sandbox-cluster
+CHART_FILE:=$(ls java-*)
 
 setup:
 	az configure --defaults acr=${ACR}
@@ -27,7 +28,6 @@ package:
 	helm package ${CHART}
 
 publish:
-	CHART_FILE:=$(ls java-*)
 	az acr helm push ${CHART_FILE}
 
 deploy:
