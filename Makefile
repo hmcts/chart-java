@@ -25,6 +25,7 @@ publish:
 	az acr helm push ${CHART}-0.0.1.tgz
 
 deploy:
+	helm repo update
 	helm install ${ACR}/${CHART} --name ${RELEASE} --namespace ${NAMESPACE} --wait
 
 test:
