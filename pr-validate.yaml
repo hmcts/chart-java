@@ -21,4 +21,3 @@ jobs:
     chartName: java
     chartReleaseName: chart-java-test
     chartNamespace: chart-tests
-    testPodName: chart-java-test-test-service
