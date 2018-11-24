@@ -27,7 +27,8 @@ package:
 	helm package ${CHART}
 
 publish:
-	az acr helm push ${CHART}-0.0.1.tgz
+	chartFile=$(ls java-*)
+	az acr helm push $chartFile
 
 deploy:
 	helm install ${CHART} --name ${RELEASE} --namespace ${NAMESPACE} --wait
@@ -38,3 +39,5 @@ test:
 all: setup clean lint deploy test
 
 ci-validate: setup-ci clean lint deploy test
+
+ci-release: setup-ci package lint publish
