@@ -11,7 +11,7 @@ variables:
   serviceConnection: azurerm-sandbox
 
 jobs:
-- job: RunBootstrap
+- job: ValidateChart
   pool:
     vmImage: 'Ubuntu 16.04'
   steps:
