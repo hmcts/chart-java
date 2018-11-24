@@ -1,8 +1,5 @@
 name: Chart Validate Pull Request
-trigger:
-  branches:
-    include:
-    - refs/tags/*
+trigger: none
 pr:
   branches:
     include:
