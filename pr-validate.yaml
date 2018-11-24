@@ -14,10 +14,6 @@ resources:
 jobs:
 - template: jobs/charts/validate.yaml@cnp-library
   parameters:
-    serviceConnection: azurerm-sandbox
-    acrName: hmctssandbox
-    aksResourceGroup: cnp-aks-sandbox-rg
-    aksCluster: cnp-aks-sandbox-cluster
     chartName: java
-    chartReleaseName: chart-java-test
+    chartReleaseName: chart-java-ci-test
     chartNamespace: chart-tests
