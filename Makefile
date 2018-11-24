@@ -7,7 +7,6 @@ TEST=${RELEASE}-test-service
 ACR=hmctssandbox
 AKS_RESOURCE_GROUP=cnp-aks-sandbox-rg
 AKS_CLUSTER= cnp-aks-sandbox-cluster
-CHART_FILE:=$(ls java-*)
 
 setup:
 	az configure --defaults acr=${ACR}
@@ -19,7 +18,6 @@ setup-ci: setup
 clean:
 	-helm delete --purge ${RELEASE}
 	-kubectl delete pod ${TEST} -n ${NAMESPACE}
-	-rm ${CHART}-0.0.1.tgz
 
 lint:
 	helm lint ${CHART}
@@ -28,7 +26,7 @@ package:
 	helm package ${CHART}
 
 publish:
-	az acr helm push ${CHART_FILE}
+	az acr helm push $$(ls java-*)
 
 deploy:
 	helm install ${CHART} --name ${RELEASE} --namespace ${NAMESPACE} --wait
