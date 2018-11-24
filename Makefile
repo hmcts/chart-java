@@ -20,9 +20,11 @@ clean:
 	-kubectl delete pod ${TEST} -n ${NAMESPACE}
 	-rm ${CHART}-0.0.1.tgz
 
-build:
-	helm package ${CHART}
+lint:
 	helm lint ${CHART}
+
+package:
+	helm package ${CHART}
 
 publish:
 	az acr helm push ${CHART}-0.0.1.tgz
@@ -33,6 +35,6 @@ deploy:
 test:
 	helm test ${RELEASE}
 
-all: setup clean build deploy test
+all: setup clean lint deploy test
 
-ci-validate: setup-ci clean build deploy test
+ci-validate: setup-ci clean lint deploy test

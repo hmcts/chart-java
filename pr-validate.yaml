@@ -13,7 +13,7 @@ jobs:
       installKubectl: false
 
   - task: AzureCLI@1
-    displayName: 'Helm Package and Lint'
+    displayName: 'Lint and Test'
     inputs:
       azureSubscription: $(serviceConnection)
       scriptLocation: 'inlineScript'
