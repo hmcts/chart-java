@@ -1,0 +1,2 @@
+image: hmcts.azurecr.io/hmcts/spring-boot-template
+ingressHost: chart-java.service.core-compute-preview.internal
