@@ -1,19 +1,33 @@
 # For local development only
+.DEFAULT: all
 
-.DEFAULT=build
+CHART=java
+RELEASE=chart-${CHART}-release
+NAMESPACE=chart-tests
+TEST=${RELEASE}-test-service
+ACR=hmctssandbox
+
+setup:
+	az configure --defaults acr=${ACR}
+	az acr helm repo add
 
 clean:
-	helm delete --purge chart-java-release
-	az acr helm delete java -y
-	rm java-0.0.1.tgz
+	-helm delete --purge ${RELEASE}
+	-kubectl delete pod ${TEST} -n ${NAMESPACE}
+	-az acr helm delete ${CHART} -y # WARNING: Deletes the published chart from ACR!!!
+	-rm ${CHART}-0.0.1.tgz
 
 build:
-	helm package java
-	helm lint java
+	helm package ${CHART}
+	helm lint ${CHART}
 
 publish:
-	az acr helm push java-0.0.1.tgz
+	az acr helm push ${CHART}-0.0.1.tgz
 
 deploy:
-	az acr helm repo add
-	helm install hmctssandbox/java --name chart-java-release --namespace helm-tests --wait
+	helm install ${ACR}/${CHART} --name ${RELEASE} --namespace ${NAMESPACE} --wait
+
+test:
+	helm test ${RELEASE}
+
+all: setup clean build publish deploy test

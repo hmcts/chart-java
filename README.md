@@ -37,3 +37,10 @@ The following table lists the configurable parameters of the Java chart and thei
 | `livenessTimeout`  | Liveness probe timeout (seconds)                          | `3`                         |
 | `livenessPeriod`   | Liveness probe period (seconds)                           | `15`                        |
 | `livenessFailureThreshold`| Liveness failure threshold                         | `3`                         |
+
+## Development and Testing
+* For local development see the `Makefile` for available targets.
+* To execute an end-to-end build, deploy and test in __sandbox__, run `make all`.
+* to clean up deployed releases, charts, test pods and local charts, run `make clean`
+
+__WARNING:__ The Makefile will delete the chart from __sandbox ACR__ as part of its cleanup process.  Ensure the version you are testing isn't one in use by others.
