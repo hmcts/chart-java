@@ -44,5 +44,3 @@ The following table lists the configurable parameters of the Java chart and thei
 * to clean up deployed releases, charts, test pods and local charts, run `make clean`
 
 `helm test` will deploy a busybox container alongside the release which performs a simple HTTP request against the service health endpoint.  If it doesn't return `HTTP 200` the test will fail.
-
-__WARNING:__ The Makefile will delete the chart from __sandbox ACR__ as part of its cleanup process.  Ensure the version you are testing isn't one in use by others.

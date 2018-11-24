@@ -1,4 +1,3 @@
-# For local development only
 .DEFAULT: all
 
 CHART=java
@@ -19,7 +18,6 @@ setup-ci: setup
 clean:
 	-helm delete --purge ${RELEASE}
 	-kubectl delete pod ${TEST} -n ${NAMESPACE}
-	#-az acr helm delete ${CHART} -y # WARNING: Deletes the published chart from ACR!!!
 	-rm ${CHART}-0.0.1.tgz
 
 build:
@@ -30,7 +28,6 @@ publish:
 	az acr helm push ${CHART}-0.0.1.tgz
 
 deploy:
-	#helm repo update
 	helm install ${CHART} --name ${RELEASE} --namespace ${NAMESPACE} --wait
 
 test:
@@ -39,4 +36,3 @@ test:
 all: setup clean build deploy test
 
 ci-validate: setup-ci clean build deploy test
-
