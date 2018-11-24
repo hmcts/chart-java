@@ -15,13 +15,19 @@ jobs:
       installKubectl: false
   - task: AzureCLI@1
     displayName: 'Helm Package and Lint'
-    enabled: true
     inputs:
       azureSubscription: $(serviceConnection)
       scriptLocation: 'inlineScript'
       inlineScript: |
-        helm package java
-        helm lint java
-        az aks get-credentials --resource-group cnp-aks-sandbox-rg --name cnp-aks-sandbox-cluster
-        helm install java --name chart-java-release --namespace chart-tests --wait
-        helm test chart-java-release
+        make ci-validate
+        #helm package java
+        #helm lint java
+        #az aks get-credentials --resource-group cnp-aks-sandbox-rg --name cnp-aks-sandbox-cluster
+        #helm install java --name chart-java-release --namespace chart-tests --wait
+        #helm test chart-java-release
+
+  - script: make clean
+    displayName: 'Cleanup'
+    condition: always()
+
+
