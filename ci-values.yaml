@@ -1,2 +1,7 @@
 image: hmcts.azurecr.io/hmcts/spring-boot-template
 ingressHost: chart-java.service.core-compute-preview.internal
+environment:
+  REFORM_TEAM: cnp
+  REFORM_SERVICE_NAME: rhubarb-backend
+  REFORM_ENVIRONMENT: preview
+  ROOT_APPENDER: CNP
