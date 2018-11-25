@@ -1,7 +1,7 @@
 apiVersion: v1
 description: A Helm chart for HMCTS Java Microservices
 name: java
-version: 0.0.1
+version: 0.0.2
 keywords: 
 - java
 - web
