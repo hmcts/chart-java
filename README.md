@@ -11,6 +11,9 @@ environment:
   REFORM_SERVICE_NAME: rhubarb-backend
   REFORM_ENVIRONMENT: preview
   ROOT_APPENDER: CNP
+configmap:
+  VAR_A: VALUE_A
+  VAR_B: VALUE_B
 ```
 
 ## Configuration
