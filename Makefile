@@ -11,8 +11,6 @@ AKS_CLUSTER= cnp-aks-sandbox-cluster
 setup:
 	az configure --defaults acr=${ACR}
 	az acr helm repo add
-
-setup-ci: setup
 	az aks get-credentials --resource-group ${AKS_RESOURCE_GROUP} --name ${AKS_CLUSTER}
 
 clean:
@@ -22,12 +20,6 @@ clean:
 lint:
 	helm lint ${CHART}
 
-package:
-	helm package ${CHART}
-
-publish:
-	az acr helm push $$(ls java-*)
-
 deploy:
 	helm install ${CHART} --name ${RELEASE} --namespace ${NAMESPACE} --wait
 
@@ -35,7 +27,3 @@ test:
 	helm test ${RELEASE}
 
 all: setup clean lint deploy test
-
-ci-validate: setup-ci clean lint deploy test
-
-ci-release: setup-ci package lint publish

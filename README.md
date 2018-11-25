@@ -40,13 +40,15 @@ The following table lists the configurable parameters of the Java chart and thei
 
 ## Development and Testing
 Default configuration (e.g. default image and ingress host) is setup for sandbox.  This is suitable for local development and testing.
+* Ensure you have logged in with `az cli` and are using `sandbox` subscription.
 * For local development see the `Makefile` for available targets.
-* To execute an end-to-end build, deploy and test in __sandbox__, run `make all`.
+* To execute an end-to-end build, deploy and test run `make all`.
 * to clean up deployed releases, charts, test pods and local charts, run `make clean`
 
-`helm test` will deploy a busybox container alongside the release which performs a simple HTTP request against the service health endpoint.  If it doesn't return `HTTP 200` the test will fail.
+`helm test` will deploy a busybox container alongside the release which performs a simple HTTP request against the service health endpoint.  If it doesn't return `HTTP 200` the test will fail.  __NOTE:__ it does NOT run with `--cleanup` so the test pod will be available for inspection.
 
 ## Azure DevOps Builds
-### Pull Request Validation
-A build is triggered when pull requests are created.  This build will run `helm lint`, deploy the chart using `ci-values.yaml` and run `helm test` on the __nonprod__ AKS cluster.
+Builds are run against the 'nonprod' AKS cluster.
+* `azure-pipelines.yaml`: triggered when pull requests are created.  This build will run `helm lint`, deploy the chart using `ci-values.yaml` and run `helm test`.
+* `release.yaml`: triggered when the repository is tagged (e.g. when a release is created).  Also performs linting and testing, and will publish the chart to ACR on success.
 
