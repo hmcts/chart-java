@@ -24,7 +24,7 @@ The following table lists the configurable parameters of the Java chart and thei
 | `environment`      | A map containing all environment values you wish to set   | `nil`                       |
 | `configmap`        | A config map, can be used for environment specific config | `nil`                       |
 | `memoryRequests`   | Requests for memory                                       | `512Mi`                     |
-| `cpuRequests`      | Requests for cpu                                          | `200m`                      |
+| `cpuRequests`      | Requests for cpu                                          | `100m`                      |
 | `memoryLimits`     | Memory limits                                             | `1024Mi`                    |
 | `cpuLimits`        | CPU limits                                                | `2500m`                     |
 | `ingressHost`      | Host for ingress controller to map the container to       | `chart-java.service.core-compute-saat.internal` (but overridden by pipeline) |
