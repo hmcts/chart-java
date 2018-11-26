@@ -54,4 +54,3 @@ Default configuration (e.g. default image and ingress host) is setup for sandbox
 Builds are run against the 'nonprod' AKS cluster.
 * `azure-pipelines.yaml`: triggered when pull requests are created.  This build will run `helm lint`, deploy the chart using `ci-values.yaml` and run `helm test`.
 * `release.yaml`: triggered when the repository is tagged (e.g. when a release is created).  Also performs linting and testing, and will publish the chart to ACR on success.
-
