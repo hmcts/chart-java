@@ -1,5 +1,8 @@
 name: Chart Validate Pull Request
-trigger: none
+trigger:
+  branches:
+    include:
+    - refs/tags/*
 pr:
   branches:
     include:
@@ -12,8 +15,9 @@ resources:
     endpoint: 'HMCTS Github'
 
 jobs:
-- template: jobs/charts/validate.yaml@cnp-library
-  parameters:
-    chartName: java
-    chartReleaseName: chart-java-ci-test
-    chartNamespace: chart-tests
+- ${{ if eq(variables['Build.Reason'], 'PullRequest') }}:
+  - template: jobs/charts/validate.yaml@cnp-library
+    parameters:
+      chartName: java
+      chartReleaseName: chart-java-ci-test
+      chartNamespace: chart-tests
