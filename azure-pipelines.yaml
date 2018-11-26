@@ -15,9 +15,16 @@ resources:
     endpoint: 'HMCTS Github'
 
 jobs:
-- ${{ if eq(variables['Build.Reason'], 'PullRequest') }}:
+- ${{ if eq(variables['Build.SourceBranch'], 'refs/pull/*')  }}:
   - template: jobs/charts/validate.yaml@cnp-library
     parameters:
       chartName: java
       chartReleaseName: chart-java-ci-test
+      chartNamespace: chart-tests
+
+- ${{ if eq(variables['Build.SourceBranch'], 'refs/tags/*') }}:
+  - template: jobs/charts/release.yaml@cnp-library
+    parameters:
+      chartName: java
+      chartReleaseName: chart-java
       chartNamespace: chart-tests
