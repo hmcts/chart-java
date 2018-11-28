@@ -1,4 +1,4 @@
-name: Chart Validate Pull Request
+name: chart-java pipeline
 trigger:
   branches:
     include:
