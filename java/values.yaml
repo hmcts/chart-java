@@ -1,7 +1,5 @@
 applicationPort: 4550
 image: hmctssandbox.azurecr.io/hmcts/spring-boot-template
-environment:
-configmap:
 memoryRequests: "512Mi"
 cpuRequests: "100m"
 memoryLimits: "1024Mi"
