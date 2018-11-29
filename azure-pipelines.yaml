@@ -2,29 +2,43 @@ name: chart-java pipeline
 trigger:
   branches:
     include:
-    - refs/tags/*
+      - refs/tags/*
 pr:
   branches:
     include:
-    - master
+      - master
 resources:
   repositories:
-  - repository: cnp-library
-    type: github
-    name: hmcts/cnp-azuredevops-libraries
-    endpoint: 'HMCTS Github'
+    - repository: cnp-library
+      type: github
+      name: hmcts/cnp-azuredevops-libraries
+      ref: refs/heads/stepify-jobs
+      endpoint: "HMCTS Github"
 
 jobs:
-- ${{ if startsWith(variables['Build.SourceBranch'], 'refs/pull/')  }}:
-  - template: jobs/charts/validate.yaml@cnp-library
-    parameters:
-      chartName: java
-      chartReleaseName: chart-java-ci-test
-      chartNamespace: chart-tests
+  - job: Validate
+    pool:
+      vmImage: "Ubuntu 16.04"
+    steps:
+      - template: steps/charts/validate.yaml@cnp-library
+        parameters:
+          chartName: java
+          chartReleaseName: chart-java-ci-test
+          chartNamespace: chart-tests
 
-- ${{ if startsWith(variables['Build.SourceBranch'], 'refs/tags/') }}:
-  - template: jobs/charts/release.yaml@cnp-library
-    parameters:
-      chartName: java
-      chartReleaseName: chart-java
-      chartNamespace: chart-tests
+  - job: Release
+    # Make sure we have a tag to run this job
+    condition: >
+      and(
+          succeeded(),
+          startsWith(variables['Build.SourceBranch'], 'refs/tags/')
+        )
+    dependsOn: Validate
+    pool:
+      vmImage: "Ubuntu 16.04"
+    steps:
+      - template: steps/charts/release.yaml@cnp-library
+        parameters:
+          chartName: java
+          chartReleaseName: chart-java
+          chartNamespace: chart-tests
