@@ -1,3 +1,4 @@
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -20,13 +21,13 @@ spec:
       containers:
       - image: {{ .Values.image }}
         name: {{ .Release.Name }}
-        {{- if .Values.environment }}
+
+        {{- if or .Values.environment .Values.secrets }}
         env:
-          {{- range $key, $val := .Values.environment }}
-        - name: {{ $key }}
-          value: {{ $val | quote }}
-          {{- end}}
-        {{- end }}
+          {{- (include "java.environment" .Values.environment) | indent 8 }}
+          {{- (include "java.secrets" .Values.secrets) | indent 8 }}
+        {{- end -}}
+
         {{- if .Values.configmap }}
         envFrom:
           - configMapRef:

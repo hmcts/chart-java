@@ -1,7 +1,7 @@
 apiVersion: v1
 description: A Helm chart for HMCTS Java Microservices
 name: java
-version: 0.0.5
+version: 0.0.6
 icon: https://github.com/hmcts/chart-java/raw/master/images/icons8-java-50.png
 keywords:
 - java
