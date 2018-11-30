@@ -24,16 +24,18 @@ secrets:
       key: connectionString
 ```
 
-### secrets
-Secret objects in this configuration consist of name secretRef and key. These need to be put into the secrets array in the following manner:
+### Secrets
+To add secrets such as passwords and service keys to the Java chart you can use the the secrets section.
+The secrets section maps the secret to an environment variable in the container.
+e.g :
 ```yaml
 secrets: 
-  ENVIRONMENT_VAR:
+  CONNECTION_STRING:
       secretRef: some-secret-reference
       key: connectionString
 ```
-*Where:*
-- **ENVIRONMENT_VAR** is the environment variable name to reference ( this has to be capitals and can contain numbers or "_" ).
+**Where:**
+- **CONNECTION_STRING** is the environment variable to set to the value of the secret ( this has to be capitals and can contain numbers or "_" ).
 - **secretRef** is the service instance ( as in the case of PaaS wrappers ) or reference to the secret volume
 - **key** is the named secret in the secret reference.
 
