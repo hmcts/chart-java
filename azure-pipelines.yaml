@@ -15,15 +15,28 @@ resources:
     endpoint: 'HMCTS Github'
 
 jobs:
-- ${{ if startsWith(variables['Build.SourceBranch'], 'refs/pull/')  }}:
-  - template: jobs/charts/validate.yaml@cnp-library
+- job: Validate
+  pool:
+    vmImage: 'Ubuntu 16.04'
+  steps:
+  - template: steps/charts/validate.yaml@cnp-library
     parameters:
       chartName: java
       chartReleaseName: chart-java-ci-test
       chartNamespace: chart-tests
 
-- ${{ if startsWith(variables['Build.SourceBranch'], 'refs/tags/') }}:
-  - template: jobs/charts/release.yaml@cnp-library
+- job: Release
+  # Make sure we have a tag to run this job
+  condition: >
+    and(
+        succeeded(),
+        startsWith(variables['Build.SourceBranch'], 'refs/tags/')
+      )
+  dependsOn: Validate
+  pool:
+    vmImage: 'Ubuntu 16.04'
+  steps:
+  - template: steps/charts/release.yaml@cnp-library
     parameters:
       chartName: java
       chartReleaseName: chart-java
