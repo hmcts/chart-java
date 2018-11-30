@@ -6,7 +6,7 @@ We will take small PRs and small features to this chart but more complicated nee
 
 ## Example configuration
 
-```
+```yaml
 applicationPort: 8080
 environment:
   REFORM_TEAM: cnp
@@ -23,7 +23,7 @@ secrets:
 ```
 
 ### secrets
-Secret objects in this configuration consist of name secretRef and key. These need to be put into the secrets array in the following manor
+Secret objects in this configuration consist of name secretRef and key. These need to be put into the secrets array in the following manner:
 ```yaml
 secrets: 
   ENVIRONMENT_VAR:
@@ -33,7 +33,7 @@ secrets:
 *Where:*
 - **ENVIRONMENT_VAR** is the environment variable name to reference ( this has to be capitals and can contain numbers or "_" ).
 - **secretRef** is the service instance ( as in the case of PaaS wrappers ) or reference to the secret volume
-- **key** is the 
+- **key** is the named secret in the secret reference.
 
 
 ## Configuration
@@ -59,8 +59,8 @@ The following table lists the configurable parameters of the Java chart and thei
 | `livenessDelay`            | Liveness probe inital delay (seconds)  | `30`|
 | `livenessTimeout`          | Liveness probe timeout (seconds) | `3`|
 | `livenessPeriod`           | Liveness probe period (seconds) | `15`|
-| `livenessFailureThreshold` | Liveness failure threshold | `3`                                                     |
-| `secrets`                  | list of all the secret variables to get from an attached secret volume. |  nil |
+| `livenessFailureThreshold` | Liveness failure threshold | `3` |
+| `secrets`                  | Mappings of environment variables to service objects or pre-configured kubernetes secrets |  nil |
 
 ## Development and Testing
 

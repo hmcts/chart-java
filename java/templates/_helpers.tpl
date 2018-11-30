@@ -1,6 +1,6 @@
 {{/*
-For adding the environment variable list and checking the format of the keys 
-They must be uper case and contain only numbers or "_"
+This template is for adding the environment variable list and checking the format of the keys
+The key or "environment variable" must be uppercase and contain only numbers or "_".
 */}}
 {{- define "java.environment" -}}
   {{- if . -}}
@@ -16,11 +16,14 @@ They must be uper case and contain only numbers or "_"
 {{- end }}
 
 {{/*
-Adding in the helper heare where we can use a secret object to include secrets to for the deployed servce.
- the secret must be in the format of 
+Adding in the helper here where we can use a secret object to include secrets to for the deployed service.
+The key or "environment variable" must be uppercase and contain only numbers or "_".
+Example format:
+"
  ENVIRONMENT_VAR:
     secretRef: secret-vault 
     key: connectionString
+"
 */}}
 {{- define "java.secrets" -}}
   {{- if . -}}
@@ -29,7 +32,7 @@ Adding in the helper heare where we can use a secret object to include secrets t
 - name: {{ if $key | regexMatch "^[A-Z_0-9]+$" -}}
           {{- $key }}
         {{- else -}}
-            {{- fail (join "Environment variables have to upper case  and match \"[A-Z_0-9]+\" given: " ($key|quote)) -}}
+            {{- fail (join "Environment variables have be uppercase and match \"[A-Z_0-9]+\". Failed key: " ($key|quote)) -}}
         {{- end }}
   valueFrom:
     secretKeyRef:
