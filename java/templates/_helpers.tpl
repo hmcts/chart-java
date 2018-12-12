@@ -5,10 +5,10 @@ The key or "environment variable" must be uppercase and contain only numbers or 
 {{- define "java.environment" -}}
   {{- if . -}}
     {{- range $key, $val := . }}
-- name: {{ if $key | regexMatch "^[A-Z_0-9]+$" -}}
+- name: {{ if $key | regexMatch "^[^.-]+$" -}}
           {{- $key }}
         {{- else -}}
-            {{- fail (join "Environment variables have to upper case  and match \"[A-Z_0-9]+\" given: " ($key|quote)) -}}
+            {{- fail (join "Environment variables can not contain '.' or '-' Failed key: " ($key|quote)) -}}
         {{- end }}
   value: {{ $val | quote }}
     {{- end }}
@@ -29,14 +29,14 @@ Example format:
   {{- if . -}}
     {{- range $key, $val := . }}
       {{- if $val }}
-- name: {{ if $key | regexMatch "^[A-Z_0-9]+$" -}}
+- name: {{ if $key | regexMatch "^[^.-]+$" -}}
           {{- $key }}
         {{- else -}}
-            {{- fail (join "Environment variables have be uppercase and match \"[A-Z_0-9]+\". Failed key: " ($key|quote)) -}}
+            {{- fail (join "Environment variables can not contain '.' or '-' Failed key: " ($key|quote)) -}}
         {{- end }}
   valueFrom:
     secretKeyRef:
-      name: {{ required "Each item in \"secrets:\" needs a secretRef member" $val.secretRef   }}
+      name: {{ required "Each item in \"secrets:\" needs a secretRef member" $val.secretRef }}
       key: {{ required "Each item in \"secrets:\" needs a key member" $val.key }}
       {{- end }}
     {{- end }}

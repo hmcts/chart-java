@@ -15,7 +15,14 @@ spec:
       app.kubernetes.io/name: {{ .Release.Name }}
   template:
     metadata:
+      annotations:
+        {{- if .Values.buildID }}
+        buildID: {{ .Values.buildID }}
+        {{- end }}
       labels:
+        {{- if .Values.draft }}
+        draft: {{ .Values.draft }}
+        {{- end }}
         app.kubernetes.io/name: {{ .Release.Name }}
     spec:
       containers:
@@ -24,8 +31,8 @@ spec:
 
         {{- if or .Values.environment .Values.secrets }}
         env:
-          {{- (include "java.environment" .Values.environment) | indent 8 }}
           {{- (include "java.secrets" .Values.secrets) | indent 8 }}
+          {{- (include "java.environment" .Values.environment) | indent 8 }}
         {{- end -}}
 
         {{- if .Values.configmap }}
