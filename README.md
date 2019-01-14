@@ -54,7 +54,7 @@ The following table lists the configurable parameters of the Java chart and thei
 | `cpuRequests`              | Requests for cpu | `100m`|
 | `memoryLimits`             | Memory limits| `1024Mi`|
 | `cpuLimits`                | CPU limits | `2500m`|
-| `ingressHost`              | Host for ingress controller to map the container to | `chart-java.service.core-compute-saat.internal`<br>(but overridden by pipeline)|
+| `ingressHost`              | Host for ingress controller to map the container to | `nil`|
 | `readinessPath`            | Path of HTTP readiness probe | `/health`|
 | `readinessDelay`           | Readiness probe inital delay (seconds)| `30`|
 | `readinessTimeout`         | Readiness probe timeout (seconds)| `3`|
