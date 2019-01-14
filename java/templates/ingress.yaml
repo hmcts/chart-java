@@ -3,12 +3,12 @@
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
-  name:  {{ template "hmcts.releaseName" . }}
+  name: {{ template "hmcts.releaseName" . }}
   labels:
-    app.kubernetes.io/name:  {{ template "hmcts.releaseName" . }}
+    app.kubernetes.io/name: {{ template "hmcts.releaseName" . }}
     helm.sh/chart: {{ .Chart.Name }}-{{ .Chart.Version }}
     app.kubernetes.io/managed-by: {{ .Release.Service }}
-    app.kubernetes.io/instance:  {{ template "hmcts.releaseName" . }}
+    app.kubernetes.io/instance: {{ template "hmcts.releaseName" . }}
   annotations:
     kubernetes.io/ingress.class: traefik
 spec:
@@ -18,6 +18,6 @@ spec:
       paths:
       - path: /
         backend:
-          serviceName:  {{ template "hmcts.releaseName" . }}
+          serviceName: {{ template "hmcts.releaseName" . }}
           servicePort: 80
 {{- end}}

@@ -4,15 +4,15 @@ kind: Deployment
 metadata:
   name:  {{ template "hmcts.releaseName" . }}
   labels:
-    app.kubernetes.io/name:  {{ template "hmcts.releaseName" . }}
+    app.kubernetes.io/name: {{ template "hmcts.releaseName" . }}
     helm.sh/chart: {{ .Chart.Name }}-{{ .Chart.Version }}
     app.kubernetes.io/managed-by: {{ .Release.Service }}
-    app.kubernetes.io/instance:  {{ template "hmcts.releaseName" . }}
+    app.kubernetes.io/instance: {{ template "hmcts.releaseName" . }}
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app.kubernetes.io/name:  {{ template "hmcts.releaseName" . }}
+      app.kubernetes.io/name: {{ template "hmcts.releaseName" . }}
   template:
     metadata:
       annotations:
@@ -23,11 +23,11 @@ spec:
         {{- if .Values.draft }}
         draft: {{ .Values.draft }}
         {{- end }}
-        app.kubernetes.io/name:  {{ template "hmcts.releaseName" . }}
+        app.kubernetes.io/name: {{ template "hmcts.releaseName" . }}
     spec:
       containers:
       - image: {{ .Values.image }}
-        name:  {{ template "hmcts.releaseName" . }}
+        name: {{ template "hmcts.releaseName" . }}
 
         {{- if or .Values.environment .Values.secrets }}
         env:
@@ -38,7 +38,7 @@ spec:
         {{- if .Values.configmap }}
         envFrom:
           - configMapRef:
-              name: {{ .Release.Name }}
+              name: {{ template "hmcts.releaseName" . }}
         {{- end }}
         resources:
           requests:
