@@ -42,3 +42,16 @@ Example format:
     {{- end }}
   {{- end -}}
 {{- end }}
+
+{{/*
+ref: https://github.com/helm/charts/blob/master/stable/postgresql/templates/_helpers.tpl
+Create a default fully qualified app name.
+We truncate at 63 chars because some Kubernetes name fields are limited to this (by the DNS naming spec).
+*/}}
+{{- define "hmcts.releaseName" -}}
+{{- if .Values.releaseNameOverride -}}
+{{- .Values.releaseNameOverride | trunc 53 | trimSuffix "-" -}}
+{{- else -}}
+{{- printf "%s-%s" .Release.Name .Chart.Name | trunc 53 | trimSuffix "-" -}}
+{{- end -}}
+{{- end -}}

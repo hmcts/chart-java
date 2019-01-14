@@ -4,7 +4,6 @@ memoryRequests: '512Mi'
 cpuRequests: '100m'
 memoryLimits: '1024Mi'
 cpuLimits: '2500m'
-ingressHost: chart-java.service.core-compute-saat.internal
 readinessPath: '/health'
 readinessDelay: 30
 readinessTimeout: 3

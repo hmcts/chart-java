@@ -1,14 +1,16 @@
+{{- if .Values.configmap }}
 ---
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: {{ .Release.Name }}
+  name: {{ template "hmcts.releaseName" . }}
   labels:
-    app.kubernetes.io/name: {{ .Release.Name }}
+    app.kubernetes.io/name: {{ template "hmcts.releaseName" . }}
     helm.sh/chart: {{ .Chart.Name }}-{{ .Chart.Version }}
     app.kubernetes.io/managed-by: {{ .Release.Service }}
-    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/instance: {{ template "hmcts.releaseName" . }}
 data:
   {{- range $key, $val := .Values.configmap }}
   {{ $key }}: {{ $val | quote }}
   {{- end}}
+{{- end}}
