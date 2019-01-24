@@ -3,7 +3,7 @@ image: hmctssandbox.azurecr.io/hmcts/spring-boot-template
 memoryRequests: '512Mi'
 cpuRequests: '25m'
 memoryLimits: '1024Mi'
-cpuLimits: '1000m'
+cpuLimits: '2500m'
 readinessPath: '/health'
 readinessDelay: 30
 readinessTimeout: 3
