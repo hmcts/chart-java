@@ -1,9 +1,9 @@
 applicationPort: 4550
 image: hmctssandbox.azurecr.io/hmcts/spring-boot-template
 memoryRequests: '512Mi'
-cpuRequests: '100m'
+cpuRequests: '25m'
 memoryLimits: '1024Mi'
-cpuLimits: '2500m'
+cpuLimits: '1000m'
 readinessPath: '/health'
 readinessDelay: 30
 readinessTimeout: 3
