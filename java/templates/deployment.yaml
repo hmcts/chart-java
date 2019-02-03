@@ -9,6 +9,9 @@ metadata:
     app.kubernetes.io/managed-by: {{ .Release.Service }}
     app.kubernetes.io/instance: {{ template "hmcts.releaseName" . }}
 spec:
+  securityContext:
+    runAsUser: 1000
+    fsGroup: 2000
   replicas: 1
   selector:
     matchLabels:
@@ -66,3 +69,5 @@ spec:
           timeoutSeconds: {{ .Values.readinessTimeout }}
           periodSeconds: {{ .Values.readinessPeriod }}
         imagePullPolicy: IfNotPresent
+        securityContext:
+          allowPrivilegeEscalation: false
