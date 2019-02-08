@@ -1,4 +1,4 @@
-{{- if .Values.ingressHost }}
+{{ if or (.Values.ingressHost ) (.Values.registerAdditionalDns.enabled) }}
 ---
 apiVersion: extensions/v1beta1
 kind: Ingress
@@ -13,6 +13,7 @@ metadata:
     kubernetes.io/ingress.class: traefik
 spec:
   rules:
+  {{- if .Values.ingressHost }}
   - host: {{ .Values.ingressHost }}
     http:
       paths:
@@ -20,4 +21,14 @@ spec:
         backend:
           serviceName: {{ template "hmcts.releaseName" . }}
           servicePort: 80
+  {{- end }}
+  {{- if .Values.registerAdditionalDns.enabled }}
+  - host: {{ .Values.registerAdditionalDns.prefix }}-{{ .Values.registerAdditionalDns.primaryIngressHost }}
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: {{ template "hmcts.releaseName" . }}
+          servicePort: 80
+  {{- end }}
 {{- end}}
