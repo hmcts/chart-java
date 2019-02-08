@@ -1,0 +1,46 @@
+{{ if .Values.registerAdditionalDns.enabled }}
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: {{ template "hmcts.releaseName" . }}-dns
+  labels:
+    app.kubernetes.io/name: {{ template "hmcts.releaseName" . }}-dns
+    helm.sh/chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+    app.kubernetes.io/instance: {{ template "hmcts.releaseName" . }}
+  annotations:
+    helm.sh/hook: post-install,post-upgrade
+    helm.sh/hook-weight: "-5"
+    helm.sh/hook-delete-policy: before-hook-creation
+spec:
+  template:
+    metadata:
+      name: {{ template "hmcts.releaseName" . }}-dns
+      labels:
+        app.kubernetes.io/name: {{ template "hmcts.releaseName" . }}-dns
+    spec:
+      volumes:
+        - name: container-init
+          configMap:
+            name: {{ template "hmcts.releaseName" . }}-bin
+            defaultMode: 0755
+      containers:
+        - name: {{ template "hmcts.releaseName" . }}-dns
+          image: hmcts/curl
+          volumeMounts:
+            - name: container-init
+              mountPath: /container.init
+          command: [ "/bin/sh" ]
+          args:
+            - /container.init/java-dns
+            - {{ .Values.registerAdditionalDns.prefix }}-{{ .Release.Name }}
+          resources:
+            requests:
+              memory: {{ .Values.memoryRequests }}
+              cpu: {{ .Values.cpuRequests }}
+            limits:
+              memory: {{ .Values.memoryLimits }}
+              cpu: {{ .Values.cpuLimits }}
+      restartPolicy: Never
+{{- end}}
