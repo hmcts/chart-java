@@ -1,0 +1,13 @@
+{{ if .Values.registerAdditionalDns.enabled }}
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ template "hmcts.releaseName" . }}-bin
+  labels:
+    system: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+    type: configuration
+data:
+  java-dns: |
+{{ include (print .Template.BasePath "/bin/_dns-register.tpl") . | indent 4 }}
+{{- end }}
