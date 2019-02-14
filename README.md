@@ -80,6 +80,8 @@ The following table lists the configurable parameters of the Java chart and thei
 | `secrets`                  | Mappings of environment variables to service objects or pre-configured kubernetes secrets |  nil |
 | `keyVaults`                | Mappings of keyvaults to be mounted as flexvolumes (see Example Configuration) |  nil |
 
+**Note**: to enable `keyVaults` to be mounted as flexvolumes, your service principal credentials need to be added to your namespace as a Kubernetes secret named `kvcreds` and accessible by the KeyVault FlexVolume driver. 
+
 ## Development and Testing
 
 Default configuration (e.g. default image and ingress host) is setup for sandbox. This is suitable for local development and testing.
