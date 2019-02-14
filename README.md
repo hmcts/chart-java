@@ -22,6 +22,16 @@ secrets:
   ENVIRONMENT_VAR:
       secretRef: some-secret-reference
       key: connectionString
+keyVaults:
+  "cmc":
+    resourceGroup: cmc   
+    secrets:
+      - smoke-test-citizen-username
+      - smoke-test-user-password
+  "s2s":
+    resourceGroup: rpe-service-auth-provider   
+    secrets:
+      - microservicekey-cmcLegalFrontend
 ```
 
 ### Secrets
@@ -66,6 +76,7 @@ The following table lists the configurable parameters of the Java chart and thei
 | `livenessPeriod`           | Liveness probe period (seconds) | `15`|
 | `livenessFailureThreshold` | Liveness failure threshold | `3` |
 | `secrets`                  | Mappings of environment variables to service objects or pre-configured kubernetes secrets |  nil |
+| `keyVaults`                | Mappings of keyvaults to be mounted as flexvolumes (see Example Configuration) |  nil |
 
 ## Development and Testing
 
