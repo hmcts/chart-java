@@ -28,10 +28,28 @@ spec:
         {{- end }}
         app.kubernetes.io/name: {{ template "hmcts.releaseName" . }}
     spec:
+      {{- if .Values.keyVaults }}
+      volumes:
+        {{ $globals := .Values.global }}
+        {{- range $key, $value := .Values.keyVaults }}
+        - name: kvcreds-{{ $key }}
+          flexVolume:
+            driver: "azure/kv"
+            secretRef:
+              name: kvcreds
+            options:
+              usepodidentity: "false"
+              subscriptionid: {{ $globals.subscriptionId }}
+              tenantid: {{ $globals.tenantId }}
+              keyvaultname: {{if $value.excludeEnvironmentSuffix }}{{ $key | quote }}{{else}}{{ printf "%s-%s" $key $globals.environment }}{{ end }}
+              resourcegroup: {{ printf "%s-%s" $value.resourceGroup $globals.environment }}                
+              keyvaultobjectnames: {{ $value.secrets | join ";" | quote }}  #"some-username;some-password"
+              keyvaultobjecttypes: {{ trimSuffix ";" (repeat (len $value.secrets) "secret;") | quote }} # OPTIONS: secret, key, cert
+        {{- end }}      
+      {{- end }}
       containers:
       - image: {{ .Values.image }}
         name: {{ template "hmcts.releaseName" . }}
-
         {{- if or .Values.environment .Values.secrets }}
         env:
           {{- (include "java.secrets" .Values.secrets) | indent 8 }}
@@ -43,6 +61,16 @@ spec:
           - configMapRef:
               name: {{ template "hmcts.releaseName" . }}
         {{- end }}
+
+        {{- if .Values.keyVaults }}
+        volumeMounts:
+          {{- range $key, $value := .Values.keyVaults }}
+          - name: kvcreds-{{ $key }}
+            mountPath: /kvmnt/kvcreds-{{ $key }}
+            readOnly: true
+          {{- end }}
+        {{- end }}
+
         resources:
           requests:
             memory: {{ .Values.memoryRequests }}
