@@ -10,7 +10,8 @@ configmap:
 
 keyVaults:
   "cmc":
-    resourceGroup: cmc   
+    resourceGroup: cmc
+    excludeEnvironmentSuffix: false   
     secrets:
       - smoke-test-citizen-username
       - smoke-test-user-password
@@ -21,6 +22,7 @@ keyVaults:
       - citizen-cookie-encryption-key
   "s2s":
     resourceGroup: rpe-service-auth-provider   
+    # excludeEnvironmentSuffix: false  # missing value == false  
     secrets:
       - microservicekey-cmcLegalFrontend
 

@@ -41,7 +41,7 @@ spec:
               usepodidentity: "false"
               subscriptionid: {{ $globals.subscriptionId }}
               tenantid: {{ $globals.tenantId }}
-              keyvaultname: {{ printf "%s-%s" $key $globals.environment }}
+              keyvaultname: {{if $value.excludeEnvironmentSuffix }}{{ $key | quote }}{{else}}{{ printf "%s-%s" $key $globals.environment }}{{ end }}
               resourcegroup: {{ printf "%s-%s" $value.resourceGroup $globals.environment }}                
               keyvaultobjectnames: {{ $value.secrets | join ";" | quote }}  #"some-username;some-password"
               keyvaultobjecttypes: {{ trimSuffix ";" (repeat (len $value.secrets) "secret;") | quote }} # OPTIONS: secret, key, cert
