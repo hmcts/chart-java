@@ -6,7 +6,7 @@ This chart is intended for simple Java microservices.
 
 We will take small PRs and small features to this chart but more complicated needs should be handled in your own chart.
 
-*NOTE*: The liveness heatlh checks check the enpoint /health/liveness by default. To use this you should include `compile group: 'uk.gov.hmcts.reform', name: 'health-spring-boot-starter', version: '0.0.3'` depenedency into your gradle file to enable this endpoint. Otherwise change this to an endpoint that will always return `200`.
+*NOTE*: The liveness heatlh checks check the enpoint /health/liveness by default. To use this you should include `compile group: 'uk.gov.hmcts.reform', name: 'health-spring-boot-starter', version: '0.0.3'` dependency into your gradle file to enable this endpoint. Otherwise change this to an endpoint that will always return `200`.
 
 ## Example configuration
 
