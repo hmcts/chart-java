@@ -10,7 +10,7 @@ readinessPath: '/health'
 readinessDelay: 30
 readinessTimeout: 3
 readinessPeriod: 15
-livenessPath: '/health'
+livenessPath: '/health/liveness'
 livenessDelay: 30
 livenessTimeout: 3
 livenessPeriod: 15
