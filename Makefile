@@ -19,7 +19,7 @@ clean:
 	-kubectl delete pod ${TEST} -n ${NAMESPACE}
 
 lint:
-	helm lint ${CHART}
+	helm lint ${CHART} -f ci-values.yaml
 
 deploy:
 	helm install ${CHART} --name ${RELEASE} --namespace ${NAMESPACE} -f ci-values.yaml --wait --timeout 60
