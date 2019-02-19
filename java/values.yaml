@@ -1,5 +1,6 @@
 applicationPort: 4550
 image: hmctssandbox.azurecr.io/hmcts/spring-boot-template
+replicas: 1
 registerAdditionalDns:
   enabled: false
 memoryRequests: '512Mi'
