@@ -80,6 +80,9 @@ The following table lists the configurable parameters of the Java chart and thei
 | `secrets`                  | Mappings of environment variables to service objects or pre-configured kubernetes secrets |  nil |
 | `keyVaults`                | Mappings of keyvaults to be mounted as flexvolumes (see Example Configuration) |  nil |
 
+A flexvolume is basically just a kubernetes volume from the user point of view. This means that the keyvault secrets 
+are accessible as files after they have been mounted.
+
 **Note**: to enable `keyVaults` to be mounted as flexvolumes, your service principal credentials need to be added to your namespace as a Kubernetes secret named `kvcreds` and accessible by the KeyVault FlexVolume driver. 
 
 ## Development and Testing

@@ -36,7 +36,7 @@ spec:
           flexVolume:
             driver: "azure/kv"
             secretRef:
-              name: kvcreds
+              name: {{ default "kvcreds" $value.secretRef }}
             options:
               usepodidentity: "false"
               subscriptionid: {{ $globals.subscriptionId }}
