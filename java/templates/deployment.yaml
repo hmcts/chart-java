@@ -50,11 +50,11 @@ spec:
       containers:
       - image: {{ .Values.image }}
         name: {{ template "hmcts.releaseName" . }}
-        {{- if or .Values.environment .Values.secrets }}
         env:
+        - name: AZURE_APPLICATIONINSIGHTS_INSTRUMENTATIONKEY
+          value: {{ .Values.applicationInsightsInstrumentKey | quote }}
           {{- (include "java.secrets" .Values.secrets) | indent 8 }}
           {{- (include "java.environment" .Values.environment) | indent 8 }}
-        {{- end -}}
 
         {{- if .Values.configmap }}
         envFrom:
