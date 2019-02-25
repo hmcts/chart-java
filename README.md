@@ -82,6 +82,29 @@ The following table lists the configurable parameters of the Java chart and thei
 | `keyVaults`                | Mappings of keyvaults to be mounted as flexvolumes (see Example Configuration) |  nil |
 | `applicationInsightsInstrumentKey` | Instrumentation Key for App Insights , It is mapped to `AZURE_APPLICATIONINSIGHTS_INSTRUMENTATIONKEY` as environment variable | `00000000-0000-0000-0000-000000000000`
 
+## Adding Azure Key Vault Secrets
+Key vault secrets can be mounted to the container filesystem using what's called a [keyvault-flexvolume](https://github.com/Azure/kubernetes-keyvault-flexvol). A flexvolume is just a kubernetes volume from the user point of view. This means that the keyvault secrets are accessible as files after they have been mounted.
+To do this you need to add the **keyVaults** section to the configuration.
+```yaml
+keyVaults:
+    <VAULT_NAME>:
+      excludeEnvironmentSuffix: true
+      resourceGroup: <VAULT_RESOURCE_GROUP>
+      secrets:
+        - <SECRET_NAME>
+        - <SECRET_NAME2>
+    <VAULT_NAME_2>:
+      resourceGroup: <VAULT_RESOURCE_GROUP_2>
+      secrets:
+        - <SECRET_NAME>
+        - <SECRET_NAME2>
+```
+**Where**:
+- *<VAULT_NAME>*: Name of the vault to access without the environment tag i.e. `s2s` or `bulkscan`.
+- *<VAULT_RESOURCE_GROUP>*: Resource group for the vault. This also does not need the environment tag (i.e. for s2s vault it is `rpe-service-auth-provider`).
+- *<SECRET_NAME>* Secret name as it is in the vault. Note this is case and punctuation sensitive. i.e. in s2s there is the `microservicekey-cmcLegalFrontend` secret.
+- *excludeEnvironmentSuffix*: This is used for the global key vaults where there is not environment suffix ( e.g `-aat` ) required. It defaults to false if it is not there and should only be added if you are using a global key-vault.
+
 **Note**: to enable `keyVaults` to be mounted as flexvolumes, your service principal credentials need to be added to your namespace as a Kubernetes secret named `kvcreds` and accessible by the KeyVault FlexVolume driver. 
 
 ## Development and Testing

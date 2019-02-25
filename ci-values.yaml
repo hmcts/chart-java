@@ -13,6 +13,7 @@ keyVaults:
   "cmc":
     resourceGroup: cmc
     excludeEnvironmentSuffix: false
+    secretRef: "kvcreds"   
     secrets:
       - smoke-test-citizen-username
       - smoke-test-user-password
@@ -22,8 +23,9 @@ keyVaults:
       - citizen-draft-store-primary
       - citizen-cookie-encryption-key
   "s2s":
-    resourceGroup: rpe-service-auth-provider
-    # excludeEnvironmentSuffix: false  # missing value == false
+    resourceGroup: rpe-service-auth-provider   
+    # excludeEnvironmentSuffix: false  # missing value == false  
+    # secretRef: "kvcreds"  # "kvcreds" is the default value, no need to add it   
     secrets:
       - microservicekey-cmcLegalFrontend
 

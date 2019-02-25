@@ -36,7 +36,7 @@ spec:
           flexVolume:
             driver: "azure/kv"
             secretRef:
-              name: kvcreds
+              name: {{ default "kvcreds" $value.secretRef }}
             options:
               usepodidentity: "false"
               subscriptionid: {{ $globals.subscriptionId }}
@@ -66,7 +66,7 @@ spec:
         volumeMounts:
           {{- range $key, $value := .Values.keyVaults }}
           - name: kvcreds-{{ $key }}
-            mountPath: /kvmnt/kvcreds-{{ $key }}
+            mountPath: /mnt/secrets/{{ $key }}
             readOnly: true
           {{- end }}
         {{- end }}
