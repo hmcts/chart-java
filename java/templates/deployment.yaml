@@ -42,7 +42,7 @@ spec:
               subscriptionid: {{ $globals.subscriptionId }}
               tenantid: {{ $globals.tenantId }}
               keyvaultname: {{if $value.excludeEnvironmentSuffix }}{{ $key | quote }}{{else}}{{ printf "%s-%s" $key $globals.environment }}{{ end }}
-              resourcegroup: {{ printf "%s-%s" $value.resourceGroup $globals.environment }}
+              resourcegroup: {{if $value.excludeEnvironmentSuffix }}{{ $value.resourceGroup | quote }}{{else}}{{ printf "%s-%s" $value.resourceGroup $globals.environment }}{{ end }}
               keyvaultobjectnames: {{ $value.secrets | join ";" | quote }}  #"some-username;some-password"
               keyvaultobjecttypes: {{ trimSuffix ";" (repeat (len $value.secrets) "secret;") | quote }} # OPTIONS: secret, key, cert
         {{- end }}
