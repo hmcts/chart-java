@@ -9,9 +9,6 @@ metadata:
     app.kubernetes.io/managed-by: {{ .Release.Service }}
     app.kubernetes.io/instance: {{ template "hmcts.releaseName" . }}
 spec:
-  securityContext:
-    runAsUser: 1000
-    fsGroup: 1000
   replicas: {{ .Values.replicas }}
   selector:
     matchLabels:
@@ -47,6 +44,10 @@ spec:
               keyvaultobjecttypes: {{ trimSuffix ";" (repeat (len $value.secrets) "secret;") | quote }} # OPTIONS: secret, key, cert
         {{- end }}
       {{- end }}
+      securityContext:
+        runAsUser: 1000
+        fsGroup: 1000
+        allowPrivilegeEscalation: false # Note: this is not picked up, neither here nor at pod/container level
       containers:
       - image: {{ .Values.image }}
         name: {{ template "hmcts.releaseName" . }}
@@ -97,5 +98,3 @@ spec:
           timeoutSeconds: {{ .Values.readinessTimeout }}
           periodSeconds: {{ .Values.readinessPeriod }}
         imagePullPolicy: IfNotPresent
-        securityContext:
-          allowPrivilegeEscalation: false
