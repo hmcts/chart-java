@@ -25,6 +25,18 @@ spec:
         {{- end }}
         app.kubernetes.io/name: {{ template "hmcts.releaseName" . }}
     spec:
+      {{- if .Values.useInterpodAntiAffinity }}
+      affinity:
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchExpressions:
+              - key: app.kubernetes.io/name
+                operator: In
+                values:
+                - {{ template "hmcts.releaseName" . }}
+            topologyKey: "kubernetes.io/hostname"
+      {{- end }}
       {{- if .Values.keyVaults }}
       volumes:
         {{ $globals := .Values.global }}
