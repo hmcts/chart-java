@@ -1,5 +1,6 @@
 image: hmcts.azurecr.io/hmcts/spring-boot-template
 replicas: 2
+useInterpodAntiAffinity: true
 ingressHost: chart-java.service.core-compute-preview.internal
 environment:
   REFORM_TEAM: cnp
@@ -13,7 +14,7 @@ keyVaults:
   "cmc":
     resourceGroup: cmc
     excludeEnvironmentSuffix: false
-    secretRef: "kvcreds"   
+    secretRef: "kvcreds"
     secrets:
       - smoke-test-citizen-username
       - smoke-test-user-password
@@ -23,9 +24,9 @@ keyVaults:
       - citizen-draft-store-primary
       - citizen-cookie-encryption-key
   "s2s":
-    resourceGroup: rpe-service-auth-provider   
-    # excludeEnvironmentSuffix: false  # missing value == false  
-    # secretRef: "kvcreds"  # "kvcreds" is the default value, no need to add it   
+    resourceGroup: rpe-service-auth-provider
+    # excludeEnvironmentSuffix: false  # missing value == false
+    # secretRef: "kvcreds"  # "kvcreds" is the default value, no need to add it
     secrets:
       - microservicekey-cmcLegalFrontend
 
