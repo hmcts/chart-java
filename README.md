@@ -61,6 +61,8 @@ The following table lists the configurable parameters of the Java chart and thei
 | -------------------------- | ------------------------------------------ | ----- |
 | `releaseNameOverride`          | Will override the resource name - advised to use with pipeline variable SERVICE_NAME: `releaseNameOverride: ${SERVICE_NAME}-my-custom-name`      | `Release.Name-Chart.Name`     |
 | `applicationPort`          | The port your app runs on in its container | `4550`|
+| `replicas` | Number of pod replicas | `1` |
+| `useInterpodAntiAffinity` | Always schedule replicas on different nodes | `false` | 
 | `image`                    | Full image url | `hmctssandbox.azurecr.io/hmcts/spring-boot-template`<br>(but overridden by pipeline) |
 | `environment`              |  A map containing all environment values you wish to set. <br> **Note**: environment variables (the key in KEY: value) must be uppercase and only contain letters,  "_", or numbers | `nil`|
 | `configmap`                | A config map, can be used for environment specific config.| `nil`|
