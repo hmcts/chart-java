@@ -59,10 +59,11 @@ spec:
       securityContext:
         runAsUser: 1000
         fsGroup: 1000
-        allowPrivilegeEscalation: false # Note: this is not picked up, neither here nor at pod/container level
       containers:
       - image: {{ .Values.image }}
         name: {{ template "hmcts.releaseName" . }}
+        securityContext:
+          allowPrivilegeEscalation: false
         env:
         - name: AZURE_APPLICATIONINSIGHTS_INSTRUMENTATIONKEY
           value: {{ .Values.applicationInsightsInstrumentKey | quote }}
