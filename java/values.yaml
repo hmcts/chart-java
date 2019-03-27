@@ -21,3 +21,6 @@ useInterpodAntiAffinity: false
 pdb:
   enabled: true
   maxUnavailable: 50%
+#postgresql:
+  #persistence:
+    #enabled: false

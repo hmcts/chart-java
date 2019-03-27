@@ -22,7 +22,7 @@ lint:
 	helm lint ${CHART} -f ci-values.yaml
 
 deploy:
-	helm install ${CHART} --name ${RELEASE} --namespace ${NAMESPACE} -f ci-values.yaml --wait --timeout 60
+	helm install ${CHART} --name ${RELEASE} --namespace ${NAMESPACE} -f ci-values.yaml --debug --wait --timeout 120
 
 test:
 	helm test ${RELEASE}

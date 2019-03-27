@@ -1,0 +1,4 @@
+#dependencies:
+   #- name: postgresql
+     #version: ~2.6.5
+     #repository: '@stable'
