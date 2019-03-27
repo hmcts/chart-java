@@ -21,6 +21,13 @@ useInterpodAntiAffinity: false
 pdb:
   enabled: true
   maxUnavailable: 50%
-#postgresql:
-  #persistence:
-    #enabled: false
+
+## Postgres chart configuration
+## https://github.com/helm/charts/blob/master/stable/postgresql/values.yaml
+
+postgresql:
+  ## Whether to deploy the Postgres Chart or not
+  enabled: false
+  ## Disable Postgres Persistence
+  persistence:
+    enabled: false
