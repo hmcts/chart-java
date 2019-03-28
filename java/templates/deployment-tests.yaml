@@ -44,15 +44,17 @@ spec:
         runAsUser: 1000
         fsGroup: 1000
       containers:
-      - image: {{ .Values.test.image }}
-        command: ["/bin/sh", "-c", "{{- range $key, $value := .Values.test.keyVaults -}}{{- range $secret, $var := $value.secrets -}}export $var=$(cat /mnt/secrets/{{ $key }}/{{ $secret }}); {{- end -}}{{- end -}} runTests.sh"]
-        name: {{ template "hmcts.releaseName" . }}-test
+      - name: {{ template "hmcts.releaseName" . }}-test
+        image: {{ .Values.test.image }}
+        command: ["/bin/sh", "-c", "{{- range $key, $value := .Values.test.keyVaults -}}{{- range $secret, $var := $value.secrets -}}export {{ $var }}=$(cat /mnt/secrets/{{ $key }}/{{ $secret }}); {{- end -}}{{- end -}} ./runTests.sh"]        
         securityContext:
           allowPrivilegeEscalation: false
         env:
-          {{- (include "java.test.secrets" .Values.secrets) | indent 8 }}
-          {{- (include "java.test.environment" .Values.environment) | indent 8 }}
-
+          - name: TEST_URL
+            value: http://{{ template "hmcts.releaseName" . }}
+        {{- if .Values.test.environment }}
+          {{- (include "java.environment" .Values.test.environment) | indent 8 }}  
+        {{- end }}        
         {{- if .Values.configmap }}
         envFrom:
           - configMapRef:
@@ -66,5 +68,5 @@ spec:
             readOnly: true
           {{- end }}
         {{- end }}
-        imagePullPolicy: IfNotPresent
+      restartPolicy: Never
 {{- end -}}
