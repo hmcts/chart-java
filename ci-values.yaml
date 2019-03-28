@@ -2,10 +2,16 @@ image: hmcts.azurecr.io/hmcts/plum-recipe-backend
 replicas: 2
 useInterpodAntiAffinity: true
 ingressHost: chart-java.service.core-compute-preview.internal
+applicationPort: 4550
 environment:
   REFORM_TEAM: cnp
   REFORM_SERVICE_NAME: rhubarb-backend
   REFORM_ENVIRONMENT: preview
+  POSTGRES_HOST: chart-java-release-postgresql
+  POSTGRES_SSL_MODE: disable
+  POSTGRES_DATABASE: plum
+  POSTGRES_USER: hmcts
+  POSTGRES_PASSWORD: hmcts
 configmap:
   VAR_A: VALUE_A
   VAR_B: VALUE_B
@@ -26,8 +32,16 @@ keyVaults:
     secrets:
       - microservicekey-cmcLegalFrontend
 
-tags:
-  postgresql-pod: true
+postgresql:
+  ## Whether to deploy the Postgres Chart or not
+  enabled: true
+  ## Disable Postgres Persistence
+  persistence:
+    enabled: false
+  ## Default Postgres Configuration parameters
+  postgresqlUsername: hmcts
+  postgresqlPassword: hmcts
+  postgresqlDatabase: plum
 
 test:
   image: hmcts.azurecr.io/hmcts/plum-recipe-backend-test
