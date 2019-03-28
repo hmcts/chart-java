@@ -26,8 +26,11 @@ pdb:
 ## https://github.com/helm/charts/blob/master/stable/postgresql/values.yaml
 
 postgresql:
+  postgresqlUsername: javapostgres
+  postgresqlPassword: javapassword
+  postgresqlDatabase: database
   ## Whether to deploy the Postgres Chart or not
-  enabled: false
+  enabled: true
   ## Disable Postgres Persistence
   persistence:
     enabled: false
