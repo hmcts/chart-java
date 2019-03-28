@@ -91,6 +91,9 @@ The following table lists the configurable parameters of the Java chart and thei
 | `pdb.minAvailable` |  To configure the number of pods from that set that must still be available after the eviction, even in the absence of the evicted pod. minAvailable can be either an absolute number or a percentage. This takes precedence over pdb.maxUnavailable if not nil. | `nil`|
 | `postgresql.enabled` | To enable installation of Postgres Chart | `false` |
 | `postgresql.persistence.enabled` | To enable persistence of Postgres Data | `false` |
+| `postgresql.postgresqlUsername` | Postgres Username | `javapostgres` |
+| `postgresql.postgresqlPassword` | Postgres Password | `javapassword` |
+| `postgresql.postgresqlDatabase` | Postgres Database | `javadatabase` |
 
 ## Adding Azure Key Vault Secrets
 Key vault secrets can be mounted to the container filesystem using what's called a [keyvault-flexvolume](https://github.com/Azure/kubernetes-keyvault-flexvol). A flexvolume is just a kubernetes volume from the user point of view. This means that the keyvault secrets are accessible as files after they have been mounted.
