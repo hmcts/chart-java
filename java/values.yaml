@@ -21,3 +21,17 @@ useInterpodAntiAffinity: false
 pdb:
   enabled: true
   maxUnavailable: 50%
+
+## Postgres chart configuration
+## https://github.com/helm/charts/blob/master/stable/postgresql/values.yaml
+
+postgresql:
+  ## Whether to deploy the Postgres Chart or not
+  enabled: true
+  ## Disable Postgres Persistence
+  persistence:
+    enabled: false
+  ## Default Postgres Configuration parameters
+  postgresqlUsername: javapostgres
+  postgresqlPassword: javapassword
+  postgresqlDatabase: javadatabase
