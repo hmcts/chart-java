@@ -1,4 +1,4 @@
-image: hmcts.azurecr.io/hmcts/spring-boot-template
+image: hmcts.azurecr.io/hmcts/plum-recipe-backend
 replicas: 2
 useInterpodAntiAffinity: true
 ingressHost: chart-java.service.core-compute-preview.internal
@@ -11,24 +11,34 @@ configmap:
   VAR_B: VALUE_B
 
 keyVaults:
-  "cmc":
-    resourceGroup: cmc
+  "plumsi":
     excludeEnvironmentSuffix: false
-    secretRef: "kvcreds"
+    resourceGroup: plum-shared-infrastructure
     secrets:
-      - smoke-test-citizen-username
-      - smoke-test-user-password
-      - os-postcode-lookup-api-key
-      - AppInsightsInstrumentationKey
-      - citizen-oauth-client-secret
-      - citizen-draft-store-primary
-      - citizen-cookie-encryption-key
+      - recipe-backend-POSTGRES-DATABASE
+      - recipe-backend-POSTGRES-HOST
+      - recipe-backend-POSTGRES-USER
+      - recipe-backend-POSTGRES-PASS
   "s2s":
     resourceGroup: rpe-service-auth-provider
     # excludeEnvironmentSuffix: false  # missing value == false
     # secretRef: "kvcreds"  # "kvcreds" is the default value, no need to add it
     secrets:
       - microservicekey-cmcLegalFrontend
+
+tags:
+  postgresql-pod: true
+
+test:
+  image: hmcts.azurecr.io/hmcts/plum-recipe-backend-test
+  keyVaults:
+    "plumsi":
+      excludeEnvironmentSuffix: false
+      resourceGroup: plum-shared-infrastructure
+      secrets:
+        test-client-key-store: TEST_CLIENT_KEY_STORE
+        test-client-key-store-password: TEST_CLIENT_KEY_STORE_PASSWORD
+        test-client-subscription-key: TEST_CLIENT_SUBSCRIPTION_KEY
 
 global:
   subscriptionId: "1c4f0704-a29e-403d-b719-b90c34ef14c9"

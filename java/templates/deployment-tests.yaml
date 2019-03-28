@@ -1,0 +1,70 @@
+{{- if .Values.test.image -}}
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: {{ template "hmcts.releaseName" . }}-tests
+  labels:
+    app.kubernetes.io/name: {{ template "hmcts.releaseName" . }}-tests
+    app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
+    app.kubernetes.io/instance: {{ .Release.Name | quote }}
+    helm.sh/chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+  annotations:
+    helm.sh/hook: post-install,post-upgrade
+    helm.sh/hook-weight: "5"
+    helm.sh/hook-delete-policy: before-hook-creation  
+spec:
+  template:
+    metadata:
+      name: {{ template "hmcts.releaseName" . }}-tests
+      labels:
+        app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
+        app.kubernetes.io/instance: {{ .Release.Name | quote }}
+        helm.sh/chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+    spec:  
+      {{- if .Values.test.keyVaults }}
+      volumes:
+        {{ $globals := .Values.global }}
+        {{- range $key, $value := .Values.test.keyVaults }}
+        - name: kvcreds-test-{{ $key }}
+          flexVolume:
+            driver: "azure/kv"
+            secretRef:
+              name: {{ default "kvcreds" $value.secretRef }}
+            options:
+              usepodidentity: "false"
+              subscriptionid: {{ $globals.subscriptionId }}
+              tenantid: {{ $globals.tenantId }}
+              keyvaultname: {{if $value.excludeEnvironmentSuffix }}{{ $key | quote }}{{else}}{{ printf "%s-%s" $key $globals.environment }}{{ end }}
+              resourcegroup: {{if $value.excludeEnvironmentSuffix }}{{ $value.resourceGroup | quote }}{{else}}{{ printf "%s-%s" $value.resourceGroup $globals.environment }}{{ end }}
+              keyvaultobjectnames: {{ keys $value.secrets | join ";" | quote }}  #"some-username;some-password"
+              keyvaultobjecttypes: {{ trimSuffix ";" (repeat (len $value.secrets) "secret;") | quote }} # OPTIONS: secret, key, cert
+        {{- end }}
+      {{- end }}
+      securityContext:
+        runAsUser: 1000
+        fsGroup: 1000
+      containers:
+      - image: {{ .Values.test.image }}
+        command: ["/bin/sh", "-c", "{{- range $key, $value := .Values.test.keyVaults -}}{{- range $secret, $var := $value.secrets -}}export $var=$(cat /mnt/secrets/{{ $key }}/{{ $secret }}); {{- end -}}{{- end -}} runTests.sh"]
+        name: {{ template "hmcts.releaseName" . }}-test
+        securityContext:
+          allowPrivilegeEscalation: false
+        env:
+          {{- (include "java.test.secrets" .Values.secrets) | indent 8 }}
+          {{- (include "java.test.environment" .Values.environment) | indent 8 }}
+
+        {{- if .Values.configmap }}
+        envFrom:
+          - configMapRef:
+              name: {{ template "hmcts.releaseName" . }}
+        {{- end }}
+        {{- if .Values.test.keyVaults }}
+        volumeMounts:
+          {{- range $key, $value := .Values.test.keyVaults }}
+          - name: kvcreds-test-{{ $key }}
+            mountPath: /mnt/secrets/{{ $key }}
+            readOnly: true
+          {{- end }}
+        {{- end }}
+        imagePullPolicy: IfNotPresent
+{{- end -}}
