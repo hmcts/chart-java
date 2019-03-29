@@ -23,12 +23,13 @@ Example format:
  ENVIRONMENT_VAR:
     secretRef: secret-vault 
     key: connectionString
+    disabled: false
 "
 */}}
 {{- define "java.secrets" -}}
   {{- if . -}}
     {{- range $key, $val := . }}
-      {{- if $val }}
+      {{- if and $val (not $val.disabled) }}
 - name: {{ if $key | regexMatch "^[^.-]+$" -}}
           {{- $key }}
         {{- else -}}

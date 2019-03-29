@@ -24,6 +24,10 @@ secrets:
   ENVIRONMENT_VAR:
       secretRef: some-secret-reference
       key: connectionString
+  ENVIRONMENT_VAR_OTHER:
+      secretRef: some-secret-reference-other
+      key: connectionStringOther
+      disabled: true #ENVIRONMENT_VAR_OTHER will not be set to environment
 keyVaults:
   "cmc":
     resourceGroup: cmc   
@@ -46,11 +50,13 @@ secrets:
   CONNECTION_STRING:
       secretRef: some-secret-reference
       key: connectionString
+      disabled: false
 ```
 **Where:**
 - **CONNECTION_STRING** is the environment variable to set to the value of the secret ( this has to be capitals and can contain numbers or "_" ).
 - **secretRef** is the service instance ( as in the case of PaaS wrappers ) or reference to the secret volume
 - **key** is the named secret in the secret reference.
+- **disabled** is optional and used to disable setting this environment value. This can be used to override the behaviour of default chart secrets. 
 
 
 ## Configuration
