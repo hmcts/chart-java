@@ -9,7 +9,11 @@ environment:
 configmap:
   VAR_A: VALUE_A
   VAR_B: VALUE_B
-
+secrets:
+  CONNECTION_STRING:
+    secretRef: some-secret-reference
+    key: connectionString
+    disabled: true
 keyVaults:
   "cmc":
     resourceGroup: cmc
