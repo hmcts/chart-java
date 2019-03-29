@@ -27,7 +27,7 @@ pdb:
 
 postgresql:
   ## Whether to deploy the Postgres Chart or not
-  enabled: true
+  enabled: false
   ## Disable Postgres Persistence
   persistence:
     enabled: false
