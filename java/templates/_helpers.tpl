@@ -27,8 +27,9 @@ Example format:
 "
 */}}
 {{- define "java.secrets" -}}
-  {{- if . -}}
-    {{- range $key, $val := . }}
+
+  {{- if .Values.secrets -}}
+    {{- range $key, $val := .Values.secrets }}
       {{- if and $val (not $val.disabled) }}
 - name: {{ if $key | regexMatch "^[^.-]+$" -}}
           {{- $key }}
@@ -37,7 +38,7 @@ Example format:
         {{- end }}
   valueFrom:
     secretKeyRef:
-      name: {{ required "Each item in \"secrets:\" needs a secretRef member" $val.secretRef }}
+      name: {{  tpl (required "Each item in \"secrets:\" needs a secretRef member" $val.secretRef) $ }}
       key: {{ required "Each item in \"secrets:\" needs a key member" $val.key }}
       {{- end }}
     {{- end }}

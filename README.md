@@ -54,7 +54,7 @@ secrets:
 ```
 **Where:**
 - **CONNECTION_STRING** is the environment variable to set to the value of the secret ( this has to be capitals and can contain numbers or "_" ).
-- **secretRef** is the service instance ( as in the case of PaaS wrappers ) or reference to the secret volume
+- **secretRef** is the service instance ( as in the case of PaaS wrappers ) or reference to the secret volume. It supports templating in values.yaml . Example : secretRef: some-secret-reference-{{ .Release.Name }}
 - **key** is the named secret in the secret reference.
 - **disabled** is optional and used to disable setting this environment value. This can be used to override the behaviour of default chart secrets. 
 
