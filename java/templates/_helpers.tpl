@@ -3,14 +3,14 @@ This template is for adding the environment variable list and checking the forma
 The key or "environment variable" must be uppercase and contain only numbers or "_".
 */}}
 {{- define "java.environment" -}}
-  {{- if . -}}
-    {{- range $key, $val := . }}
+  {{- if .Values.environment -}}
+    {{- range $key, $val := .Values.environment }}
 - name: {{ if $key | regexMatch "^[^.-]+$" -}}
           {{- $key }}
         {{- else -}}
             {{- fail (join "Environment variables can not contain '.' or '-' Failed key: " ($key|quote)) -}}
         {{- end }}
-  value: {{ $val | quote }}
+  value: {{ tpl $val $ | quote }}
     {{- end }}
   {{- end }}
 {{- end }}

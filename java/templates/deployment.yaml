@@ -68,7 +68,7 @@ spec:
         - name: AZURE_APPLICATIONINSIGHTS_INSTRUMENTATIONKEY
           value: {{ .Values.applicationInsightsInstrumentKey | quote }}
           {{- (include "java.secrets" .) | indent 8 }}
-          {{- (include "java.environment" .Values.environment) | indent 8 }}
+          {{- (include "java.environment" .) | indent 8 }}
 
         {{- if .Values.configmap }}
         envFrom:

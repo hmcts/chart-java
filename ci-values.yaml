@@ -6,6 +6,7 @@ environment:
   REFORM_TEAM: cnp
   REFORM_SERVICE_NAME: rhubarb-backend
   REFORM_ENVIRONMENT: preview
+  CONFIG_TEMPLATE: "{{ .Release.Name }}-config"
 configmap:
   VAR_A: VALUE_A
   VAR_B: VALUE_B
