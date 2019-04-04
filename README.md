@@ -59,6 +59,23 @@ secrets:
 - **key** is the named secret in the secret reference.
 - **disabled** is optional and used to disable setting this environment value. This can be used to override the behaviour of default chart secrets. 
 
+## Postgresql
+
+If you need to use a Postgresql database for testing then you can enable it 
+by setting the following flag in your application config with:
+
+java:
+  environment:
+    DB_HOST: "{{ .Release.Name }}-postgresql"
+    DB_USER_NAME: "{{ .Values.java.postgresql.postgresqlUsername}}"
+    DB_PASSWORD: "{{ .Values.java.postgresql.postgresqlPassword}}"
+
+postgresql:
+  ## Whether to deploy the Postgres Chart or not
+  enabled: true
+      
+See the configuration section for more options if needed
+Please refer to the Configuration section below on how to enable this.
 
 ## Configuration
 
