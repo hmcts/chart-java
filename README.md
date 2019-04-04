@@ -59,6 +59,10 @@ secrets:
 - **key** is the named secret in the secret reference.
 - **disabled** is optional and used to disable setting this environment value. This can be used to override the behaviour of default chart secrets. 
 
+## Postgresql
+
+Starting from version 2.0.0, Postgresql has been added to this chart as a dependency, but disabled by default.
+Please refer to the Configuration section below on how to enable this.
 
 ## Configuration
 
