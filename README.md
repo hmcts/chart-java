@@ -72,8 +72,8 @@ You can then refer to it in your application config with:
 java:
   environment:
     DB_HOST: "{{ .Release.Name }}-postgresql"
-    DB_USER_NAME: "{{ .Values.postgresql.postgresqlUsername}}"
-    DB_PASSWORD: "{{ .Values.postgresql.postgresqlPassword}}"
+    DB_USER_NAME: "{{ .Values.java.postgresql.postgresqlUsername}}"
+    DB_PASSWORD: "{{ .Values.java.postgresql.postgresqlPassword}}"
   
 See the configuration section for more options if needed
 Please refer to the Configuration section below on how to enable this.
