@@ -61,7 +61,21 @@ secrets:
 
 ## Postgresql
 
-Starting from version 2.0.0, Postgresql has been added to this chart as a dependency, but disabled by default.
+If you need to use a Postgresql database for testing then you can enable it by setting the following flag:
+
+java:
+  postgresql:
+  ## Whether to deploy the Postgres Chart or not
+  enabled: true
+  
+You can then refer to it in your application config with:
+java:
+  environment:
+    DB_HOST: "{{ .Release.Name }}-postgresql"
+    DB_USER_NAME: "{{ .Values.postgresql.postgresqlUsername}}"
+    DB_PASSWORD: "{{ .Values.postgresql.postgresqlPassword}}"
+  
+See the configuration section for more options if needed
 Please refer to the Configuration section below on how to enable this.
 
 ## Configuration
