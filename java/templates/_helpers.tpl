@@ -10,7 +10,7 @@ The key or "environment variable" must be uppercase and contain only numbers or 
         {{- else -}}
             {{- fail (join "Environment variables can not contain '.' or '-' Failed key: " ($key|quote)) -}}
         {{- end }}
-  value: {{ tpl $val $ | quote }}
+  value: {{ tpl ($val | quote) $ }}
     {{- end }}
   {{- end }}
 {{- end }}
