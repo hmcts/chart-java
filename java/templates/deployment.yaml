@@ -25,6 +25,7 @@ spec:
         {{- end }}
         app.kubernetes.io/name: {{ template "hmcts.releaseName" . }}
     spec:
+      revisionHistoryLimit: 0
       {{- if .Values.useInterpodAntiAffinity }}
       affinity:
         podAntiAffinity:
