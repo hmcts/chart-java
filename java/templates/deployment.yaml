@@ -40,15 +40,18 @@ spec:
       {{- end }}
       {{- if .Values.keyVaults }}
       volumes:
-        {{ $globals := .Values.global }}
+        {{- $globals := .Values.global }}
         {{- range $key, $value := .Values.keyVaults }}
+        {{- $podIdentity:= default false $value.usePodIdentity}}
         - name: kvcreds-{{ $key }}
           flexVolume:
             driver: "azure/kv"
+            {{- if eq false $podIdentity  }}
             secretRef:
               name: {{ default "kvcreds" $value.secretRef }}
+            {{- end}}
             options:
-              usepodidentity: "false"
+              usepodidentity: {{ $podIdentity | quote }}
               subscriptionid: {{ $globals.subscriptionId }}
               tenantid: {{ $globals.tenantId }}
               keyvaultname: {{if $value.excludeEnvironmentSuffix }}{{ $key | quote }}{{else}}{{ printf "%s-%s" $key $globals.environment }}{{ end }}
