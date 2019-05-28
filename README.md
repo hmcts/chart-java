@@ -42,6 +42,18 @@ keyVaults:
 applicationInsightsInstrumentKey: "some-key"
 ```
 
+If you wish to use pod identity for accessing the key vaults instead of a service principal you need to set a flag `usePodIdentity: true`
+e.g.
+```yaml
+keyVaults:
+  "cmc":
+    usePodIdentity: true
+    resourceGroup: cmc   
+    secrets:
+      - smoke-test-citizen-username
+      - smoke-test-user-password
+```
+
 ### Secrets
 To add secrets such as passwords and service keys to the Java chart you can use the the secrets section.
 The secrets section maps the secret to an environment variable in the container.
