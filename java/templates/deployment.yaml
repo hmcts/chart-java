@@ -51,7 +51,7 @@ spec:
               name: {{ default "kvcreds" $value.secretRef }}
             {{- end}}
             options:
-              usepodidentity: {{ $podIdentity }}
+              usepodidentity: {{ $podIdentity | quote }}
               subscriptionid: {{ $globals.subscriptionId }}
               tenantid: {{ $globals.tenantId }}
               keyvaultname: {{if $value.excludeEnvironmentSuffix }}{{ $key | quote }}{{else}}{{ printf "%s-%s" $key $globals.environment }}{{ end }}
