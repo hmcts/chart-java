@@ -42,9 +42,10 @@ keyVaults:
 applicationInsightsInstrumentKey: "some-key"
 ```
 
-If you wish to use pod identity for accessing the key vaults instead of a service principal you need to set a flag `usePodIdentity: true`
+If you wish to use pod identity for accessing the key vaults instead of a service principal you need to set a flag `aadIdentityName: <identity-name>`
 e.g.
 ```yaml
+aadIdentityName: cmc
 keyVaults:
   "cmc":
     usePodIdentity: true

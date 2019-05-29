@@ -8,6 +8,9 @@ metadata:
     helm.sh/chart: {{ .Chart.Name }}-{{ .Chart.Version }}
     app.kubernetes.io/managed-by: {{ .Release.Service }}
     app.kubernetes.io/instance: {{ template "hmcts.releaseName" . }}
+    {{- if .Values.aadIdentityName }}
+    aadpodidbinding: {{ .Values.aadIdentityName }}
+    {{- end }}
 spec:
   revisionHistoryLimit: 0
   replicas: {{ .Values.replicas }}
@@ -25,6 +28,9 @@ spec:
         draft: {{ .Values.draft }}
         {{- end }}
         app.kubernetes.io/name: {{ template "hmcts.releaseName" . }}
+        {{- if .Values.aadIdentityName }}
+        aadpodidbinding: {{ .Values.aadIdentityName }}
+        {{- end }}
     spec:
       {{- if .Values.useInterpodAntiAffinity }}
       affinity:
@@ -41,17 +47,17 @@ spec:
       {{- if .Values.keyVaults }}
       volumes:
         {{- $globals := .Values.global }}
+        {{- $aadIdentityName := .Values.aadIdentityName }}
         {{- range $key, $value := .Values.keyVaults }}
-        {{- $podIdentity:= default false $value.usePodIdentity}}
-        - name: kvcreds-{{ $key }}
+        - name: vault-{{ $key }}
           flexVolume:
             driver: "azure/kv"
-            {{- if eq false $podIdentity  }}
+            {{- if not $aadIdentityName }}
             secretRef:
               name: {{ default "kvcreds" $value.secretRef }}
-            {{- end}}
+            {{- end }}
             options:
-              usepodidentity: {{ $podIdentity | quote }}
+              usepodidentity: "{{ if $aadIdentityName }}true{{ else }}false{{ end}}"
               subscriptionid: {{ $globals.subscriptionId }}
               tenantid: {{ $globals.tenantId }}
               keyvaultname: {{if $value.excludeEnvironmentSuffix }}{{ $key | quote }}{{else}}{{ printf "%s-%s" $key $globals.environment }}{{ end }}
@@ -83,7 +89,7 @@ spec:
         {{- if .Values.keyVaults }}
         volumeMounts:
           {{- range $key, $value := .Values.keyVaults }}
-          - name: kvcreds-{{ $key }}
+          - name: vault-{{ $key }}
             mountPath: /mnt/secrets/{{ $key }}
             readOnly: true
           {{- end }}
