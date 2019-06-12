@@ -38,3 +38,5 @@ postgresql:
   extraEnv:
   - name: POSTGRESQL_DATABASE
     value: javadatabase
+global:
+  enableKeyVaults: false

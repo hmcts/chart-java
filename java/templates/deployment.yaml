@@ -44,7 +44,7 @@ spec:
                 - {{ template "hmcts.releaseName" . }}
             topologyKey: "kubernetes.io/hostname"
       {{- end }}
-      {{- if .Values.keyVaults }}
+      {{- if and .Values.keyVaults .Values.global.enableKeyVaults }}
       volumes:
         {{- $globals := .Values.global }}
         {{- $aadIdentityName := .Values.aadIdentityName }}
@@ -86,7 +86,7 @@ spec:
               name: {{ template "hmcts.releaseName" . }}
         {{- end }}
 
-        {{- if .Values.keyVaults }}
+        {{- if and .Values.keyVaults .Values.global.enableKeyVaults }}
         volumeMounts:
           {{- range $key, $value := .Values.keyVaults }}
           - name: vault-{{ $key }}
