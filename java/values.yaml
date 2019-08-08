@@ -40,3 +40,6 @@ postgresql:
     value: javadatabase
 global:
   enableKeyVaults: false
+prometheus:
+  enabled: false
+  path: /prometheus

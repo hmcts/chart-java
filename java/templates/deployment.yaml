@@ -4,13 +4,9 @@ kind: Deployment
 metadata:
   name:  {{ template "hmcts.releaseName" . }}
   labels:
-    app.kubernetes.io/name: {{ template "hmcts.releaseName" . }}
-    helm.sh/chart: {{ .Chart.Name }}-{{ .Chart.Version }}
-    app.kubernetes.io/managed-by: {{ .Release.Service }}
-    app.kubernetes.io/instance: {{ template "hmcts.releaseName" . }}
-    {{- if .Values.aadIdentityName }}
-    aadpodidbinding: {{ .Values.aadIdentityName }}
-    {{- end }}
+    {{- ( include "java.labels" . ) | indent 4 }}
+  annotations:
+    {{- ( include "java.annotations" . ) | indent 4 }}
 spec:
   revisionHistoryLimit: 0
   replicas: {{ .Values.replicas }}
@@ -19,18 +15,10 @@ spec:
       app.kubernetes.io/name: {{ template "hmcts.releaseName" . }}
   template:
     metadata:
-      annotations:
-        {{- if .Values.buildID }}
-        buildID: {{ .Values.buildID }}
-        {{- end }}
       labels:
-        {{- if .Values.draft }}
-        draft: {{ .Values.draft }}
-        {{- end }}
-        app.kubernetes.io/name: {{ template "hmcts.releaseName" . }}
-        {{- if .Values.aadIdentityName }}
-        aadpodidbinding: {{ .Values.aadIdentityName }}
-        {{- end }}
+        {{- ( include "java.labels" . ) | indent 8 }}
+      annotations:
+        {{- ( include "java.annotations" . ) | indent 8 }}
     spec:
       {{- if .Values.useInterpodAntiAffinity }}
       affinity:
