@@ -1,5 +1,5 @@
 applicationPort: 4550
-image: hmctssandbox.azurecr.io/hmcts/spring-boot-template
+image: hmctspublic.azurecr.io/spring-boot/template
 replicas: 1
 registerAdditionalDns:
   enabled: false
@@ -40,3 +40,6 @@ postgresql:
     value: javadatabase
 global:
   enableKeyVaults: false
+prometheus:
+  enabled: false
+  path: /prometheus

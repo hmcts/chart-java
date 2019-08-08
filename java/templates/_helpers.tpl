@@ -16,6 +16,36 @@ The key or "environment variable" must be uppercase and contain only numbers or 
 {{- end }}
 
 {{/*
+All the common labels needed for the labels sections of the definitions.
+*/}}
+{{- define "java.labels" }}
+app.kubernetes.io/name: {{ template "hmcts.releaseName" . }}
+helm.sh/chart: {{ .Chart.Name }}-{{ .Chart.Version }}
+app.kubernetes.io/managed-by: {{ .Release.Service }}
+app.kubernetes.io/instance: {{ template "hmcts.releaseName" . }}
+{{- if .Values.aadIdentityName }}
+aadpodidbinding: {{ .Values.aadIdentityName }}
+{{- end }}
+{{- if .Values.draft }}
+draft: {{ .Values.draft }}
+{{- end }}
+{{- end -}}
+
+{{/*
+All the common annotations needed for the annotations sections of the definitions.
+*/}}
+{{- define "java.annotations" }}
+{{- if .Values.prometheus.enabled }}
+prometheus.io/scrape: true
+prometheus.io/path: {{ .Values.prometheus.path }}
+prometheus.io/port: {{ .Values.applicationPort }}
+{{- end }}
+{{- if .Values.buildID }}
+buildID: {{ .Values.buildID }}
+{{- end }}
+{{- end -}}
+
+{{/*
 Adding in the helper here where we can use a secret object to include secrets to for the deployed service.
 The key or "environment variable" must be uppercase and contain only numbers or "_".
 Example format:
