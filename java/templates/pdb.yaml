@@ -4,6 +4,8 @@ apiVersion: policy/v1beta1
 kind: PodDisruptionBudget
 metadata:
   name:  {{ template "hmcts.releaseName" . }}
+  labels:
+    {{- ( include "java.labels" . ) | indent 4 }}
 spec:
   {{ if .Values.pdb.minAvailable }}
   minAvailable: {{ .Values.pdb.minAvailable }}
