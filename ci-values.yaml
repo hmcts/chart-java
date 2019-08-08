@@ -1,4 +1,4 @@
-image: hmcts.azurecr.io/hmcts/spring-boot-template
+image: hmctspublic.azurecr.io/spring-boot/template
 replicas: 2
 useInterpodAntiAffinity: true
 ingressHost: chart-java.service.core-compute-preview.internal
