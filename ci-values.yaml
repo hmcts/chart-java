@@ -16,6 +16,8 @@ secrets:
     secretRef: some-secret-reference
     key: connectionString
     disabled: true
+prometheus:
+  enabled: true
 keyVaults:
   "cmc":
     resourceGroup: cmc
