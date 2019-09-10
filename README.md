@@ -108,9 +108,9 @@ The following table lists the configurable parameters of the Java chart and thei
 | `cpuRequests`              | Requests for cpu | `25m`|
 | `memoryLimits`             | Memory limits| `1024Mi`|
 | `cpuLimits`                | CPU limits | `2500m`|
-| `ingressHost`              | Host for ingress controller to map the container to | `nil`|
+| `ingressHost`              | Host for ingress controller to map the container to. It supports templating, Example : {{.Release.Name}}.service.core-compute-preview.internal   | `nil`|
 | `registerAdditionalDns.enabled`            | If you want to use this chart as a secondary dependency - e.g. providing a frontend to a backend, and the backend is using primary ingressHost DNS mapping. Note: you will also need to define: `ingressIP: ${INGRESS_IP}` and `consulIP: ${CONSUL_LB_IP}` - this will be populated by pipeline                           | `false`      
-| `registerAdditionalDns.primaryIngressHost`            | The hostname for primary chart                            | `nil`      
+| `registerAdditionalDns.primaryIngressHost`            | The hostname for primary chart. It supports templating, Example : {{.Release.Name}}.service.core-compute-preview.internal                           | `nil`      
 | `registerAdditionalDns.prefix`            | DNS prefix for this chart - will resolve as: `prefix-{registerAdditionalDns.primaryIngressHost}`                         | `nil`      
 | `readinessPath`            | Path of HTTP readiness probe | `/health`|
 | `readinessDelay`           | Readiness probe inital delay (seconds)| `30`|
