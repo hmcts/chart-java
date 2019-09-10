@@ -11,7 +11,7 @@ metadata:
 spec:
   rules:
   {{- if .Values.ingressHost }}
-  - host: {{ .Values.ingressHost }}
+  - host: {{ tpl .Values.ingressHost $ }}
     http:
       paths:
       - path: /
@@ -20,7 +20,7 @@ spec:
           servicePort: 80
   {{- end }}
   {{- if .Values.registerAdditionalDns.enabled }}
-  - host: {{ .Values.registerAdditionalDns.prefix }}-{{ .Values.registerAdditionalDns.primaryIngressHost }}
+  - host: {{ .Values.registerAdditionalDns.prefix }}-{{ tpl .Values.registerAdditionalDns.primaryIngressHost $ }}
     http:
       paths:
       - path: /

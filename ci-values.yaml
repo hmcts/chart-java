@@ -1,7 +1,7 @@
 image: hmctspublic.azurecr.io/spring-boot/template
 replicas: 2
 useInterpodAntiAffinity: true
-ingressHost: chart-java.service.core-compute-preview.internal
+ingressHost: "{{.Release.Name}}.service.core-compute-preview.internal"
 environment:
   REFORM_TEAM: cnp
   REFORM_SERVICE_NAME: rhubarb-backend
