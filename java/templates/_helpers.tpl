@@ -82,7 +82,7 @@ We truncate at 63 chars because some Kubernetes name fields are limited to this 
 */}}
 {{- define "hmcts.releaseName" -}}
 {{- if .Values.releaseNameOverride -}}
-{{- .Values.releaseNameOverride | trunc 53 | trimSuffix "-" -}}
+{{- tpl .Values.releaseNameOverride $ | trunc 53 | trimSuffix "-" -}}
 {{- else -}}
 {{- printf "%s-%s" .Release.Name .Chart.Name | trunc 53 | trimSuffix "-" -}}
 {{- end -}}
