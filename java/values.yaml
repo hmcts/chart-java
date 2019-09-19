@@ -4,9 +4,13 @@ replicas: 1
 registerAdditionalDns:
   enabled: false
 memoryRequests: '512Mi'
-cpuRequests: '25m'
-memoryLimits: '1024Mi'
-cpuLimits: '2500m'
+cpuRequests: '250m'
+memoryLimits: '2048Mi'
+cpuLimits: '1000m'
+devmemoryRequests: '512Mi'
+devcpuRequests: '25m'
+devmemoryLimits: '1024Mi'
+devcpuLimits: '2500m'
 readinessPath: '/health'
 readinessDelay: 30
 readinessTimeout: 3
@@ -37,6 +41,7 @@ postgresql:
   postgresqlDatabase: javadatabase
 global:
   enableKeyVaults: false
+  devMode: false
 prometheus:
   enabled: false
   path: /prometheus
