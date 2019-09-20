@@ -6,7 +6,7 @@ registerAdditionalDns:
 memoryRequests: '512Mi'
 cpuRequests: '250m'
 memoryLimits: '2048Mi'
-cpuLimits: '1000m'
+cpuLimits: '1500m'
 devmemoryRequests: '512Mi'
 devcpuRequests: '25m'
 devmemoryLimits: '1024Mi'
