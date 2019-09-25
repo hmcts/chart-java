@@ -31,12 +31,10 @@ secrets:
       disabled: true #ENVIRONMENT_VAR_OTHER will not be set to environment
 keyVaults:
   "cmc":
-    resourceGroup: cmc   
     secrets:
       - smoke-test-citizen-username
       - smoke-test-user-password
   "s2s":
-    resourceGroup: rpe-service-auth-provider   
     secrets:
       - microservicekey-cmcLegalFrontend
 applicationInsightsInstrumentKey: "some-key"
@@ -49,7 +47,6 @@ aadIdentityName: cmc
 keyVaults:
   "cmc":
     usePodIdentity: true
-    resourceGroup: cmc   
     secrets:
       - smoke-test-citizen-username
       - smoke-test-user-password
@@ -144,12 +141,10 @@ To do this you need to add the **keyVaults** section to the configuration.
 keyVaults:
     <VAULT_NAME>:
       excludeEnvironmentSuffix: true
-      resourceGroup: <VAULT_RESOURCE_GROUP>
       secrets:
         - <SECRET_NAME>
         - <SECRET_NAME2>
     <VAULT_NAME_2>:
-      resourceGroup: <VAULT_RESOURCE_GROUP_2>
       secrets:
         - <SECRET_NAME>
         - <SECRET_NAME2>
