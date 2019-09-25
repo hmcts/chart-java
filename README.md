@@ -31,12 +31,10 @@ secrets:
       disabled: true #ENVIRONMENT_VAR_OTHER will not be set to environment
 keyVaults:
   "cmc":
-    resourceGroup: cmc   
     secrets:
       - smoke-test-citizen-username
       - smoke-test-user-password
   "s2s":
-    resourceGroup: rpe-service-auth-provider   
     secrets:
       - microservicekey-cmcLegalFrontend
 applicationInsightsInstrumentKey: "some-key"
@@ -49,7 +47,6 @@ aadIdentityName: cmc
 keyVaults:
   "cmc":
     usePodIdentity: true
-    resourceGroup: cmc   
     secrets:
       - smoke-test-citizen-username
       - smoke-test-user-password
@@ -144,19 +141,16 @@ To do this you need to add the **keyVaults** section to the configuration.
 keyVaults:
     <VAULT_NAME>:
       excludeEnvironmentSuffix: true
-      resourceGroup: <VAULT_RESOURCE_GROUP>
       secrets:
         - <SECRET_NAME>
         - <SECRET_NAME2>
     <VAULT_NAME_2>:
-      resourceGroup: <VAULT_RESOURCE_GROUP_2>
       secrets:
         - <SECRET_NAME>
         - <SECRET_NAME2>
 ```
 **Where**:
 - *<VAULT_NAME>*: Name of the vault to access without the environment tag i.e. `s2s` or `bulkscan`.
-- *<VAULT_RESOURCE_GROUP>*: Resource group for the vault. This also does not need the environment tag (i.e. for s2s vault it is `rpe-service-auth-provider`).
 - *<SECRET_NAME>* Secret name as it is in the vault. Note this is case and punctuation sensitive. i.e. in s2s there is the `microservicekey-cmcLegalFrontend` secret.
 - *excludeEnvironmentSuffix*: This is used for the global key vaults where there is not environment suffix ( e.g `-aat` ) required. It defaults to false if it is not there and should only be added if you are using a global key-vault.
 
