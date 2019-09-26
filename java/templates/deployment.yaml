@@ -61,10 +61,10 @@ spec:
         securityContext:
           allowPrivilegeEscalation: false
         env:
-        {{- if .Values.global.devMode -}}
+        {{- if .Values.global.devMode }}
         - name: AZURE_APPLICATIONINSIGHTS_INSTRUMENTATIONKEY
           value: {{ .Values.devApplicationInsightsInstrumentKey | quote }}
-        {{- else if .Values.applicationInsightsInstrumentKey -}}
+        {{- else if .Values.applicationInsightsInstrumentKey }}
         - name: AZURE_APPLICATIONINSIGHTS_INSTRUMENTATIONKEY
           value: {{ .Values.applicationInsightsInstrumentKey | quote }}
         {{- end -}}
