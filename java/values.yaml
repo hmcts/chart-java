@@ -51,17 +51,17 @@ tests:
     once:
       enabled: false
       backoffLimit: 2
-      kind: Job
+      overrideKind: Job
     cron:
       enabled: false
       backoffLimit: 2
-      kind: CronJob
+      overrideKind: CronJob
   functional:
     once:
       enabled: false
       backoffLimit: 2
-      kind: Job
+      overrideKind: Job
     cron:
       enabled: false
       backoffLimit: 2
-      kind: CronJob
+      overrideKind: CronJob
