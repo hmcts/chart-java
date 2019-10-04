@@ -50,6 +50,14 @@ smoke-tests:
   enabled: false
   backoffLimit: 2
 
+smoke-tests-cron:
+  enabled: false
+  backoffLimit: 2
+
 functional-tests:
+  enabled: false
+  backoffLimit: 2
+
+functional-tests-cron:
   enabled: false
   backoffLimit: 2

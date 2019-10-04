@@ -11,5 +11,15 @@ dependencies:
    - name: job
      version: ~0.3.0
      repository: '@hmctspublic'
+     alias: smoke-tests-cron
+     condition: smoke-tests-cron.enabled
+   - name: job
+     version: ~0.3.0
+     repository: '@hmctspublic'
      alias: functional-tests
      condition: functional-tests.enabled
+   - name: job
+     version: ~0.3.0
+     repository: '@hmctspublic'
+     alias: functional-tests-cron
+     condition: functional-tests-cron.enabled
