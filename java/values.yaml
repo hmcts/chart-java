@@ -46,18 +46,10 @@ prometheus:
   enabled: false
   path: /prometheus
 
-smoke-tests:
-  enabled: false
-  backoffLimit: 2
-
-smoke-tests-cron:
-  enabled: false
-  backoffLimit: 2
-
-functional-tests:
-  enabled: false
-  backoffLimit: 2
-
-functional-tests-cron:
-  enabled: false
-  backoffLimit: 2
+tests:
+  smoke:
+    enabled: false
+    backoffLimit: 2
+  functional:
+    enabled: false
+    backoffLimit: 2
