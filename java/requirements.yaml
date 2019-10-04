@@ -3,3 +3,13 @@ dependencies:
      version: ~6.3.5
      repository: '@stable'
      condition: postgresql.enabled
+   - name: job
+     version: ~0.3.0
+     repository: '@hmctspublic'
+     alias: smoke-tests
+     condition: smoke-tests.enabled
+   - name: job
+     version: ~0.3.0
+     repository: '@hmctspublic'
+     alias: functional-tests
+     condition: functional-tests.enabled

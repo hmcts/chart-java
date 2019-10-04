@@ -45,3 +45,11 @@ global:
 prometheus:
   enabled: false
   path: /prometheus
+
+smoke-tests:
+  enabled: false
+  backoffLimit: 2
+
+functional-tests:
+  enabled: false
+  backoffLimit: 2
