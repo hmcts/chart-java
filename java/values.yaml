@@ -51,13 +51,17 @@ tests:
     once:
       enabled: false
       backoffLimit: 2
+      kind: Job
     cron:
       enabled: false
       backoffLimit: 2
+      kind: CronJob
   functional:
     once:
       enabled: false
       backoffLimit: 2
+      kind: Job
     cron:
       enabled: false
       backoffLimit: 2
+      kind: CronJob
