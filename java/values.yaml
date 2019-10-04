@@ -48,8 +48,16 @@ prometheus:
 
 tests:
   smoke:
-    enabled: false
-    backoffLimit: 2
+    once:
+      enabled: false
+      backoffLimit: 2
+    cron:
+      enabled: false
+      backoffLimit: 2
   functional:
-    enabled: false
-    backoffLimit: 2
+    once:
+      enabled: false
+      backoffLimit: 2
+    cron:
+      enabled: false
+      backoffLimit: 2
