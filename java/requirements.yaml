@@ -4,22 +4,22 @@ dependencies:
      repository: '@stable'
      condition: postgresql.enabled
    - name: job
-     version: ~0.4.0
+     version: ~0.5.0
      repository: '@hmctspublic'
-     alias: tests.smoke.once
-     condition: tests.smoke.once.enabled
+     alias: smokeTestsJob
+     condition: smokeTestsJob.enabled
    - name: job
-     version: ~0.4.0
+     version: ~0.5.0
      repository: '@hmctspublic'
-     alias: tests.functional.once
-     condition: tests.functional.once.enabled
+     alias: functionalTestsJob
+     condition: functionalTestsJob.enabled
    - name: job
-     version: ~0.4.0
+     version: ~0.5.0
      repository: '@hmctspublic'
-     alias: tests.smoke.cron
-     condition: tests.smoke.cron.enabled
+     alias: smokeTestsCronJob
+     condition: smokeTestsCronJob.enabled
    - name: job
-     version: ~0.4.0
+     version: ~0.5.0
      repository: '@hmctspublic'
-     alias: tests.functional.cron
-     condition: tests.functional.cron.enabled
+     alias: functionalTestsCronJob
+     condition: functionalTestsCronJob.enabled
