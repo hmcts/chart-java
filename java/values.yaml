@@ -46,19 +46,19 @@ prometheus:
   enabled: false
   path: /prometheus
 
-smokeTestsJob:
+smoketests:
   enabled: false
   backoffLimit: 2
   kind: Job
-smokeTestsCronJob:
+smoketestscron:
   enabled: false
   backoffLimit: 2
   kind: CronJob
-functionalTestsJob:
+functionaltests:
   enabled: false
   backoffLimit: 2
   kind: Job
-functionalTestsCronJob:
+functionaltestscron:
   enabled: false
   backoffLimit: 2
   kind: CronJob
