@@ -16,10 +16,10 @@ dependencies:
    - name: job
      version: ~0.5.0
      repository: '@hmctspublic'
-     alias: smokeTestsCronJob
+     alias: smoketestscron
      condition: smoketestscron.enabled
    - name: job
      version: ~0.5.0
      repository: '@hmctspublic'
-     alias: functionalTestsCronJob
+     alias: functionaltestscron
      condition: functionaltestscron.enabled
