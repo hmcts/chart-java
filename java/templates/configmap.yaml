@@ -3,7 +3,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: {{ template "hmcts.releaseName" . }}
+  name: {{ template "hmcts.java.releaseName" . }}
   labels:
     {{- ( include "java.labels" . ) | indent 4 }}
 data:

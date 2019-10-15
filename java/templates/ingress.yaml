@@ -3,7 +3,7 @@
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
-  name: {{ template "hmcts.releaseName" . }}
+  name: {{ template "hmcts.java.releaseName" . }}
   labels:
     {{- ( include "java.labels" . ) | indent 4 }}
   annotations:
@@ -16,7 +16,7 @@ spec:
       paths:
       - path: /
         backend:
-          serviceName: {{ template "hmcts.releaseName" . }}
+          serviceName: {{ template "hmcts.java.releaseName" . }}
           servicePort: 80
   {{- end }}
   {{- if .Values.registerAdditionalDns.enabled }}
@@ -25,7 +25,7 @@ spec:
       paths:
       - path: /
         backend:
-          serviceName: {{ template "hmcts.releaseName" . }}
+          serviceName: {{ template "hmcts.java.releaseName" . }}
           servicePort: 80
   {{- end }}
 {{- end}}

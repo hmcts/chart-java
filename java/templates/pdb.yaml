@@ -3,7 +3,7 @@
 apiVersion: policy/v1beta1
 kind: PodDisruptionBudget
 metadata:
-  name:  {{ template "hmcts.releaseName" . }}
+  name:  {{ template "hmcts.java.releaseName" . }}
   labels:
     {{- ( include "java.labels" . ) | indent 4 }}
 spec:
@@ -14,5 +14,5 @@ spec:
   {{- end }}
   selector:
     matchLabels:
-      app.kubernetes.io/name: {{ template "hmcts.releaseName" . }}
+      app.kubernetes.io/name: {{ template "hmcts.java.releaseName" . }}
 {{- end }}
