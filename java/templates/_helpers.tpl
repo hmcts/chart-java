@@ -19,10 +19,10 @@ The key or "environment variable" must be uppercase and contain only numbers or 
 All the common labels needed for the labels sections of the definitions.
 */}}
 {{- define "java.labels" }}
-app.kubernetes.io/name: {{ template "hmcts.releaseName" . }}
+app.kubernetes.io/name: {{ template "hmcts.java.releaseName" . }}
 helm.sh/chart: {{ .Chart.Name }}-{{ .Chart.Version }}
 app.kubernetes.io/managed-by: {{ .Release.Service }}
-app.kubernetes.io/instance: {{ template "hmcts.releaseName" . }}
+app.kubernetes.io/instance: {{ template "hmcts.java.releaseName" . }}
 {{- if .Values.aadIdentityName }}
 aadpodidbinding: {{ .Values.aadIdentityName }}
 {{- end }}
@@ -80,7 +80,7 @@ ref: https://github.com/helm/charts/blob/master/stable/postgresql/templates/_hel
 Create a default fully qualified app name.
 We truncate at 63 chars because some Kubernetes name fields are limited to this (by the DNS naming spec).
 */}}
-{{- define "hmcts.releaseName" -}}
+{{- define "hmcts.java.releaseName" -}}
 {{- if .Values.releaseNameOverride -}}
 {{- tpl .Values.releaseNameOverride $ | trunc 53 | trimSuffix "-" -}}
 {{- else -}}

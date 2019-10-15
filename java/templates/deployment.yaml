@@ -2,7 +2,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name:  {{ template "hmcts.releaseName" . }}
+  name:  {{ template "hmcts.java.releaseName" . }}
   labels:
     {{- ( include "java.labels" . ) | indent 4 }}
   annotations:
@@ -12,7 +12,7 @@ spec:
   replicas: {{ .Values.replicas }}
   selector:
     matchLabels:
-      app.kubernetes.io/name: {{ template "hmcts.releaseName" . }}
+      app.kubernetes.io/name: {{ template "hmcts.java.releaseName" . }}
   template:
     metadata:
       labels:
@@ -29,7 +29,7 @@ spec:
               - key: app.kubernetes.io/name
                 operator: In
                 values:
-                - {{ template "hmcts.releaseName" . }}
+                - {{ template "hmcts.java.releaseName" . }}
             topologyKey: "kubernetes.io/hostname"
       {{- end }}
       {{- if and .Values.keyVaults .Values.global.enableKeyVaults }}
@@ -57,7 +57,7 @@ spec:
         fsGroup: 1000
       containers:
       - image: {{ .Values.image }}
-        name: {{ template "hmcts.releaseName" . }}
+        name: {{ template "hmcts.java.releaseName" . }}
         securityContext:
           allowPrivilegeEscalation: false
         env:
@@ -74,7 +74,7 @@ spec:
         {{- if .Values.configmap }}
         envFrom:
           - configMapRef:
-              name: {{ template "hmcts.releaseName" . }}
+              name: {{ template "hmcts.java.releaseName" . }}
         {{- end }}
 
         {{- if and .Values.keyVaults .Values.global.enableKeyVaults }}
