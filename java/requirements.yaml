@@ -6,16 +6,6 @@ dependencies:
    - name: job
      version: ~0.5.0
      repository: '@hmctspublic'
-     alias: smoketests
-     condition: smoketests.enabled
-   - name: job
-     version: ~0.5.0
-     repository: '@hmctspublic'
-     alias: functionaltests
-     condition: functionaltests.enabled
-   - name: job
-     version: ~0.5.0
-     repository: '@hmctspublic'
      alias: smoketestscron
      condition: smoketestscron.enabled
    - name: job

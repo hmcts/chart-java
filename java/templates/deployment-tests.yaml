@@ -1,0 +1,40 @@
+{{ if .Values.smoketests.enabled }}
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: smoketests-job
+  labels:
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    helm.sh/chart: {{ .Chart.Name }}-{{ .Chart.Version }}
+    app.kubernetes.io/name: {{ cat (template "hmcts.java.releaseName" .) "-smoketests-job" }}
+  annotations:
+    "helm.sh/hook": post-install,post-upgrade
+    "helm.sh/hook-delete-policy": hook-succeeded,before-hook-creation 
+spec:
+  restartPolicy: Never
+  containers:
+    - name: smoketests
+      image: {{ .Values.smoketests.image }}
+{{- end }}
+{{ if .Values.functionaltests.enabled }}
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: functionaltests-job
+  labels:
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    helm.sh/chart: {{ .Chart.Name }}-{{ .Chart.Version }}
+    app.kubernetes.io/name: {{ cat (template "hmcts.java.releaseName" .) "-functionaltests-job" }}
+  annotations:
+    "helm.sh/hook": post-install,post-upgrade
+    "helm.sh/hook-delete-policy": hook-succeeded,before-hook-creation # preserve job pod but delete before next install/upgrade
+spec:
+  restartPolicy: Never
+  containers:
+    - name: smoketests
+      image: {{ .Values.functionaltests.image }}
+{{- end }}

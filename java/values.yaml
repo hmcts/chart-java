@@ -46,18 +46,18 @@ prometheus:
   enabled: false
   path: /prometheus
 
+
 smoketests:
+  image: hmctspublic.azurecr.io/spring-boot/template
   enabled: false
-  backoffLimit: 2
-  kind: Job
+functionaltests:
+  image: hmctspublic.azurecr.io/spring-boot/template
+  enabled: false
+
 smoketestscron:
   enabled: false
   backoffLimit: 2
   kind: CronJob
-functionaltests:
-  enabled: false
-  backoffLimit: 2
-  kind: Job
 functionaltestscron:
   enabled: false
   backoffLimit: 2
