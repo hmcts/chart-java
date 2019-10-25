@@ -47,17 +47,24 @@ prometheus:
   path: /prometheus
 
 smoketests:
+  image: hmctspublic.azurecr.io/spring-boot/template
   enabled: false
-  backoffLimit: 2
-  kind: Job
+  memoryRequests: '256Mi'
+  cpuRequests: '100m'
+  memoryLimits: '1024Mi'
+  cpuLimits: '500m'
+functionaltests:
+  image: hmctspublic.azurecr.io/spring-boot/template
+  enabled: false
+  memoryRequests: '256Mi'
+  cpuRequests: '100m'
+  memoryLimits: '1024Mi'
+  cpuLimits: '500m'
+
 smoketestscron:
   enabled: false
   backoffLimit: 2
   kind: CronJob
-functionaltests:
-  enabled: false
-  backoffLimit: 2
-  kind: Job
 functionaltestscron:
   enabled: false
   backoffLimit: 2

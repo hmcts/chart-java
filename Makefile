@@ -19,14 +19,17 @@ clean:
 	-kubectl delete pod ${TEST} -n ${NAMESPACE}
 
 lint:
-	helm lint ${CHART} -f ci-values.yaml
+	helm lint ${CHART} -f ci-values.yaml -f ci-tests-values.yaml
+
+template:
+	helm template ${CHART} -f ci-values.yaml -f ci-tests-values.yaml
 
 deploy:
 	helm install ${CHART} --name ${RELEASE} --namespace ${NAMESPACE} -f ci-values.yaml --wait --timeout 60
 
 dry-run:
 	helm dependency update ${CHART} 
-	helm install ${CHART} --name ${RELEASE} --namespace ${NAMESPACE} -f ci-values.yaml --dry-run --debug
+	helm install ${CHART} --name ${RELEASE} --namespace ${NAMESPACE} -f ci-values.yaml -f ci-tests-values.yaml --dry-run --debug
 
 test:
 	helm test ${RELEASE}

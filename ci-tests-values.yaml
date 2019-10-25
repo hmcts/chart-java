@@ -1,0 +1,14 @@
+smoketests:
+  image: hmctspublic.azurecr.io/spring-boot/template-test
+  enabled: true
+  keyVaults:
+    "cmc":
+      excludeEnvironmentSuffix: false
+      secretRef: "kvcreds"
+      secrets:
+        - smoke-test-citizen-username
+        - smoke-test-user-password
+
+functionaltests:
+  image: hmctspublic.azurecr.io/spring-boot/template-test
+  enabled: true

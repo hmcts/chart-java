@@ -1,0 +1,38 @@
+{{ if .Values.smoketests.enabled }}
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: smoketests-job
+  labels:
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+    app.kubernetes.io/instance: {{ .Release.Name }}-smoketests
+    helm.sh/chart: {{ .Chart.Name }}-{{ .Chart.Version }}
+    app.kubernetes.io/name: {{ template "hmcts.java.releaseName" . }}-smoketests
+  annotations:
+    "helm.sh/hook": post-install,post-upgrade
+    "helm.sh/hook-delete-policy": hook-succeeded,before-hook-creation 
+spec:
+{{ $smokedata := dict "Values" .Values }}
+{{ $_ := set $smokedata.Values "tests" .Values.smoketests }}
+{{- include "java.tests.spec" $smokedata | nindent 2 }}
+{{- end }}
+{{ if .Values.functionaltests.enabled }}
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: functionaltests-job
+  labels:
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+    app.kubernetes.io/instance: {{ .Release.Name }}-functionaltests
+    helm.sh/chart: {{ .Chart.Name }}-{{ .Chart.Version }}
+    app.kubernetes.io/name: {{ template "hmcts.java.releaseName" . }}-functionaltests
+  annotations:
+    "helm.sh/hook": post-install,post-upgrade
+    "helm.sh/hook-delete-policy": hook-succeeded,before-hook-creation # preserve job pod but delete before next install/upgrade
+spec:
+{{ $functionaldata := dict "Values" .Values }}
+{{ $_ := set $functionaldata.Values "tests" .Values.functionaltests }}
+{{- include "java.tests.spec" $functionaldata | nindent 2 }}
+{{- end }}
