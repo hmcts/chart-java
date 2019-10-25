@@ -13,10 +13,9 @@ metadata:
     "helm.sh/hook": post-install,post-upgrade
     "helm.sh/hook-delete-policy": hook-succeeded,before-hook-creation 
 spec:
-  restartPolicy: Never
-  containers:
-    - name: smoketests
-      image: {{ .Values.smoketests.image }}
+{{ $smokedata := dict "Values" .Values }}
+{{ $_ := set $smokedata.Values "tests" .Values.smoketests }}
+{{- include "java.tests.spec" $smokedata | nindent 2 }}
 {{- end }}
 {{ if .Values.functionaltests.enabled }}
 ---
@@ -33,8 +32,7 @@ metadata:
     "helm.sh/hook": post-install,post-upgrade
     "helm.sh/hook-delete-policy": hook-succeeded,before-hook-creation # preserve job pod but delete before next install/upgrade
 spec:
-  restartPolicy: Never
-  containers:
-    - name: smoketests
-      image: {{ .Values.functionaltests.image }}
+{{ $functionaldata := dict "Values" .Values }}
+{{ $_ := set $functionaldata.Values "tests" .Values.functionaltests }}
+{{- include "java.tests.spec" $functionaldata | nindent 2 }}
 {{- end }}

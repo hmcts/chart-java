@@ -87,3 +87,50 @@ We truncate at 63 chars because some Kubernetes name fields are limited to this 
 {{- printf "%s-%s" .Release.Name .Chart.Name | trunc 53 | trimSuffix "-" -}}
 {{- end -}}
 {{- end -}}
+
+{{- define "java.tests.spec" -}}
+{{- if and .Values.tests.keyVaults .Values.global.enableKeyVaults }}
+volumes:
+  {{- $globals := .Values.global }}
+  {{- $aadIdentityName := .Values.aadIdentityName }}
+  {{- range $key, $value := .Values.tests.keyVaults }}
+  - name: vault-{{ $key }}
+    flexVolume:
+      driver: "azure/kv"
+      {{- if not $aadIdentityName }}
+      secretRef:
+        name: {{ default "kvcreds" $value.secretRef }}
+      {{- end }}
+      options:
+        usepodidentity: "{{ if $aadIdentityName }}true{{ else }}false{{ end}}"
+        tenantid: {{ $globals.tenantId }}
+        keyvaultname: {{if $value.excludeEnvironmentSuffix }}{{ $key | quote }}{{else}}{{ printf "%s-%s" $key $globals.environment }}{{ end }}
+        keyvaultobjectnames: {{ $value.secrets | join ";" | quote }}  #"some-username;some-password"
+        keyvaultobjecttypes: {{ trimSuffix ";" (repeat (len $value.secrets) "secret;") | quote }} # OPTIONS: secret, key, cert
+  {{- end }}
+{{- end }}
+securityContext:
+  runAsUser: 1000
+  fsGroup: 1000
+restartPolicy: Never
+containers:
+  - name: tests
+    image: {{ .Values.tests.image }}
+    securityContext:
+      allowPrivilegeEscalation: false
+    {{- if and .Values.tests.keyVaults .Values.global.enableKeyVaults }}
+    volumeMounts:
+      {{- range $key, $value := .Values.keyVaults }}
+      - name: vault-{{ $key }}
+        mountPath: /mnt/secrets/{{ $key }}
+        readOnly: true
+      {{- end }}
+    {{- end }}
+    resources:
+      requests:
+        memory: {{ .Values.tests.memoryRequests }}
+        cpu: {{ .Values.tests.cpuRequests }}
+      limits:
+        memory: {{ .Values.tests.memoryLimits }}
+        cpu: {{ .Values.tests.cpuLimits }}
+{{- end -}}

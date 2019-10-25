@@ -46,13 +46,20 @@ prometheus:
   enabled: false
   path: /prometheus
 
-
 smoketests:
   image: hmctspublic.azurecr.io/spring-boot/template
   enabled: false
+  memoryRequests: '256Mi'
+  cpuRequests: '100m'
+  memoryLimits: '1024Mi'
+  cpuLimits: '500m'
 functionaltests:
   image: hmctspublic.azurecr.io/spring-boot/template
   enabled: false
+  memoryRequests: '256Mi'
+  cpuRequests: '100m'
+  memoryLimits: '1024Mi'
+  cpuLimits: '500m'
 
 smoketestscron:
   enabled: false
