@@ -118,6 +118,13 @@ containers:
     image: {{ .Values.tests.image }}
     securityContext:
       allowPrivilegeEscalation: false
+    {{- if .Values.tests.environment }}
+    env:
+    {{- range $key, $val := .Values.tests.environment }}
+      - name: {{ $key }}
+        value: {{ $val }}
+    {{- end }}
+    {{- end }}
     {{- if and .Values.tests.keyVaults .Values.global.enableKeyVaults }}
     volumeMounts:
       {{- range $key, $value := .Values.keyVaults }}

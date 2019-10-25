@@ -8,7 +8,13 @@ smoketests:
       secrets:
         - smoke-test-citizen-username
         - smoke-test-user-password
+  environment:
+    TEST_URL: http://plum-recipe-backend-java
+    TASK: smoke
 
 functionaltests:
   image: hmctspublic.azurecr.io/spring-boot/template-test
   enabled: true
+  environment:
+    TEST_URL: http://plum-recipe-backend-java
+    TASK: functional
