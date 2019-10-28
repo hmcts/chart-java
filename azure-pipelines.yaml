@@ -24,6 +24,7 @@ jobs:
       chartName: java
       chartReleaseName: chart-java-ci-test
       chartNamespace: chart-tests
+      helmInstallTimeout: "500"
 
 - job: Release
   # Make sure we have a tag to run this job
