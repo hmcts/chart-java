@@ -102,7 +102,7 @@ The following table lists the configurable parameters of the Java chart and thei
 | `environment`              |  A map containing all environment values you wish to set. <br> **Note**: environment variables (the key in KEY: value) must be uppercase and only contain letters,  "_", or numbers and value can be templated | `nil`|
 | `configmap`                | A config map, can be used for environment specific config.| `nil`|
 | `devmemoryRequests`           | Requests for memory, set when `global.devMode` is set to true | `512Mi`|
-| `devcpuRequests`              | Requests for cpu, set when `global.devMode` is set to true | `25m`|
+| `devcpuRequests`              | Requests for cpu, set when `global.devMode` is set to true | `250m`|
 | `devmemoryLimits`             | Memory limits, set when `global.devMode` is set to true| `1024Mi`|
 | `devcpuLimits`                | CPU limits, set when `global.devMode` is set to true | `2500m`|
 | `memoryRequests`           | Requests for memory, set when `global.devMode` is set to false | `512Mi`|
