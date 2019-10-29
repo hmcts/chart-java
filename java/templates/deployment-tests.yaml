@@ -1,44 +1,18 @@
 {{ if .Values.smoketests.enabled }}
 ---
-apiVersion: v1
-kind: Pod
-metadata:
-  name: smoketests-job
-  labels:
-    app.kubernetes.io/managed-by: {{ .Release.Service }}
-    app.kubernetes.io/instance: {{ .Release.Name }}-smoketests
-    helm.sh/chart: {{ .Chart.Name }}-{{ .Chart.Version }}
-    app.kubernetes.io/name: {{ template "hmcts.java.releaseName" . }}-smoketests
-    {{- if .Values.aadIdentityName }}
-    aadpodidbinding: {{ .Values.aadIdentityName }}
-    {{- end }}
-  annotations:
-    "helm.sh/hook": post-install,post-upgrade
-    "helm.sh/hook-delete-policy": hook-succeeded,before-hook-creation 
+{{ $smokedata := dict "Values" .Values "Release" .Release "Chart" .Chart }}
+{{ $_ := set $smokedata.Values "task" "smoke" }}
+{{- include "java.tests.metadata" $smokedata | nindent 2 }}
 spec:
-{{ $smokedata := dict "Values" .Values }}
 {{ $_ := set $smokedata.Values "tests" .Values.smoketests }}
 {{- include "java.tests.spec" $smokedata | nindent 2 }}
 {{- end }}
 {{ if .Values.functionaltests.enabled }}
 ---
-apiVersion: v1
-kind: Pod
-metadata:
-  name: functionaltests-job
-  labels:
-    app.kubernetes.io/managed-by: {{ .Release.Service }}
-    app.kubernetes.io/instance: {{ .Release.Name }}-functionaltests
-    helm.sh/chart: {{ .Chart.Name }}-{{ .Chart.Version }}
-    app.kubernetes.io/name: {{ template "hmcts.java.releaseName" . }}-functionaltests
-    {{- if .Values.aadIdentityName }}
-    aadpodidbinding: {{ .Values.aadIdentityName }}
-    {{- end }}
-  annotations:
-    "helm.sh/hook": post-install,post-upgrade
-    "helm.sh/hook-delete-policy": hook-succeeded,before-hook-creation # preserve job pod but delete before next install/upgrade
+{{ $functionaldata := dict "Values" .Values "Release" .Release "Chart" .Chart }}
+{{ $_ := set $functionaldata.Values "task" "functional" }}
+{{- include "java.tests.metadata" $functionaldata | nindent 2 }}
 spec:
-{{ $functionaldata := dict "Values" .Values }}
 {{ $_ := set $functionaldata.Values "tests" .Values.functionaltests }}
 {{- include "java.tests.spec" $functionaldata | nindent 2 }}
 {{- end }}

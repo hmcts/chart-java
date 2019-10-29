@@ -88,6 +88,24 @@ We truncate at 63 chars because some Kubernetes name fields are limited to this 
 {{- end -}}
 {{- end -}}
 
+{{- define "java.tests.metadata" -}}
+apiVersion: v1
+kind: Pod
+metadata:
+  name: {{ .Values.task }}tests-job
+  labels:
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+    app.kubernetes.io/instance: {{ .Release.Name }}-{{ .Values.task }}tests
+    helm.sh/chart: {{ .Chart.Name }}-{{ .Chart.Version }}
+    app.kubernetes.io/name: {{ template "hmcts.java.releaseName" . }}-{{ .Values.task }}tests
+    {{- if .Values.aadIdentityName }}
+    aadpodidbinding: {{ .Values.aadIdentityName }}
+    {{- end }}
+  annotations:
+    "helm.sh/hook": post-install,post-upgrade
+    "helm.sh/hook-delete-policy": before-hook-creation 
+{{- end -}}
+
 {{- define "java.tests.spec" -}}
 {{- if and .Values.tests.keyVaults .Values.global.enableKeyVaults }}
 volumes:
