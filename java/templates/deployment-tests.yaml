@@ -2,17 +2,17 @@
 ---
 {{ $smokedata := dict "Values" .Values "Release" .Release "Chart" .Chart }}
 {{ $_ := set $smokedata.Values "task" "smoke" }}
-{{- include "java.tests.metadata" $smokedata | nindent 2 }}
+{{- include "java.tests.metadata" $smokedata }}
 spec:
 {{ $_ := set $smokedata.Values "tests" .Values.smoketests }}
-{{- include "java.tests.spec" $smokedata | nindent 2 }}
+{{- include "java.tests.spec" $smokedata | indent 2 }}
 {{- end }}
 {{ if .Values.functionaltests.enabled }}
 ---
 {{ $functionaldata := dict "Values" .Values "Release" .Release "Chart" .Chart }}
 {{ $_ := set $functionaldata.Values "task" "functional" }}
-{{- include "java.tests.metadata" $functionaldata | nindent 2 }}
+{{- include "java.tests.metadata" $functionaldata }}
 spec:
 {{ $_ := set $functionaldata.Values "tests" .Values.functionaltests }}
-{{- include "java.tests.spec" $functionaldata | nindent 2 }}
+{{- include "java.tests.spec" $functionaldata | indent 2 }}
 {{- end }}
