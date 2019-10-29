@@ -1,3 +1,5 @@
+aadIdentityName: someId
+
 smoketests:
   image: hmctspublic.azurecr.io/spring-boot/template-test
   enabled: true
