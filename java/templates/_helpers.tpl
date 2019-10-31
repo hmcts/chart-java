@@ -139,9 +139,12 @@ containers:
     {{- end }}
     securityContext:
       allowPrivilegeEscalation: false
-    {{- if .Values.tests.environment }}
+    {{- if or .Values.tests.environment .Values.testsConfig.environment }}
+    {{- $envMap := dict "TEST_URL" "" -}}
+    {{- if .Values.testsConfig.environment -}}{{- range $key, $value := .Values.testsConfig.environment -}}{{- $_ := set $envMap $key $value -}}{{- end -}}{{- end -}}
+    {{- if .Values.tests.environment -}}{{- range $key, $value := .Values.tests.environment -}}{{- $_ := set $envMap $key $value -}}{{- end -}}{{- end }}
     env:
-    {{- range $key, $val := .Values.tests.environment }}
+    {{- range $key, $val := $envMap }}
       - name: {{ $key }}
         value: {{ $val }}
     {{- end }}
