@@ -92,7 +92,7 @@ We truncate at 63 chars because some Kubernetes name fields are limited to this 
 apiVersion: v1
 kind: Pod
 metadata:
-  name: {{ .Values.task }}tests-job
+  name: {{ .Release.Name }}-{{ .Values.task }}tests-job
   labels:
     app.kubernetes.io/managed-by: {{ .Release.Service }}
     app.kubernetes.io/instance: {{ .Release.Name }}-{{ .Values.task }}tests
@@ -107,11 +107,11 @@ metadata:
 {{- end -}}
 
 {{- define "java.tests.spec" -}}
-{{- if and .Values.tests.keyVaults .Values.global.enableKeyVaults }}
+{{- if and .Values.testsConfig.keyVaults .Values.global.enableKeyVaults }}
 volumes:
   {{- $globals := .Values.global }}
   {{- $aadIdentityName := .Values.aadIdentityName }}
-  {{- range $key, $value := .Values.tests.keyVaults }}
+  {{- range $key, $value := .Values.testsConfig.keyVaults }}
   - name: vault-{{ $key }}
     flexVolume:
       driver: "azure/kv"
@@ -123,7 +123,7 @@ volumes:
         usepodidentity: "{{ if $aadIdentityName }}true{{ else }}false{{ end}}"
         tenantid: {{ $globals.tenantId }}
         keyvaultname: {{if $value.excludeEnvironmentSuffix }}{{ $key | quote }}{{else}}{{ printf "%s-%s" $key $globals.environment }}{{ end }}
-        keyvaultobjectnames: {{ $value.secrets | join ";" | quote }}  #"some-username;some-password"
+        keyvaultobjectnames: {{ keys $value.secrets | join ";" | quote }}  #"some-username;some-password"
         keyvaultobjecttypes: {{ trimSuffix ";" (repeat (len $value.secrets) "secret;") | quote }} # OPTIONS: secret, key, cert
   {{- end }}
 {{- end }}
@@ -134,6 +134,9 @@ restartPolicy: Never
 containers:
   - name: tests
     image: {{ .Values.tests.image }}
+    {{- if and .Values.testsConfig.keyVaults .Values.global.enableKeyVaults }}
+    command: ["sh", "-c", "{{- range $key, $value := .Values.testsConfig.keyVaults -}}{{- range $secret, $var := $value.secrets -}}export {{ $var }}=$(cat /mnt/secrets/{{ $key }}/{{ $secret }}); {{- end -}}{{- end -}} ./runTests.sh"]
+    {{- end }}
     securityContext:
       allowPrivilegeEscalation: false
     {{- if .Values.tests.environment }}

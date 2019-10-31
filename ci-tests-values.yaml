@@ -1,15 +1,17 @@
 aadIdentityName: someId
 
-smoketests:
-  image: hmctspublic.azurecr.io/spring-boot/template-test
-  enabled: true
+testsConfig:
   keyVaults:
     "cmc":
       excludeEnvironmentSuffix: false
       secretRef: "kvcreds"
       secrets:
-        - smoke-test-citizen-username
-        - smoke-test-user-password
+        smoke-test-citizen-username: SMOKE_TEST_CITIZEN_USER
+        smoke-test-user-password: SMOKE_TEST_CITIZEN_PASS
+
+smoketests:
+  image: hmctspublic.azurecr.io/spring-boot/template-test
+  enabled: true
   environment:
     TEST_URL: http://plum-recipe-backend-java
     TASK: smoke
