@@ -6,7 +6,7 @@ This chart is intended for simple Java microservices.
 
 We will take small PRs and small features to this chart but more complicated needs should be handled in your own chart.
 
-*NOTE*: The liveness heatlh checks check the enpoint /health/liveness by default. To use this you should include `compile group: 'uk.gov.hmcts.reform', name: 'health-spring-boot-starter', version: '0.0.3'` dependency into your gradle file to enable this endpoint. Otherwise change this to an endpoint that will always return `200`.
+*NOTE*: The liveness heatlh checks check the enpoint /health/liveness by default. To use this you should include `compile group: 'uk.gov.hmcts.reform', name: 'health-spring-boot-starter', version: '0.0.5'` dependency into your gradle file to enable this endpoint. Otherwise change this to an endpoint that will always return `200`.
 
 ## Example configuration
 
@@ -87,6 +87,48 @@ postgresql:
 ```      
 See the configuration section for more options if needed
 Please refer to the Configuration section below on how to enable this.
+
+## Smoke and functional tests
+
+From version 2.14.0 of this chart you can configure your functional and smoke tests to run just after deployment or at scheduled times 
+as cron jobs.
+
+```yaml
+java:
+  testsConfig:
+    keyVaults:
+      "cmc":
+        excludeEnvironmentSuffix: false
+        secretRef: "kvcreds"
+        secrets:
+          smoke-test-citizen-username: SMOKE_TEST_CITIZEN_USER
+          smoke-test-user-password: SMOKE_TEST_CITIZEN_PASS
+    environment:
+      TEST_URL: http://plum-recipe-backend-java
+
+  smoketests:
+    image: hmctspublic.azurecr.io/spring-boot/template-test
+    enabled: true
+    environment:
+      TEST_URL: http://plum-recipe-backend-java-overridden
+
+  functionaltests:
+    image: hmctspublic.azurecr.io/spring-boot/template-test
+    enabled: true
+
+  smoketestscron:
+    image: hmctspublic.azurecr.io/spring-boot/template-test
+    enabled: true
+    environment:
+      TEST_URL: http://plum-recipe-backend-java-overridden2
+
+  functionaltestscron:
+    image: hmctspublic.azurecr.io/spring-boot/template-test
+    enabled: true
+    environment:
+      TEST_URL: http://plum-recipe-backend-java-overridden2
+      SOME_ENV: some-val
+```
 
 ## Configuration
 

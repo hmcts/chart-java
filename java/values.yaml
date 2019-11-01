@@ -63,9 +63,13 @@ functionaltests:
 
 smoketestscron:
   enabled: false
-  backoffLimit: 2
-  kind: CronJob
+  memoryRequests: '256Mi'
+  cpuRequests: '100m'
+  memoryLimits: '1024Mi'
+  cpuLimits: '500m'
 functionaltestscron:
   enabled: false
-  backoffLimit: 2
-  kind: CronJob
+  memoryRequests: '256Mi'
+  cpuRequests: '100m'
+  memoryLimits: '1024Mi'
+  cpuLimits: '500m'

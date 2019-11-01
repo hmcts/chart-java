@@ -89,21 +89,43 @@ We truncate at 63 chars because some Kubernetes name fields are limited to this 
 {{- end -}}
 
 {{- define "java.tests.metadata" -}}
-apiVersion: v1
-kind: Pod
 metadata:
-  name: {{ .Release.Name }}-{{ .Values.task }}tests-job
+  name: {{ .Release.Name }}-{{ .Values.task }}{{ .Values.type }}-job
   labels:
     app.kubernetes.io/managed-by: {{ .Release.Service }}
-    app.kubernetes.io/instance: {{ .Release.Name }}-{{ .Values.task }}tests
+    app.kubernetes.io/instance: {{ .Release.Name }}-{{ .Values.task }}{{ .Values.type }}
     helm.sh/chart: {{ .Chart.Name }}-{{ .Chart.Version }}
-    app.kubernetes.io/name: {{ template "hmcts.java.releaseName" . }}-{{ .Values.task }}tests
+    app.kubernetes.io/name: {{ template "hmcts.java.releaseName" . }}-{{ .Values.task }}{{ .Values.type }}
+{{- end -}}
+
+{{- define "java.tests.header" -}}
+apiVersion: v1
+kind: Pod
+{{ template "java.tests.metadata" . }}
     {{- if .Values.aadIdentityName }}
     aadpodidbinding: {{ .Values.aadIdentityName }}
     {{- end }}
   annotations:
     "helm.sh/hook": post-install,post-upgrade
     "helm.sh/hook-delete-policy": before-hook-creation 
+{{- end -}}
+
+{{- define "java.testscron.header" -}}
+apiVersion: batch/v1beta1
+kind: CronJob
+{{ template "java.tests.metadata" . }}
+spec:
+  schedule: "{{ .Values.schedule }}"
+  jobTemplate:
+    spec:
+      backoffLimit: 2
+      template:
+        metadata:
+          labels:
+            app.kubernetes.io/name: {{ template "hmcts.java.releaseName" . }}-{{ .Values.task }}testscron
+            {{- if .Values.aadIdentityName }}
+            aadpodidbinding: {{ .Values.aadIdentityName }}
+            {{- end }}
 {{- end -}}
 
 {{- define "java.tests.spec" -}}
@@ -144,6 +166,10 @@ containers:
     {{- if .Values.testsConfig.environment -}}{{- range $key, $value := .Values.testsConfig.environment -}}{{- $_ := set $envMap $key $value -}}{{- end -}}{{- end -}}
     {{- if .Values.tests.environment -}}{{- range $key, $value := .Values.tests.environment -}}{{- $_ := set $envMap $key $value -}}{{- end -}}{{- end }}
     env:
+      - name: TASK
+        value: {{ .Values.task }}
+      - name: TASK_TYPE
+        value: {{ .Values.type }}
     {{- range $key, $val := $envMap }}
       - name: {{ $key }}
         value: {{ $val }}
