@@ -97,7 +97,7 @@ as cron jobs.
 java:
   testsConfig:
     keyVaults:
-      "cmc":
+      cmc:
         excludeEnvironmentSuffix: false
         secretRef: "kvcreds"
         secrets:
