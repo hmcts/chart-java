@@ -35,3 +35,7 @@ functionaltestscron:
   environment:
     TEST_URL: http://plum-recipe-backend-java-overridden2
     SOME_ENV: some-val
+  memoryRequests: '512Mi'
+  cpuRequests: '300m'
+  memoryLimits: '2048Mi'
+  cpuLimits: '2000m'

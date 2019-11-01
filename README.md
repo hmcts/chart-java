@@ -176,6 +176,42 @@ The following table lists the configurable parameters of the Java chart and thei
 | `postgresql.postgresqlUsername` | Postgres Username | `javapostgres` |
 | `postgresql.postgresqlPassword` | Postgres Password | `javapassword` |
 | `postgresql.postgresqlDatabase` | Postgres Database | `javadatabase` |
+| `testsConfig.keyVaults`      | Tests keyvaults. Shared by all tests pods | `nil` |
+| `testsConfig.environment`    | Tests environment variables. Shared by all tests pods. Merged, with duplicate variables overridden, by specific tests environment  | `nil` |
+| `testsConfig.memoryRequests` | Tests Requests for memory. Applies to all test pods. Can be overridden by single test pods | `256Mi`|
+| `testsConfig.cpuRequests`    | Tests Requests for cpu. Applies to all test pods. Can be overridden by single test pods | `100m`|
+| `testsConfig.memoryLimits`   | Tests Memory limits. Applies to all test pods. Can be overridden by single test pods | `1024Mi`|
+| `testsConfig.cpuLimits`      | Tests CPU limits. Applies to all test pods. Can be overridden by single test pods | `1000m`|
+| `smoketests.enabled`         | Enable smoke tests single run after deployment. | `false` |
+| `smoketests.image`           | Full smoke tests image url. | `hmctspublic.azurecr.io/spring-boot/template` |
+| `smoketests.environment`     | Smoke tests environment variables. Merged with testsConfig.environment. Overrides duplicates. | `nil` |  
+| `smoketests.memoryRequests`  | Smoke tests Requests for memory | `256Mi`|
+| `smoketests.cpuRequests`     | Smoke tests Requests for cpu | `100m`|
+| `smoketests.memoryLimits`    | Smoke tests Memory limits | `1024Mi`|
+| `smoketests.cpuLimits`       | Smoke tests CPU limits | `1000m`|
+| `functionaltests.enabled`         | Enable functional tests single run after deployment. | `false` |
+| `functionaltests.image`           | Full functional tests image url. | `hmctspublic.azurecr.io/spring-boot/template` |
+| `functionaltests.environment`     | Functional tests environment variables. Merged with testsConfig.environment. Overrides duplicates. | `nil` |  
+| `functionaltests.memoryRequests`  | Functional tests Requests for memory | `256Mi`|
+| `functionaltests.cpuRequests`     | Functional tests Requests for cpu | `100m`|
+| `functionaltests.memoryLimits`    | Functional tests Memory limits | `1024Mi`|
+| `functionaltests.cpuLimits`       | Functional tests CPU limits | `1000m`|
+| `smoketestscron.enabled`         | Enable smoke tests cron job. Runs tests at scheduled times | `false` |
+| `smoketestscron.schedule`         | Cron expression for scheduling smoke tests cron job | `20 0/1 * * *` |
+| `smoketestscron.image`           | Full cron smoke tests image url. | `hmctspublic.azurecr.io/spring-boot/template` |
+| `smoketestscron.environment`     | Smoke cron tests environment variables. Merged with testsConfig.environment. Overrides duplicates. | `nil` |  
+| `smoketestscron.memoryRequests`  | Smoke cron tests Requests for memory | `256Mi`|
+| `smoketestscron.cpuRequests`     | Smoke cron tests Requests for cpu | `100m`|
+| `smoketestscron.memoryLimits`    | Smoke cron tests Memory limits | `1024Mi`|
+| `smoketestscron.cpuLimits`       | Smoke cron tests CPU limits | `1000m`|
+| `functionaltestscron.enabled`         | Enable functional tests cron job. Runs tests at scheduled times | `false` |
+| `smoketestscron.schedule`             | Cron expression for scheduling functional tests cron job | `30 0/6 * * *` |
+| `functionaltestscron.image`           | Full functional tests image url. | `hmctspublic.azurecr.io/spring-boot/template` |
+| `functionaltestscron.environment`     | Functional cron tests environment variables. Merged with testsConfig.environment. Overrides duplicates. | `nil` |  
+| `functionaltestscron.memoryRequests`  | Functional cron tests Requests for memory | `256Mi`|
+| `functionaltestscron.cpuRequests`     | Functional cron tests Requests for cpu | `100m`|
+| `functionaltestscron.memoryLimits`    | Functional cron tests Memory limits | `1024Mi`|
+| `functionaltestscron.cpuLimits`       | Functional cron tests CPU limits | `1000m`|
 
 ## Adding Azure Key Vault Secrets
 Key vault secrets can be mounted to the container filesystem using what's called a [keyvault-flexvolume](https://github.com/Azure/kubernetes-keyvault-flexvol). A flexvolume is just a kubernetes volume from the user point of view. This means that the keyvault secrets are accessible as files after they have been mounted.

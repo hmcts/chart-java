@@ -185,9 +185,9 @@ containers:
     {{- end }}
     resources:
       requests:
-        memory: {{ .Values.tests.memoryRequests }}
-        cpu: {{ .Values.tests.cpuRequests }}
+        memory: "{{ if .Values.tests.memoryRequests }}{{ .Values.tests.memoryRequests }}{{ else }}{{ .Values.testsConfig.memoryRequests }}{{ end }}"
+        cpu: "{{ if .Values.tests.cpuRequests }}{{ .Values.tests.cpuRequests }}{{ else }}{{ .Values.testsConfig.cpuRequests }}{{ end }}"
       limits:
-        memory: {{ .Values.tests.memoryLimits }}
-        cpu: {{ .Values.tests.cpuLimits }}
+        memory: "{{ if .Values.tests.memoryLimits }}{{ .Values.tests.memoryLimits }}{{ else }}{{ .Values.testsConfig.memoryLimits }}{{ end }}"
+        cpu: "{{ if .Values.tests.cpuLimits }}{{ .Values.tests.cpuLimits }}{{ else }}{{ .Values.testsConfig.cpuLimits }}{{ end }}"
 {{- end -}}
