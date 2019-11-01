@@ -1,22 +1,41 @@
 aadIdentityName: someId
 
-smoketests:
-  image: hmctspublic.azurecr.io/spring-boot/template-test
-  enabled: true
+testsConfig:
   keyVaults:
     "cmc":
       excludeEnvironmentSuffix: false
       secretRef: "kvcreds"
       secrets:
-        - smoke-test-citizen-username
-        - smoke-test-user-password
+        smoke-test-citizen-username: SMOKE_TEST_CITIZEN_USER
+        smoke-test-user-password: SMOKE_TEST_CITIZEN_PASS
   environment:
     TEST_URL: http://plum-recipe-backend-java
-    TASK: smoke
+
+smoketests:
+  image: hmctspublic.azurecr.io/spring-boot/template-test
+  enabled: true
+  environment:
+    TEST_URL: http://plum-recipe-backend-java-overridden
 
 functionaltests:
   image: hmctspublic.azurecr.io/spring-boot/template-test
   enabled: true
+
+smoketestscron:
+  schedule: "20 0/3 * * *"
+  image: hmctspublic.azurecr.io/spring-boot/template-test
+  enabled: true
   environment:
-    TEST_URL: http://plum-recipe-backend-java
-    TASK: functional
+    TEST_URL: http://plum-recipe-backend-java-overridden2
+
+functionaltestscron:
+  schedule: "30 0/6 * * *"
+  image: hmctspublic.azurecr.io/spring-boot/template-test
+  enabled: true
+  environment:
+    TEST_URL: http://plum-recipe-backend-java-overridden2
+    SOME_ENV: some-val
+  memoryRequests: '512Mi'
+  cpuRequests: '300m'
+  memoryLimits: '2048Mi'
+  cpuLimits: '2000m'

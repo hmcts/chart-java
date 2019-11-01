@@ -3,13 +3,3 @@ dependencies:
      version: ~6.3.5
      repository: '@stable'
      condition: postgresql.enabled
-   - name: job
-     version: ~0.5.0
-     repository: '@hmctspublic'
-     alias: smoketestscron
-     condition: smoketestscron.enabled
-   - name: job
-     version: ~0.5.0
-     repository: '@hmctspublic'
-     alias: functionaltestscron
-     condition: functionaltestscron.enabled

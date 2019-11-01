@@ -89,15 +89,19 @@ We truncate at 63 chars because some Kubernetes name fields are limited to this 
 {{- end -}}
 
 {{- define "java.tests.metadata" -}}
-apiVersion: v1
-kind: Pod
 metadata:
-  name: {{ .Values.task }}tests-job
+  name: {{ .Release.Name }}-{{ .Values.task }}{{ .Values.type }}-job
   labels:
     app.kubernetes.io/managed-by: {{ .Release.Service }}
-    app.kubernetes.io/instance: {{ .Release.Name }}-{{ .Values.task }}tests
+    app.kubernetes.io/instance: {{ .Release.Name }}-{{ .Values.task }}{{ .Values.type }}
     helm.sh/chart: {{ .Chart.Name }}-{{ .Chart.Version }}
-    app.kubernetes.io/name: {{ template "hmcts.java.releaseName" . }}-{{ .Values.task }}tests
+    app.kubernetes.io/name: {{ template "hmcts.java.releaseName" . }}-{{ .Values.task }}{{ .Values.type }}
+{{- end -}}
+
+{{- define "java.tests.header" -}}
+apiVersion: v1
+kind: Pod
+{{ template "java.tests.metadata" . }}
     {{- if .Values.aadIdentityName }}
     aadpodidbinding: {{ .Values.aadIdentityName }}
     {{- end }}
@@ -106,12 +110,30 @@ metadata:
     "helm.sh/hook-delete-policy": before-hook-creation 
 {{- end -}}
 
+{{- define "java.testscron.header" -}}
+apiVersion: batch/v1beta1
+kind: CronJob
+{{ template "java.tests.metadata" . }}
+spec:
+  schedule: "{{ .Values.schedule }}"
+  jobTemplate:
+    spec:
+      backoffLimit: 2
+      template:
+        metadata:
+          labels:
+            app.kubernetes.io/name: {{ template "hmcts.java.releaseName" . }}-{{ .Values.task }}testscron
+            {{- if .Values.aadIdentityName }}
+            aadpodidbinding: {{ .Values.aadIdentityName }}
+            {{- end }}
+{{- end -}}
+
 {{- define "java.tests.spec" -}}
-{{- if and .Values.tests.keyVaults .Values.global.enableKeyVaults }}
+{{- if and .Values.testsConfig.keyVaults .Values.global.enableKeyVaults }}
 volumes:
   {{- $globals := .Values.global }}
   {{- $aadIdentityName := .Values.aadIdentityName }}
-  {{- range $key, $value := .Values.tests.keyVaults }}
+  {{- range $key, $value := .Values.testsConfig.keyVaults }}
   - name: vault-{{ $key }}
     flexVolume:
       driver: "azure/kv"
@@ -123,7 +145,7 @@ volumes:
         usepodidentity: "{{ if $aadIdentityName }}true{{ else }}false{{ end}}"
         tenantid: {{ $globals.tenantId }}
         keyvaultname: {{if $value.excludeEnvironmentSuffix }}{{ $key | quote }}{{else}}{{ printf "%s-%s" $key $globals.environment }}{{ end }}
-        keyvaultobjectnames: {{ $value.secrets | join ";" | quote }}  #"some-username;some-password"
+        keyvaultobjectnames: {{ keys $value.secrets | join ";" | quote }}  #"some-username;some-password"
         keyvaultobjecttypes: {{ trimSuffix ";" (repeat (len $value.secrets) "secret;") | quote }} # OPTIONS: secret, key, cert
   {{- end }}
 {{- end }}
@@ -134,11 +156,21 @@ restartPolicy: Never
 containers:
   - name: tests
     image: {{ .Values.tests.image }}
+    {{- if and .Values.testsConfig.keyVaults .Values.global.enableKeyVaults }}
+    command: ["sh", "-c", "{{- range $key, $value := .Values.testsConfig.keyVaults -}}{{- range $secret, $var := $value.secrets -}}export {{ $var }}=$(cat /mnt/secrets/{{ $key }}/{{ $secret }}); {{- end -}}{{- end -}} ./runTests.sh"]
+    {{- end }}
     securityContext:
       allowPrivilegeEscalation: false
-    {{- if .Values.tests.environment }}
+    {{- if or .Values.tests.environment .Values.testsConfig.environment }}
+    {{- $envMap := dict "TEST_URL" "" -}}
+    {{- if .Values.testsConfig.environment -}}{{- range $key, $value := .Values.testsConfig.environment -}}{{- $_ := set $envMap $key $value -}}{{- end -}}{{- end -}}
+    {{- if .Values.tests.environment -}}{{- range $key, $value := .Values.tests.environment -}}{{- $_ := set $envMap $key $value -}}{{- end -}}{{- end }}
     env:
-    {{- range $key, $val := .Values.tests.environment }}
+      - name: TASK
+        value: {{ .Values.task }}
+      - name: TASK_TYPE
+        value: {{ .Values.type }}
+    {{- range $key, $val := $envMap }}
       - name: {{ $key }}
         value: {{ $val }}
     {{- end }}
@@ -153,9 +185,9 @@ containers:
     {{- end }}
     resources:
       requests:
-        memory: {{ .Values.tests.memoryRequests }}
-        cpu: {{ .Values.tests.cpuRequests }}
+        memory: "{{ if .Values.tests.memoryRequests }}{{ .Values.tests.memoryRequests }}{{ else }}{{ .Values.testsConfig.memoryRequests }}{{ end }}"
+        cpu: "{{ if .Values.tests.cpuRequests }}{{ .Values.tests.cpuRequests }}{{ else }}{{ .Values.testsConfig.cpuRequests }}{{ end }}"
       limits:
-        memory: {{ .Values.tests.memoryLimits }}
-        cpu: {{ .Values.tests.cpuLimits }}
+        memory: "{{ if .Values.tests.memoryLimits }}{{ .Values.tests.memoryLimits }}{{ else }}{{ .Values.testsConfig.memoryLimits }}{{ end }}"
+        cpu: "{{ if .Values.tests.cpuLimits }}{{ .Values.tests.cpuLimits }}{{ else }}{{ .Values.testsConfig.cpuLimits }}{{ end }}"
 {{- end -}}
