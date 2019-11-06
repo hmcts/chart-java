@@ -90,7 +90,7 @@ Please refer to the Configuration section below on how to enable this.
 
 ## Smoke and functional tests
 
-From version 2.14.0 of this chart you can configure your functional and smoke tests to run just after deployment or at scheduled times 
+From version 2.14.1 of this chart you can configure your functional and smoke tests to run just after deployment or at scheduled times 
 as cron jobs.
 
 ```yaml
@@ -105,6 +105,9 @@ java:
           smoke-test-user-password: SMOKE_TEST_CITIZEN_PASS
     environment:
       TEST_URL: http://plum-recipe-backend-java
+      SLACK_CHANNEL: "rpe-build-notices"
+      SLACK_NOTIFY_SUCCESS: "true"
+      CLUSTER_NAME: "aat-01-aks"
 
   smoketests:
     image: hmctspublic.azurecr.io/spring-boot/template-test

@@ -88,7 +88,7 @@ We truncate at 63 chars because some Kubernetes name fields are limited to this 
 {{- end -}}
 {{- end -}}
 
-{{- define "java.tests.metadata" -}}
+{{- define "java.tests.meta" -}}
 metadata:
   name: {{ .Release.Name }}-{{ .Values.task }}{{ .Values.type }}-job
   labels:
@@ -101,7 +101,7 @@ metadata:
 {{- define "java.tests.header" -}}
 apiVersion: v1
 kind: Pod
-{{ template "java.tests.metadata" . }}
+{{ template "java.tests.meta" . }}
     {{- if .Values.aadIdentityName }}
     aadpodidbinding: {{ .Values.aadIdentityName }}
     {{- end }}
@@ -113,7 +113,7 @@ kind: Pod
 {{- define "java.testscron.header" -}}
 apiVersion: batch/v1beta1
 kind: CronJob
-{{ template "java.tests.metadata" . }}
+{{ template "java.tests.meta" . }}
 spec:
   schedule: "{{ .Values.schedule }}"
   jobTemplate:
@@ -126,6 +126,7 @@ spec:
             {{- if .Values.aadIdentityName }}
             aadpodidbinding: {{ .Values.aadIdentityName }}
             {{- end }}
+        spec:
 {{- end -}}
 
 {{- define "java.tests.spec" -}}
@@ -157,7 +158,9 @@ containers:
   - name: tests
     image: {{ .Values.tests.image }}
     {{- if and .Values.testsConfig.keyVaults .Values.global.enableKeyVaults }}
-    command: ["sh", "-c", "{{- range $key, $value := .Values.testsConfig.keyVaults -}}{{- range $secret, $var := $value.secrets -}}export {{ $var }}=$(cat /mnt/secrets/{{ $key }}/{{ $secret }}); {{- end -}}{{- end -}} ./runTests.sh"]
+    {{ $args := list }}
+    {{- range $key, $value := .Values.testsConfig.keyVaults -}}{{- range $secret, $var := $value.secrets -}} {{ $args = append $args (printf "%s=/mnt/secrets/%s/%s" $var $key $secret | quote) }} {{- end -}}{{- end -}}
+    args: [{{ $args | join "," }}]
     {{- end }}
     securityContext:
       allowPrivilegeEscalation: false
@@ -167,17 +170,22 @@ containers:
     {{- if .Values.tests.environment -}}{{- range $key, $value := .Values.tests.environment -}}{{- $_ := set $envMap $key $value -}}{{- end -}}{{- end }}
     env:
       - name: TASK
-        value: {{ .Values.task }}
+        value: {{ .Values.task | quote }}
       - name: TASK_TYPE
-        value: {{ .Values.type }}
+        value: {{ .Values.type | quote }}
+      - name: SLACK_WEBHOOK
+        valueFrom:
+          secretKeyRef:
+            name: tests-values
+            key: slack-webhook
     {{- range $key, $val := $envMap }}
       - name: {{ $key }}
-        value: {{ $val }}
+        value: {{ $val | quote }}
     {{- end }}
     {{- end }}
-    {{- if and .Values.tests.keyVaults .Values.global.enableKeyVaults }}
+    {{- if and .Values.testsConfig.keyVaults .Values.global.enableKeyVaults }}
     volumeMounts:
-      {{- range $key, $value := .Values.keyVaults }}
+      {{- range $key, $value := .Values.testsConfig.keyVaults }}
       - name: vault-{{ $key }}
         mountPath: /mnt/secrets/{{ $key }}
         readOnly: true
