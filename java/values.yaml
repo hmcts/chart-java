@@ -22,6 +22,7 @@ livenessPeriod: 15
 livenessFailureThreshold: 3
 devApplicationInsightsInstrumentKey: '00000000-0000-0000-0000-000000000000'
 useInterpodAntiAffinity: false
+ingressClass: traefik
 pdb:
   enabled: true
   maxUnavailable: 50%

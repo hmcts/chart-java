@@ -212,6 +212,7 @@ The following table lists the configurable parameters of the Java chart and thei
 | `functionaltestscron.cpuRequests`     | Functional cron tests Requests for cpu | `100m`|
 | `functionaltestscron.memoryLimits`    | Functional cron tests Memory limits | `1024Mi`|
 | `functionaltestscron.cpuLimits`       | Functional cron tests CPU limits | `1000m`|
+| `ingressClass` | Ingress class | `traefik` |
 
 ## Adding Azure Key Vault Secrets
 Key vault secrets can be mounted to the container filesystem using what's called a [keyvault-flexvolume](https://github.com/Azure/kubernetes-keyvault-flexvol). A flexvolume is just a kubernetes volume from the user point of view. This means that the keyvault secrets are accessible as files after they have been mounted.
