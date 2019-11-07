@@ -1,6 +1,6 @@
 {{ if .Values.smoketests.enabled }}
 ---
-{{ $smokedata := dict "Values" .Values "Release" .Release "Chart" .Chart }}
+{{ $smokedata := dict "Values" .Values "Release" .Release "Chart" .Chart "Template" .Template "Files" .Files }}
 {{ $_ := set $smokedata.Values "task" "smoke" }}
 {{ $_ := set $smokedata.Values "type" "tests" }}
 {{- include "java.tests.header" $smokedata }}
@@ -11,7 +11,7 @@ spec:
 
 {{ if .Values.functionaltests.enabled }}
 ---
-{{ $functionaldata := dict "Values" .Values "Release" .Release "Chart" .Chart }}
+{{ $functionaldata := dict "Values" .Values "Release" .Release "Chart" .Chart "Template" .Template "Files" .Files }}
 {{ $_ := set $functionaldata.Values "task" "functional" }}
 {{ $_ := set $functionaldata.Values "type" "tests" }}
 {{- include "java.tests.header" $functionaldata }}
@@ -20,26 +20,24 @@ spec:
 {{- include "java.tests.spec" $functionaldata | indent 2 }}
 {{- end }}
 
-{{ if .Values.smoketestscron.enabled }}
+{{ if and .Values.smoketestscron.enabled .Values.global.smoketestscron.enabled }}
 ---
-{{ $smokedatacron := dict "Values" .Values "Release" .Release "Chart" .Chart }}
+{{ $smokedatacron := dict "Values" .Values "Release" .Release "Chart" .Chart "Template" .Template "Files" .Files }}
 {{ $_ := set $smokedatacron.Values "task" "smoke" }}
 {{ $_ := set $smokedatacron.Values "schedule" .Values.smoketestscron.schedule }}
 {{ $_ := set $smokedatacron.Values "type" "testscron" }}
 {{- include "java.testscron.header" $smokedatacron }}
-{{ "spec:" | indent 6 }}
 {{ $_ := set $smokedatacron.Values "tests" .Values.smoketestscron }}
-{{- include "java.tests.spec" $smokedatacron | indent 8 }}
+{{- include "java.tests.spec" $smokedatacron | indent 10 }}
 {{- end }}
 
-{{ if .Values.functionaltestscron.enabled }}
+{{ if and .Values.functionaltestscron.enabled .Values.global.functionaltestscron.enabled }}
 ---
-{{ $functionaldatacron := dict "Values" .Values "Release" .Release "Chart" .Chart }}
+{{ $functionaldatacron := dict "Values" .Values "Release" .Release "Chart" .Chart "Template" .Template "Files" .Files }}
 {{ $_ := set $functionaldatacron.Values "task" "functional" }}
 {{ $_ := set $functionaldatacron.Values "schedule" .Values.functionaltestscron.schedule }}
 {{ $_ := set $functionaldatacron.Values "type" "testscron" }}
 {{- include "java.testscron.header" $functionaldatacron }}
-{{ "spec:" | indent 6 }}
 {{ $_ := set $functionaldatacron.Values "tests" .Values.functionaltestscron }}
-{{- include "java.tests.spec" $functionaldatacron | indent 8 }}
+{{- include "java.tests.spec" $functionaldatacron | indent 10 }}
 {{- end }}
