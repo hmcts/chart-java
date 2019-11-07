@@ -90,7 +90,7 @@ Please refer to the Configuration section below on how to enable this.
 
 ## Smoke and functional tests
 
-From version 2.14.1 of this chart you can configure your functional and smoke tests to run just after deployment or at scheduled times 
+From version 2.15.0 of this chart you can configure your functional and smoke tests to run just after deployment or at scheduled times 
 as cron jobs.
 
 ```yaml
