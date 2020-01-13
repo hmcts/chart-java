@@ -11,7 +11,7 @@ resources:
   repositories:
   - repository: cnp-library
     type: github
-    ref: refs/heads/debug-helm3
+    ref: refs/heads/master
     name: hmcts/cnp-azuredevops-libraries
     endpoint: 'hmcts'
 
