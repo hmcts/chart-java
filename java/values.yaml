@@ -55,8 +55,9 @@ prometheus:
 testsConfig:
   memoryRequests: '256Mi'
   cpuRequests: '100m'
-  memoryLimits: '1024Mi'
+  memoryLimits: '2048Mi'
   cpuLimits: '1000m'
+  serviceAccountName: tests-service-account
 smoketests:
   image: hmctspublic.azurecr.io/spring-boot/template
   enabled: false
