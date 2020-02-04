@@ -154,6 +154,7 @@ securityContext:
   runAsUser: 1000
   fsGroup: 1000
 restartPolicy: Never
+serviceAccountName: {{ .Values.testsConfig.serviceAccountName }}
 containers:
   - name: tests
     image: {{ .Values.tests.image }}

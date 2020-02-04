@@ -8,6 +8,7 @@ testsConfig:
       secrets:
         smoke-test-citizen-username: SMOKE_TEST_CITIZEN_USER
         smoke-test-user-password: SMOKE_TEST_CITIZEN_PASS
+  serviceAccountName: tests-service-account
   environment:
     TEST_URL: http://plum-recipe-backend-java
 
