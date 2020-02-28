@@ -25,7 +25,7 @@ devApplicationInsightsInstrumentKey: '00000000-0000-0000-0000-000000000000'
 useInterpodAntiAffinity: false
 ingressClass: traefik
 dnsConfig:
-  ndots: 3
+  ndots: "3"
 pdb:
   enabled: true
   maxUnavailable: 50%
