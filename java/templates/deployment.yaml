@@ -55,6 +55,12 @@ spec:
       securityContext:
         runAsUser: 1000
         fsGroup: 1000
+      {{- if and .Values.dnsConfig .Values.dnsConfig.ndots }}
+      dnsConfig:
+        options:
+          - name: ndots
+            value: {{ .Values.dnsConfig.ndots | quote }}
+      {{- end }}      
       containers:
       - image: {{ .Values.image }}
         name: {{ template "hmcts.java.releaseName" . }}
