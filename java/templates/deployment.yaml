@@ -59,7 +59,7 @@ spec:
       dnsConfig:
         options:
           - name: ndots
-            value: {{ .Values.dnsConfig.ndots }}
+            value: {{ .Values.dnsConfig.ndots | quote }}
       {{- end }}      
       containers:
       - image: {{ .Values.image }}
