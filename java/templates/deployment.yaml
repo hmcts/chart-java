@@ -58,8 +58,8 @@ spec:
       {{- if and .Values.dnsConfig .Values.dnsConfig.ndots }}
       dnsConfig:
         options:
-        - name: ndots
-          value: {{ .Values.dnsConfig.ndots }}
+          - name: ndots
+            value: {{ .Values.dnsConfig.ndots }}
       {{- end }}      
       containers:
       - image: {{ .Values.image }}
