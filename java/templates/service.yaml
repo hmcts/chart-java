@@ -12,7 +12,7 @@ metadata:
   {{- if (.Values.ingressSessionAffinity.enabled) }}
   annotations:
     traefik.ingress.kubernetes.io/affinity: "true"
-    traefik.ingress.kubernetes.io/session-cookie-name: {{ .Values.ingressSessionAffinity.session-cookie-name | quote }}
+    traefik.ingress.kubernetes.io/session-cookie-name: {{ .Values.ingressSessionAffinity.sessionCookieName | quote }}
   {{- end }}
 spec:
   ports:
