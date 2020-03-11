@@ -9,10 +9,10 @@ metadata:
   # WARNING: idamIngressSessionAffinity is a temporary option only approved for SIDAM
   # Do not use without approval from RPE
   */ -}}
-  {{- if (.Values.idamIngressSessionAffinity.enabled) }}
+  {{- if (.Values.ingressSessionAffinity.enabled) }}
   annotations:
     traefik.ingress.kubernetes.io/affinity: "true"
-    traefik.ingress.kubernetes.io/session-cookie-name: "idam-session-affinity"
+    traefik.ingress.kubernetes.io/session-cookie-name: {{ .Values.ingressSessionAffinity.session-cookie-name | quote }}
   {{- end }}
 spec:
   ports:
