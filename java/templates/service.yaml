@@ -6,8 +6,8 @@ metadata:
   labels:
     {{- ( include "java.labels" . ) | indent 4 }}
   {{- /*
-  # WARNING: idamIngressSessionAffinity is a temporary option only approved for SIDAM
-  # Do not use without approval from RPE
+  # WARNING: ingressSessionAffinity is a temporary option.
+  # This is subject to removal without notice. Do NOT use for any reason!
   */ -}}
   {{- if (.Values.ingressSessionAffinity.enabled) }}
   annotations:
