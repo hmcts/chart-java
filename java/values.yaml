@@ -28,7 +28,7 @@ ingressClass: traefik
 # Do not use without approval from RPE
 ingressSessionAffinity:
   enabled: false
-  session-cookie-name: sticky
+  sessionCookieName: sticky
 dnsConfig:
   ndots: "3"
 pdb:
