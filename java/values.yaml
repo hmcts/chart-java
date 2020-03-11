@@ -24,13 +24,15 @@ livenessFailureThreshold: 3
 devApplicationInsightsInstrumentKey: '00000000-0000-0000-0000-000000000000'
 useInterpodAntiAffinity: false
 ingressClass: traefik
+# WARNING: idamIngressSessionAffinity is a temporary option only approved for SIDAM
+# Do not use without approval from RPE
+idamIngressSessionAffinity:
+  enabled: false
 dnsConfig:
   ndots: "3"
 pdb:
   enabled: true
   maxUnavailable: 50%
-service:
-  annotations: {}
 
 ## Postgres chart configuration
 ## https://github.com/helm/charts/blob/master/stable/postgresql/values.yaml
