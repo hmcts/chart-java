@@ -5,15 +5,10 @@ metadata:
   name: {{ template "hmcts.java.releaseName" . }}
   labels:
     {{- ( include "java.labels" . ) | indent 4 }}
-  {{- /*
-  # WARNING: idamIngressSessionAffinity is a temporary option only approved for SIDAM
-  # Do not use without approval from RPE
-  */ -}}
-  {{- if (.Values.idamIngressSessionAffinity.enabled) }}
+{{- if .Values.service.annotations }}
   annotations:
-    traefik.ingress.kubernetes.io/affinity: "true"
-    traefik.ingress.kubernetes.io/session-cookie-name: "idam-session-affinity"
-  {{- end }}
+{{ toYaml .Values.service.annotations | indent 4 }}
+{{- end }}
 spec:
   ports:
     - name: http
