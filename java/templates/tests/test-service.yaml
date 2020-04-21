@@ -12,4 +12,11 @@ spec:
       - name: SERVICE_NAME
         value: {{ template "hmcts.java.releaseName" . }}
     command: ["sh", "-c", "httpstatuscode=$(wget -S http://$SERVICE_NAME/health 2>&1 | grep HTTP/ | awk 'END{print $2}') && [ \"$httpstatuscode\" = \"200\" ]"]
+    resources:
+      limits:
+        cpu: 500m
+        memory: 512Mi
+      requests:
+        cpu: 100m
+        memory: 128Mi
   restartPolicy: Never
