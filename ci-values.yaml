@@ -18,6 +18,7 @@ secrets:
     disabled: true
 prometheus:
   enabled: true
+aadIdentityName: money-claims
 keyVaults:
   "cmc":
     excludeEnvironmentSuffix: false
