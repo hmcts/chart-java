@@ -1,0 +1,22 @@
+apiVersion: v2
+name: dynatrace-automation
+description: A Helm chart for automating dynatrace setup
+type: application
+
+icon: https://github.com/hmcts/chart-dynatrace-automation/raw/master/images/dynatrace.jpeg
+keywords:
+- dynatrace
+- monitoring
+
+# This is the chart version. This doesn't need to be incremented on every change.
+# It is managed by release pipeline based on Github tag
+version: 0.1.0 # Do not change
+
+# This is the version number of the application being deployed. This doesn't need to be incremented on every change.
+# It is managed by release pipeline based on Github tag
+appVersion: 0.1.0
+
+dependencies: # A list of the chart requirements (optional)
+  - name: library
+    version: 0.1.0-beta
+    repository: '@hmctspublic'

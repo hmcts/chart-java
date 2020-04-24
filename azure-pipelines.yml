@@ -1,4 +1,4 @@
-name: chart-java pipeline
+name: chart-dynatrace-automation pipeline
 trigger:
   branches:
     include:
@@ -18,12 +18,12 @@ resources:
 jobs:
 - job: Validate
   pool:
-    vmImage: 'Ubuntu 16.04'
+    vmImage: 'Ubuntu 18.04'
   steps:
   - template: steps/charts/validate.yaml@cnp-library
     parameters:
-      chartName: java
-      chartReleaseName: chart-java-ci-test
+      chartName: dynatrace-automation
+      chartReleaseName: chart-dynatrace-automation-ci-test
       chartNamespace: chart-tests
       helmInstallTimeout: "500"
 
@@ -36,10 +36,10 @@ jobs:
       )
   dependsOn: Validate
   pool:
-    vmImage: 'Ubuntu 16.04'
+    vmImage: 'Ubuntu 18.04'
   steps:
   - template: steps/charts/release.yaml@cnp-library
     parameters:
-      chartName: java
-      chartReleaseName: chart-java
+      chartName: dynatrace-automation
+      chartReleaseName: chart-dynatrace-automation
       chartNamespace: chart-tests

@@ -1,0 +1,4 @@
+memoryRequests: 128Mi
+memoryLimits: 256Mi
+cpuRequests: 50m
+cpuLimits: 500m

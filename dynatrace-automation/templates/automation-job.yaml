@@ -1,14 +1,13 @@
-{{ if .Values.registerAdditionalDns.enabled }}
 ---
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: {{ template "hmcts.java.releaseName" . }}-dns
+  name: {{ template "hmcts.releasename.v1" . }}
   labels:
-    app.kubernetes.io/name: {{ template "hmcts.java.releaseName" . }}-dns
+    app.kubernetes.io/name: {{ template "hmcts.releasename.v1" . }}
     helm.sh/chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
     app.kubernetes.io/managed-by: {{ .Release.Service }}
-    app.kubernetes.io/instance: {{ template "hmcts.java.releaseName" . }}
+    app.kubernetes.io/instance: {{ template "hmcts.releasename.v1" . }}
   annotations:
     helm.sh/hook: post-install,post-upgrade
     helm.sh/hook-weight: "-5"
@@ -16,25 +15,24 @@ metadata:
 spec:
   template:
     metadata:
-      name: {{ template "hmcts.java.releaseName" . }}-dns
+      name: {{ template "hmcts.releasename.v1" . }}
       labels:
-        app.kubernetes.io/name: {{ template "hmcts.java.releaseName" . }}-dns
+        app.kubernetes.io/name: {{ template "hmcts.releasename.v1" . }}
     spec:
       volumes:
         - name: container-init
           configMap:
-            name: {{ template "hmcts.java.releaseName" . }}-bin
+            name: {{ template "hmcts.releasename.v1" . }}-bin
             defaultMode: 0755
       containers:
-        - name: {{ template "hmcts.java.releaseName" . }}-dns
+        - name: {{ template "hmcts.releasename.v1" . }}
           image: hmcts/curl
           volumeMounts:
             - name: container-init
               mountPath: /container.init
           command: [ "/bin/sh" ]
           args:
-            - /container.init/java-dns
-            - {{ .Values.registerAdditionalDns.prefix }}-{{ .Release.Name }}
+            - /container.init/dynatrace
           resources:
             requests:
               memory: {{ .Values.memoryRequests }}
@@ -43,4 +41,3 @@ spec:
               memory: {{ .Values.memoryLimits }}
               cpu: {{ .Values.cpuLimits }}
       restartPolicy: Never
-{{- end}}

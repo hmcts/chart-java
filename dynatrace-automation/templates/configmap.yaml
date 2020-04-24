@@ -1,0 +1,11 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ template "hmcts.releasename.v1" . }}-bin
+  labels:
+    system: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+    type: configuration
+data:
+  dynatrace: |
+{{ include (print .Template.BasePath "/bin/_setup-dynatrace.tpl") . | indent 4 }}

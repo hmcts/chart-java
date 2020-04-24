@@ -1,12 +1,12 @@
 .DEFAULT_GOAL := all
-CHART := java
+CHART := dynatrace-automation
 RELEASE := chart-${CHART}-release
-NAMESPACE := chart-tests
+NAMESPACE := rpe
 TEST := ${RELEASE}-test-service
 ACR := hmctspublic
-ACR_SUBSCRIPTION := DCD-CFT-Sandbox
-AKS_RESOURCE_GROUP := cnp-aks-sandbox-rg
-AKS_CLUSTER := cnp-aks-sandbox-cluster
+ACR_SUBSCRIPTION := DCD-CFTAPPS-STG
+AKS_RESOURCE_GROUP := aat-00-rg
+AKS_CLUSTER := aat-00-aks
 
 setup:
 	az account set --subscription ${ACR_SUBSCRIPTION}
@@ -15,17 +15,17 @@ setup:
 	az aks get-credentials --resource-group ${AKS_RESOURCE_GROUP} --name ${AKS_CLUSTER}
 
 clean:
-	-helm delete --purge ${RELEASE}
+	-helm uninstall ${RELEASE} -n ${NAMESPACE}
 	-kubectl delete pod ${TEST} -n ${NAMESPACE}
 
 lint:
-	helm lint ${CHART} -f ci-values.yaml -f ci-tests-values.yaml
+	helm lint ${CHART} -f ci-values.yaml
 
 template:
-	helm template ${CHART} -f ci-values.yaml -f ci-tests-values.yaml
+	helm template ${CHART} -f ci-values.yaml
 
 deploy:
-	helm install ${CHART} --name ${RELEASE} --namespace ${NAMESPACE} -f ci-values.yaml --wait --timeout 60
+	helm install ${RELEASE} ${CHART} --namespace ${NAMESPACE} -f ci-values.yaml --wait --timeout 60s
 
 dry-run:
 	helm dependency update ${CHART} 
