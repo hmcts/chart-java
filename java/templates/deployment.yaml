@@ -55,11 +55,17 @@ spec:
       securityContext:
         runAsUser: 1000
         fsGroup: 1000
-      {{- if and .Values.dnsConfig .Values.dnsConfig.ndots }}
+      {{- if and .Values.dnsConfig (or .Values.dnsConfig.ndots .Values.dnsConfig.singleRequestTcp) }}
       dnsConfig:
         options:
+          {{- if .Values.dnsConfig.ndots }}
           - name: ndots
             value: {{ .Values.dnsConfig.ndots | quote }}
+          {{- end }}      
+          {{- if .Values.dnsConfig.singleRequestTcp }}
+          - name: single-request-reopen
+          - name: use-vc
+          {{- end }}      
       {{- end }}      
       containers:
       - image: {{ .Values.image }}
