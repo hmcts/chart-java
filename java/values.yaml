@@ -12,7 +12,7 @@ devmemoryRequests: '512Mi'
 devcpuRequests: '250m'
 devmemoryLimits: '1024Mi'
 devcpuLimits: '2500m'
-readinessPath: '/health'
+readinessPath: '/health/readiness'
 readinessDelay: 30
 readinessTimeout: 3
 readinessPeriod: 15
