@@ -1,7 +1,11 @@
-apiVersion: v1
+apiVersion: v2
 description: A Helm chart for HMCTS Java Microservices
 name: java
-version: 2.18.0
+# This is the chart version. This doesn't need to be incremented on every change.
+# It is managed by release pipeline based on Github tag
+version: 0.1.0 # Do not change
+appVersion: 0.1.0 # Do not change
+type: application
 icon: https://github.com/hmcts/chart-java/raw/master/images/icons8-java-50.png
 keywords:
 - java
@@ -9,3 +13,9 @@ keywords:
 - springboot
 - postgres
 - postgresql
+
+dependencies:
+  - name: postgresql
+    version: ~8.9.8
+    repository: '@bitnami'
+    condition: postgresql.enabled
