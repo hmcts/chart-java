@@ -2,6 +2,7 @@ image: hmctspublic.azurecr.io/spring-boot/template
 replicas: 2
 useInterpodAntiAffinity: true
 ingressHost: "{{.Release.Name}}.service.core-compute-preview.internal"
+imagePullPolicy: Always
 environment:
   REFORM_TEAM: cnp
   REFORM_SERVICE_NAME: rhubarb-backend
