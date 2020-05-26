@@ -3,4 +3,4 @@
 .idea
 *.local
 *.local.yaml
-requirements.lock
+Chart.lock

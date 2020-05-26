@@ -15,6 +15,9 @@ keywords:
 - postgresql
 
 dependencies:
+  - name: library
+    version: ~0.1.6-beta
+    repository: https://hmctspublic.azurecr.io/helm/v1/repo/
   - name: postgresql
     version: ~8.9.8
     repository: https://charts.bitnami.com/bitnami

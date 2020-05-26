@@ -1,13 +1,1 @@
-{{- if .Values.configmap }}
----
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: {{ template "hmcts.java.releaseName" . }}
-  labels:
-    {{- ( include "java.labels" . ) | indent 4 }}
-data:
-  {{- range $key, $val := .Values.configmap }}
-  {{ $key }}: {{ $val | quote }}
-  {{- end}}
-{{- end}}
+{{- template "hmcts.configmap.v1.tpl" . -}}
