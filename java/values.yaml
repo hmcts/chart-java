@@ -12,7 +12,7 @@ devmemoryRequests: '512Mi'
 devcpuRequests: '250m'
 devmemoryLimits: '1024Mi'
 devcpuLimits: '2500m'
-readinessPath: '/health'
+readinessPath: '/health/readiness'
 readinessDelay: 30
 readinessTimeout: 3
 readinessPeriod: 15
@@ -21,6 +21,7 @@ livenessDelay: 30
 livenessTimeout: 3
 livenessPeriod: 15
 livenessFailureThreshold: 3
+devApplicationInsightsInstrumentKeyName: AZURE_APPLICATIONINSIGHTS_INSTRUMENTATIONKEY
 devApplicationInsightsInstrumentKey: '00000000-0000-0000-0000-000000000000'
 useInterpodAntiAffinity: false
 ingressClass: traefik
