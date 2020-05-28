@@ -6,7 +6,7 @@ This chart is intended for simple Java microservices.
 
 We will take small PRs and small features to this chart but more complicated needs should be handled in your own chart.
 
-*NOTE*: The liveness heatlh checks check the enpoint /health/liveness by default. To use this you should include `compile group: 'uk.gov.hmcts.reform', name: 'health-spring-boot-starter', version: '0.0.5'` dependency into your gradle file to enable this endpoint. Otherwise change this to an endpoint that will always return `200`.
+*NOTE*: /health/readiness and /health/liveness [exposed by spring boot 2.3.0 actuator](https://docs.spring.io/spring-boot/docs/2.3.0.BUILD-SNAPSHOT/reference/html/production-ready-features.html#production-ready-kubernetes-probes) are used for readiness and liveness checks.
 
 ## Example configuration
 
@@ -158,7 +158,7 @@ The following table lists the configurable parameters of the Java chart and thei
 | `registerAdditionalDns.enabled`            | If you want to use this chart as a secondary dependency - e.g. providing a frontend to a backend, and the backend is using primary ingressHost DNS mapping.                            | `false`      
 | `registerAdditionalDns.primaryIngressHost`            | The hostname for primary chart. It supports templating, Example : {{.Release.Name}}.service.core-compute-preview.internal                           | `nil`      
 | `registerAdditionalDns.prefix`            | DNS prefix for this chart - will resolve as: `prefix-{registerAdditionalDns.primaryIngressHost}`                         | `nil`      
-| `readinessPath`            | Path of HTTP readiness probe | `/health`|
+| `readinessPath`            | Path of HTTP readiness probe | `/health/readiness`|
 | `readinessDelay`           | Readiness probe inital delay (seconds)| `30`|
 | `readinessTimeout`         | Readiness probe timeout (seconds)| `3`|
 | `readinessPeriod`          | Readiness probe period (seconds) | `15`|
@@ -169,7 +169,6 @@ The following table lists the configurable parameters of the Java chart and thei
 | `livenessFailureThreshold` | Liveness failure threshold | `3` |
 | `secrets`                  | Mappings of environment variables to service objects or pre-configured kubernetes secrets |  nil |
 | `keyVaults`                | Mappings of keyvaults to be mounted as flexvolumes (see Example Configuration) |  nil |
-| `applicationInsightsInstrumentKey` | Instrumentation Key for App Insights , It is mapped to `AZURE_APPLICATIONINSIGHTS_INSTRUMENTATIONKEY` as environment variable when global.devMode is not set to true | `nil`
 | `devApplicationInsightsInstrumentKey` | Instrumentation Key for App Insights , It is mapped to `AZURE_APPLICATIONINSIGHTS_INSTRUMENTATIONKEY` as environment variable when global.devMode is set to true | `00000000-0000-0000-0000-000000000000`
 | `dnsConfig.ndots` | Threshold for the number of dots which must appear in a name given to a dns query before an initial absolute query will be made | `3` |
 | `dnsConfig.singleRequestTcp` | Use `single-request-reopen` + `use-vc` options of resolver. If A and AAAA requests from the same port are not handled correctly the resolver will close the socket and open a new one before sending the second request. Also DNS queries use TCP protocol. Solves https://github.com/kubernetes/kubernetes/issues/56903 | `true` |
