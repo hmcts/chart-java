@@ -158,7 +158,7 @@ The following table lists the configurable parameters of the Java chart and thei
 | `registerAdditionalDns.enabled`            | If you want to use this chart as a secondary dependency - e.g. providing a frontend to a backend, and the backend is using primary ingressHost DNS mapping.                            | `false`      
 | `registerAdditionalDns.primaryIngressHost`            | The hostname for primary chart. It supports templating, Example : {{.Release.Name}}.service.core-compute-preview.internal                           | `nil`      
 | `registerAdditionalDns.prefix`            | DNS prefix for this chart - will resolve as: `prefix-{registerAdditionalDns.primaryIngressHost}`                         | `nil`      
-| `readinessPath`            | Path of HTTP readiness probe | `/health`|
+| `readinessPath`            | Path of HTTP readiness probe | `/health/readiness`|
 | `readinessDelay`           | Readiness probe inital delay (seconds)| `30`|
 | `readinessTimeout`         | Readiness probe timeout (seconds)| `3`|
 | `readinessPeriod`          | Readiness probe period (seconds) | `15`|
