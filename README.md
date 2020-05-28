@@ -169,7 +169,6 @@ The following table lists the configurable parameters of the Java chart and thei
 | `livenessFailureThreshold` | Liveness failure threshold | `3` |
 | `secrets`                  | Mappings of environment variables to service objects or pre-configured kubernetes secrets |  nil |
 | `keyVaults`                | Mappings of keyvaults to be mounted as flexvolumes (see Example Configuration) |  nil |
-| `applicationInsightsInstrumentKey` | Instrumentation Key for App Insights , It is mapped to `AZURE_APPLICATIONINSIGHTS_INSTRUMENTATIONKEY` as environment variable when global.devMode is not set to true | `nil`
 | `devApplicationInsightsInstrumentKey` | Instrumentation Key for App Insights , It is mapped to `AZURE_APPLICATIONINSIGHTS_INSTRUMENTATIONKEY` as environment variable when global.devMode is set to true | `00000000-0000-0000-0000-000000000000`
 | `dnsConfig.ndots` | Threshold for the number of dots which must appear in a name given to a dns query before an initial absolute query will be made | `3` |
 | `dnsConfig.singleRequestTcp` | Use `single-request-reopen` + `use-vc` options of resolver. If A and AAAA requests from the same port are not handled correctly the resolver will close the socket and open a new one before sending the second request. Also DNS queries use TCP protocol. Solves https://github.com/kubernetes/kubernetes/issues/56903 | `true` |
