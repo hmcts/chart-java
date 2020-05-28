@@ -6,7 +6,7 @@ This chart is intended for simple Java microservices.
 
 We will take small PRs and small features to this chart but more complicated needs should be handled in your own chart.
 
-*NOTE*: The liveness heatlh checks check the enpoint /health/liveness by default. To use this you should include `compile group: 'uk.gov.hmcts.reform', name: 'health-spring-boot-starter', version: '0.0.5'` dependency into your gradle file to enable this endpoint. Otherwise change this to an endpoint that will always return `200`.
+*NOTE*: /health/readiness and /health/liveness [exposed by spring boot 2.3.0 actuator](https://docs.spring.io/spring-boot/docs/2.3.0.BUILD-SNAPSHOT/reference/html/production-ready-features.html#production-ready-kubernetes-probes) are used for readiness and liveness checks.
 
 ## Example configuration
 
