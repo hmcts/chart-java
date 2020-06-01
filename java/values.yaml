@@ -23,7 +23,7 @@ livenessPeriod: 15
 livenessFailureThreshold: 3
 devApplicationInsightsInstrumentKeyName: AZURE_APPLICATIONINSIGHTS_INSTRUMENTATIONKEY
 devApplicationInsightsInstrumentKey: '00000000-0000-0000-0000-000000000000'
-useInterpodAntiAffinity: false
+useInterpodAntiAffinity: true
 ingressClass: traefik
 # WARNING: ingressSessionAffinity is a temporary option.
 # This is subject to removal without notice. Do NOT use for any reason!
