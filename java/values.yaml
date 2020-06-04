@@ -31,7 +31,7 @@ ingressSessionAffinity:
   sessionCookieName: sticky
 dnsConfig:
   ndots: "3"
-  singleRequestTcp: true
+  singleRequestTcp: false
 pdb:
   enabled: true
   maxUnavailable: 50%
