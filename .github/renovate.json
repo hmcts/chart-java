@@ -1,5 +1,5 @@
 {
-  "enabledManagers": ["helm-requirements","gradle-wrapper"],
+  "enabledManagers": ["helm-requirements"],
   "helm-requirements":
     {
       "fileMatch": ["\\Chart.yaml$"],
