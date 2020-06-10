@@ -16,9 +16,9 @@ keywords:
 
 dependencies:
   - name: library
-    version: ~0.1.7-beta
+    version: 0.2.3
     repository: https://hmctspublic.azurecr.io/helm/v1/repo/
   - name: postgresql
-    version: ~8.9.8
+    version: 8.9.8
     repository: https://charts.bitnami.com/bitnami
     condition: postgresql.enabled

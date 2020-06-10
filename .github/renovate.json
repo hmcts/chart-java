@@ -1,0 +1,10 @@
+{
+  "enabledManagers": ["helm-requirements"],
+  "helm-requirements":
+    {
+      "fileMatch": ["\\Chart.yaml$"],
+      "aliases": {
+        "hmctspublic": "https://hmctspublic.azurecr.io/helm/v1/repo/"
+      }
+    }
+}
