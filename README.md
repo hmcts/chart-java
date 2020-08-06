@@ -168,6 +168,7 @@ The following table lists the configurable parameters of the Java chart and thei
 | `livenessPeriod`           | Liveness probe period (seconds) | `15`|
 | `livenessFailureThreshold` | Liveness failure threshold | `3` |
 | `secrets`                  | Mappings of environment variables to service objects or pre-configured kubernetes secrets |  nil |
+| `disableKeyVaults`         | Disables key vault support, useful in pull requests if you don't need any secrets (usually because you're using an embedded DB) | nil |
 | `keyVaults`                | Mappings of keyvaults to be mounted as flexvolumes (see Example Configuration) |  nil |
 | `devApplicationInsightsInstrumentKey` | Instrumentation Key for App Insights , It is mapped to `AZURE_APPLICATIONINSIGHTS_INSTRUMENTATIONKEY` as environment variable when global.devMode is set to true | `00000000-0000-0000-0000-000000000000`
 | `dnsConfig.ndots` | Threshold for the number of dots which must appear in a name given to a dns query before an initial absolute query will be made | `3` |
