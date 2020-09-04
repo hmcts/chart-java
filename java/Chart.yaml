@@ -8,15 +8,15 @@ appVersion: 0.1.0 # Do not change
 type: application
 icon: https://github.com/hmcts/chart-java/raw/master/images/icons8-java-50.png
 keywords:
-- java
-- web
-- springboot
-- postgres
-- postgresql
+  - java
+  - web
+  - springboot
+  - postgres
+  - postgresql
 
 dependencies:
   - name: library
-    version: 0.3.1
+    version: 0.4.0
     repository: https://hmctspublic.azurecr.io/helm/v1/repo/
   - name: postgresql
     version: 8.9.8
