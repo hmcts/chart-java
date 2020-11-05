@@ -88,7 +88,8 @@ postgresql:
 
 ### HPA Horizontal Pod Autoscaler
 To adjust the number of pods in a deployment depending on CPU utilization AKS supports horizontal pod autoscaling.
-To enable horizontal pod autoscaling you can enable the autoscaling section.
+To enable horizontal pod autoscaling you can enable the autoscaling section. 
+https://docs.microsoft.com/en-us/azure/aks/tutorial-kubernetes-scale#autoscale-pods
 
 ```yaml
 autoscaling:        # Default is false
@@ -229,7 +230,10 @@ The following table lists the configurable parameters of the Java chart and thei
 | `functionaltestscron.cpuRequests`     | Functional cron tests Requests for cpu | `100m`|
 | `functionaltestscron.memoryLimits`    | Functional cron tests Memory limits | `1024Mi`|
 | `functionaltestscron.cpuLimits`       | Functional cron tests CPU limits | `1000m`|
-| `ingressClass` | Ingress class | `traefik` |
+| `autoscaling.enabled` | Enable horizontal pod autoscaling. | `false` |
+| `autoscaling.maxReplicas` | Max replica count. Required if autoscaling.enabled is true | `` |
+| `autoscaling.targetCPUUtilizationPercentage` | target CPU utilization | `80` |
+
 
 ## Adding Azure Key Vault Secrets
 Key vault secrets can be mounted to the container filesystem using what's called a [keyvault-flexvolume](https://github.com/Azure/kubernetes-keyvault-flexvol). A flexvolume is just a kubernetes volume from the user point of view. This means that the keyvault secrets are accessible as files after they have been mounted.
