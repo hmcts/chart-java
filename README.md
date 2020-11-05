@@ -85,6 +85,18 @@ postgresql:
   #Whether to deploy the Postgres Chart or not
   enabled: true
 ```      
+
+### HPA Horizontal Pod Autoscaler
+To adjust the number of pods in a deployment depending on CPU utilization AKS supports horizontal pod autoscaling.
+To enable horizontal pod autoscaling you can enable the autoscaling section.
+
+```yaml
+autoscaling:        # Default is false
+  enabled: true 
+  maxReplicas: 5    # Required setting
+  targetCPUUtilizationPercentage: 80 # Default is 80% target CPU utilization
+```
+
 See the configuration section for more options if needed
 Please refer to the Configuration section below on how to enable this.
 
