@@ -118,7 +118,7 @@ java:
           smoke-test-user-password: SMOKE_TEST_CITIZEN_PASS
     environment:
       TEST_URL: http://plum-recipe-backend-java
-      SLACK_CHANNEL: "rpe-build-notices"
+      SLACK_CHANNEL: "platops-build-notices"
       SLACK_NOTIFY_SUCCESS: "true"
       CLUSTER_NAME: "aat-01-aks"
 
