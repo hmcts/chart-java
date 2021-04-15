@@ -63,7 +63,7 @@ keyVaults:
 
 ## Language Settings
 
-As detailed in [chart-library](https://github.com/hmcts/chart-library/tree/master#language), applications can set `language` property to pick sensible defaults for a particular language.
+As detailed in [chart-library](https://github.com/hmcts/chart-library/tree/master#language), the `language` property will set sensible defaults for a particular language.
 
 Example:
 ```
@@ -86,22 +86,21 @@ java:
   If [values.yaml](java/values.yaml) has defaults like below: 
 
   ```yaml
+  language: java
   replicas: 1
   java:
     memoryRequests: '512Mi'
   ```
   An application chart configured below 
   ```yaml
-  base:
-    language: java
+  java:
     replicas: 2
     memoryRequests: '1024Mi'
   ```
   will set replicas to `2` , **but memoryRequests will still be `512Mi`**. It can be set `1024Mi` by using below config
 
   ```yaml
-    base:
-      language: java
+    java:
       replicas: 2
       java:
         memoryRequests: '1024Mi'
