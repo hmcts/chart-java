@@ -8,6 +8,15 @@ We will take small PRs and small features to this chart but more complicated nee
 
 *NOTE*: /health/readiness and /health/liveness [exposed by spring boot 2.3.0 actuator](https://docs.spring.io/spring-boot/docs/2.3.0.BUILD-SNAPSHOT/reference/html/production-ready-features.html#production-ready-kubernetes-probes) are used for readiness and liveness checks.
 
+This chart adds below templates from [chart-library](https://github.com/hmcts/chart-library/) based on the chosen configuration:
+
+- [Deployment](https://github.com/hmcts/chart-library/tree/master#deployment)
+- [Horizontal Pod Auto Scaler](https://github.com/hmcts/chart-library/tree/master#hpa-horizontal-pod-auto-scaler)
+- [Ingress](https://github.com/hmcts/chart-library/tree/master#ingress)
+- [Pod Disruption Budget](https://github.com/hmcts/chart-library/tree/master#pod-disruption-budget)
+- [Service](https://github.com/hmcts/chart-library/tree/master#service)
+- [Deployment Tests](https://github.com/hmcts/chart-library/tree/master#smoke-and-functional-tests)
+
 ## Example configuration
 
 ```yaml
@@ -51,6 +60,52 @@ keyVaults:
       - smoke-test-citizen-username
       - smoke-test-user-password
 ```
+
+## Language Settings
+
+As detailed in [chart-library](https://github.com/hmcts/chart-library/tree/master#language), applications can set `language` property to pick sensible defaults for a particular language.
+
+Example:
+```
+language: java
+```
+will override values from defaults with
+```
+java:
+  key1: value1
+  key2: value2
+``` 
+
+## Configuration defaults
+
+- Check [values.yaml](java/values.yaml) for default configuration.
+- Values defined under `language:` takes priority over base defaults.
+- Check additional configuration options for each template from [chart-library](https://github.com/hmcts/chart-library/)
+- If values are configured for a specific language, they can only be overridden in language level.
+
+  If [values.yaml](java/values.yaml) has defaults like below: 
+
+  ```yaml
+  replicas: 1
+  java:
+    memoryRequests: '512Mi'
+  ```
+  An application chart configured below 
+  ```yaml
+  base:
+    language: java
+    replicas: 2
+    memoryRequests: '1024Mi'
+  ```
+  will set replicas to `2` , **but memoryRequests will still be `512Mi`**. It can be set `1024Mi` by using below config
+
+  ```yaml
+    base:
+      language: java
+      replicas: 2
+      java:
+        memoryRequests: '1024Mi'
+    ```
 
 ### Secrets
 To add secrets such as passwords and service keys to the Java chart you can use the the secrets section.
@@ -153,6 +208,7 @@ The following table lists the configurable parameters of the Java chart and thei
 | Parameter                  | Description                                | Default  |
 | -------------------------- | ------------------------------------------ | ----- |
 | `releaseNameOverride`          | Will override the resource name - It supports templating, example:`releaseNameOverride: {{ .Release.Name }}-my-custom-name`      | `Release.Name-Chart.Name`     |
+| `lanaguage`                | To select sensible defaults based on language | `java` |
 | `applicationPort`          | The port your app runs on in its container | `4550`|
 | `replicas` | Number of pod replicas | `1` |
 | `useInterpodAntiAffinity` | Always schedule replicas on different nodes | `false` | 
