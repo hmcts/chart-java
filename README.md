@@ -62,7 +62,11 @@ keyVaults:
 ```
 
 ## Language Settings
-
+Language has been set to none on this chart to avoid every team having to do a changeover, 
+but new apps will instead use chart-base with language set to java/nodejs etc.
+```yaml
+language: none
+```
 
 ### Secrets
 To add secrets such as passwords and service keys to the Java chart you can use the the secrets section.
