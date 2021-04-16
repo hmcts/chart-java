@@ -1,10 +1,10 @@
-language: java
 applicationPort: 4550
 image: hmctspublic.azurecr.io/spring-boot/template
 imagePullPolicy: IfNotPresent
 replicas: 1
 registerAdditionalDns:
   enabled: false
+language: none
 memoryRequests: '512Mi'
 cpuRequests: '250m'
 memoryLimits: '2048Mi'
@@ -92,17 +92,3 @@ functionaltestscron:
 #
 autoscaling:
   enabled: false
-
-#java Overrides
-java:
-  memoryRequests: '512Mi'
-  cpuRequests: '250m'
-  memoryLimits: '2048Mi'
-  cpuLimits: '1500m'
-  devmemoryRequests: '512Mi'
-  devcpuRequests: '250m'
-  devmemoryLimits: '1024Mi'
-  devcpuLimits: '2500m'
-  readinessDelay: 30
-  livenessDelay: 30
-  devApplicationInsightsInstrumentKeyName: AZURE_APPLICATIONINSIGHTS_INSTRUMENTATIONKEY
