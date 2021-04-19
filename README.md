@@ -61,30 +61,6 @@ keyVaults:
       - smoke-test-user-password
 ```
 
-## Language Settings
-Language has been set to none on this chart to avoid every team having to do a changeover, 
-but new apps will instead use chart-base with language set to java/nodejs etc.
-```yaml
-language: none
-```
-
-### Secrets
-To add secrets such as passwords and service keys to the Java chart you can use the the secrets section.
-The secrets section maps the secret to an environment variable in the container.
-e.g :
-```yaml
-secrets: 
-  CONNECTION_STRING:
-      secretRef: some-secret-reference
-      key: connectionString
-      disabled: false
-```
-**Where:**
-- **CONNECTION_STRING** is the environment variable to set to the value of the secret ( this has to be capitals and can contain numbers or "_" ).
-- **secretRef** is the service instance ( as in the case of PaaS wrappers ) or reference to the secret volume. It supports templating in values.yaml . Example : secretRef: some-secret-reference-{{ .Release.Name }}
-- **key** is the named secret in the secret reference.
-- **disabled** is optional and used to disable setting this environment value. This can be used to override the behaviour of default chart secrets. 
-
 ## Postgresql
 
 If you need to use a Postgresql database for testing then you can enable it 
@@ -101,21 +77,6 @@ postgresql:
   #Whether to deploy the Postgres Chart or not
   enabled: true
 ```      
-
-### HPA Horizontal Pod Autoscaler
-To adjust the number of pods in a deployment depending on CPU utilization AKS supports horizontal pod autoscaling.
-To enable horizontal pod autoscaling you can enable the autoscaling section. 
-https://docs.microsoft.com/en-us/azure/aks/tutorial-kubernetes-scale#autoscale-pods
-
-```yaml
-autoscaling:        # Default is false
-  enabled: true 
-  maxReplicas: 5    # Required setting
-  targetCPUUtilizationPercentage: 80 # Default is 80% target CPU utilization
-```
-
-See the configuration section for more options if needed
-Please refer to the Configuration section below on how to enable this.
 
 ## Smoke and functional tests
 
@@ -162,30 +123,12 @@ java:
       SOME_ENV: some-val
 ```
 
-## Adding Azure Key Vault Secrets
-Key vault secrets can be mounted to the container filesystem using what's called a [keyvault-flexvolume](https://github.com/Azure/kubernetes-keyvault-flexvol). A flexvolume is just a kubernetes volume from the user point of view. This means that the keyvault secrets are accessible as files after they have been mounted.
-To do this you need to add the **keyVaults** section to the configuration.
+## Language Settings
+Language has been set to none on this chart to avoid every team having to do a changeover from chart-nodejs to chart-base, 
+any new apps are expected to use chart-base with language set to java/nodejs etc.
 ```yaml
-keyVaults:
-    <VAULT_NAME>:
-      excludeEnvironmentSuffix: true
-      secrets:
-        - <SECRET_NAME>
-        - <SECRET_NAME2>
-    <VAULT_NAME_2>:
-      secrets:
-        - <SECRET_NAME>
-        - <SECRET_NAME2>
+language: none
 ```
-**Where**:
-- *<VAULT_NAME>*: Name of the vault to access without the environment tag i.e. `s2s` or `bulkscan`.
-- *<SECRET_NAME>* Secret name as it is in the vault. Note this is case and punctuation sensitive. i.e. in s2s there is the `microservicekey-cmcLegalFrontend` secret.
-- *excludeEnvironmentSuffix*: This is used for the global key vaults where there is not environment suffix ( e.g `-aat` ) required. It defaults to false if it is not there and should only be added if you are using a global key-vault.
-
-**Note**: To enable `keyVaults` to be mounted as flexvolumes :
-- When not using Jenkins, explicitly set global.enableKeyVaults to `true` .
-- When not using pod identity, your service principal credentials need to be added to your namespace as a Kubernetes secret named `kvcreds` and accessible by the KeyVault FlexVolume driver. 
-
 
 ## Development and Testing
 
