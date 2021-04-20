@@ -11,6 +11,7 @@ We will take small PRs and small features to this chart but more complicated nee
 This chart adds below templates from [chart-library](https://github.com/hmcts/chart-library/) based on the chosen configuration:
 
 - [Deployment](https://github.com/hmcts/chart-library/tree/master#deployment)
+- [Keyvault Secrets](https://github.com/hmcts/chart-library#keyvault-secret-csi-volumes)
 - [Horizontal Pod Auto Scaler](https://github.com/hmcts/chart-library/tree/master#hpa-horizontal-pod-auto-scaler)
 - [Ingress](https://github.com/hmcts/chart-library/tree/master#ingress)
 - [Pod Disruption Budget](https://github.com/hmcts/chart-library/tree/master#pod-disruption-budget)
