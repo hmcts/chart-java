@@ -125,7 +125,7 @@ java:
 ```
 
 ## Language Settings
-Language has been set to none on this chart to avoid every team having to do a changeover from chart-java to chart-base, 
+Language has been set to none on this chart to avoid teams needing to do a changeover from chart-java to chart-base, 
 however any new apps are expected to use chart-base with language set to java/nodejs etc.
 ```yaml
 language: none
