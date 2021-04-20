@@ -1,1 +1,1 @@
-{{- template "hmcts.pdb.v1.tpl" . -}}
+{{- template "hmcts.pdb.v2.tpl" . -}}

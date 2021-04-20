@@ -8,6 +8,16 @@ We will take small PRs and small features to this chart but more complicated nee
 
 *NOTE*: /health/readiness and /health/liveness [exposed by spring boot 2.3.0 actuator](https://docs.spring.io/spring-boot/docs/2.3.0.BUILD-SNAPSHOT/reference/html/production-ready-features.html#production-ready-kubernetes-probes) are used for readiness and liveness checks.
 
+This chart adds below templates from [chart-library](https://github.com/hmcts/chart-library/) based on the chosen configuration:
+
+- [Deployment](https://github.com/hmcts/chart-library/tree/master#deployment)
+- [Keyvault Secrets](https://github.com/hmcts/chart-library#keyvault-secret-csi-volumes)
+- [Horizontal Pod Auto Scaler](https://github.com/hmcts/chart-library/tree/master#hpa-horizontal-pod-auto-scaler)
+- [Ingress](https://github.com/hmcts/chart-library/tree/master#ingress)
+- [Pod Disruption Budget](https://github.com/hmcts/chart-library/tree/master#pod-disruption-budget)
+- [Service](https://github.com/hmcts/chart-library/tree/master#service)
+- [Deployment Tests](https://github.com/hmcts/chart-library/tree/master#smoke-and-functional-tests)
+
 ## Example configuration
 
 ```yaml
@@ -52,23 +62,6 @@ keyVaults:
       - smoke-test-user-password
 ```
 
-### Secrets
-To add secrets such as passwords and service keys to the Java chart you can use the the secrets section.
-The secrets section maps the secret to an environment variable in the container.
-e.g :
-```yaml
-secrets: 
-  CONNECTION_STRING:
-      secretRef: some-secret-reference
-      key: connectionString
-      disabled: false
-```
-**Where:**
-- **CONNECTION_STRING** is the environment variable to set to the value of the secret ( this has to be capitals and can contain numbers or "_" ).
-- **secretRef** is the service instance ( as in the case of PaaS wrappers ) or reference to the secret volume. It supports templating in values.yaml . Example : secretRef: some-secret-reference-{{ .Release.Name }}
-- **key** is the named secret in the secret reference.
-- **disabled** is optional and used to disable setting this environment value. This can be used to override the behaviour of default chart secrets. 
-
 ## Postgresql
 
 If you need to use a Postgresql database for testing then you can enable it 
@@ -85,21 +78,6 @@ postgresql:
   #Whether to deploy the Postgres Chart or not
   enabled: true
 ```      
-
-### HPA Horizontal Pod Autoscaler
-To adjust the number of pods in a deployment depending on CPU utilization AKS supports horizontal pod autoscaling.
-To enable horizontal pod autoscaling you can enable the autoscaling section. 
-https://docs.microsoft.com/en-us/azure/aks/tutorial-kubernetes-scale#autoscale-pods
-
-```yaml
-autoscaling:        # Default is false
-  enabled: true 
-  maxReplicas: 5    # Required setting
-  targetCPUUtilizationPercentage: 80 # Default is 80% target CPU utilization
-```
-
-See the configuration section for more options if needed
-Please refer to the Configuration section below on how to enable this.
 
 ## Smoke and functional tests
 
@@ -146,119 +124,12 @@ java:
       SOME_ENV: some-val
 ```
 
-## Configuration
-
-The following table lists the configurable parameters of the Java chart and their default values.
-
-| Parameter                  | Description                                | Default  |
-| -------------------------- | ------------------------------------------ | ----- |
-| `releaseNameOverride`          | Will override the resource name - It supports templating, example:`releaseNameOverride: {{ .Release.Name }}-my-custom-name`      | `Release.Name-Chart.Name`     |
-| `applicationPort`          | The port your app runs on in its container | `4550`|
-| `replicas` | Number of pod replicas | `1` |
-| `useInterpodAntiAffinity` | Always schedule replicas on different nodes | `false` | 
-| `image`                    | Full image url | `hmctssandbox.azurecr.io/hmcts/spring-boot-template`<br>(but overridden by pipeline) |
-| `environment`              |  A map containing all environment values you wish to set. <br> **Note**: environment variables (the key in KEY: value) must be uppercase and only contain letters,  "_", or numbers and value can be templated | `nil`|
-| `configmap`                | A config map, can be used for environment specific config.| `nil`|
-| `devmemoryRequests`           | Requests for memory, set when `global.devMode` is set to true | `512Mi`|
-| `devcpuRequests`              | Requests for cpu, set when `global.devMode` is set to true | `250m`|
-| `devmemoryLimits`             | Memory limits, set when `global.devMode` is set to true| `1024Mi`|
-| `devcpuLimits`                | CPU limits, set when `global.devMode` is set to true | `2500m`|
-| `memoryRequests`           | Requests for memory, set when `global.devMode` is set to false | `512Mi`|
-| `cpuRequests`              | Requests for cpu, set when `global.devMode` is set to false | `250m`|
-| `memoryLimits`             | Memory limits, set when `global.devMode` is set to false| `2048Mi`|
-| `cpuLimits`                | CPU limits, set when `global.devMode` is set to false | `1000m`|
-| `ingressHost`              | Host for ingress controller to map the container to. It supports templating, Example : {{.Release.Name}}.service.core-compute-preview.internal   | `nil`|
-| `registerAdditionalDns.enabled`            | If you want to use this chart as a secondary dependency - e.g. providing a frontend to a backend, and the backend is using primary ingressHost DNS mapping.                            | `false`      
-| `registerAdditionalDns.primaryIngressHost`            | The hostname for primary chart. It supports templating, Example : {{.Release.Name}}.service.core-compute-preview.internal                           | `nil`      
-| `registerAdditionalDns.prefix`            | DNS prefix for this chart - will resolve as: `prefix-{registerAdditionalDns.primaryIngressHost}`                         | `nil`      
-| `readinessPath`            | Path of HTTP readiness probe | `/health/readiness`|
-| `readinessDelay`           | Readiness probe inital delay (seconds)| `30`|
-| `readinessTimeout`         | Readiness probe timeout (seconds)| `3`|
-| `readinessPeriod`          | Readiness probe period (seconds) | `15`|
-| `livenessPath`             | Path of HTTP liveness probe | `/health/liveness`|
-| `livenessDelay`            | Liveness probe inital delay (seconds)  | `30`|
-| `livenessTimeout`          | Liveness probe timeout (seconds) | `3`|
-| `livenessPeriod`           | Liveness probe period (seconds) | `15`|
-| `livenessFailureThreshold` | Liveness failure threshold | `3` |
-| `secrets`                  | Mappings of environment variables to service objects or pre-configured kubernetes secrets |  nil |
-| `disableKeyVaults`         | Disables key vault support, useful in pull requests if you don't need any secrets (usually because you're using an embedded DB) | nil |
-| `keyVaults`                | Mappings of keyvaults to be mounted as flexvolumes (see Example Configuration) |  nil |
-| `devApplicationInsightsInstrumentKey` | Instrumentation Key for App Insights , It is mapped to `AZURE_APPLICATIONINSIGHTS_INSTRUMENTATIONKEY` as environment variable when global.devMode is set to true | `00000000-0000-0000-0000-000000000000`
-| `dnsConfig.ndots` | Threshold for the number of dots which must appear in a name given to a dns query before an initial absolute query will be made | `3` |
-| `dnsConfig.singleRequestTcp` | Use `single-request-reopen` + `use-vc` options of resolver. If A and AAAA requests from the same port are not handled correctly the resolver will close the socket and open a new one before sending the second request. Also DNS queries use TCP protocol. Solves https://github.com/kubernetes/kubernetes/issues/56903 | `true` |
-| `pdb.enabled` | To enable PodDisruptionBudget on the pods for handling disruptions | `true` |
-| `pdb.maxUnavailable` |  To configure the number of pods from the set that can be unavailable after the eviction. It can be either an absolute number or a percentage. pdb.minAvailable takes precedence over this if not nil | `50%` means evictions are allowed as long as no more than 50% of the desired replicas are unhealthy. It will allow disruption if you have only 1 replica.|
-| `pdb.minAvailable` |  To configure the number of pods from that set that must still be available after the eviction, even in the absence of the evicted pod. minAvailable can be either an absolute number or a percentage. This takes precedence over pdb.maxUnavailable if not nil. | `nil`|
-| `postgresql.enabled` | To enable installation of Postgres Chart | `false` |
-| `postgresql.persistence.enabled` | To enable persistence of Postgres Data | `false` |
-| `postgresql.postgresqlUsername` | Postgres Username | `javapostgres` |
-| `postgresql.postgresqlPassword` | Postgres Password | `javapassword` |
-| `postgresql.postgresqlDatabase` | Postgres Database | `javadatabase` |
-| `testsConfig.keyVaults`      | Tests keyvaults. Shared by all tests pods | `nil` |
-| `testsConfig.environment`    | Tests environment variables. Shared by all tests pods. Merged, with duplicate variables overridden, by specific tests environment  | `nil` |
-| `testsConfig.memoryRequests` | Tests Requests for memory. Applies to all test pods. Can be overridden by single test pods | `256Mi`|
-| `testsConfig.cpuRequests`    | Tests Requests for cpu. Applies to all test pods. Can be overridden by single test pods | `100m`|
-| `testsConfig.memoryLimits`   | Tests Memory limits. Applies to all test pods. Can be overridden by single test pods | `1024Mi`|
-| `testsConfig.cpuLimits`      | Tests CPU limits. Applies to all test pods. Can be overridden by single test pods | `1000m`|
-| `smoketests.enabled`         | Enable smoke tests single run after deployment. | `false` |
-| `smoketests.image`           | Full smoke tests image url. | `hmctspublic.azurecr.io/spring-boot/template` |
-| `smoketests.environment`     | Smoke tests environment variables. Merged with testsConfig.environment. Overrides duplicates. | `nil` |  
-| `smoketests.memoryRequests`  | Smoke tests Requests for memory | `256Mi`|
-| `smoketests.cpuRequests`     | Smoke tests Requests for cpu | `100m`|
-| `smoketests.memoryLimits`    | Smoke tests Memory limits | `1024Mi`|
-| `smoketests.cpuLimits`       | Smoke tests CPU limits | `1000m`|
-| `functionaltests.enabled`         | Enable functional tests single run after deployment. | `false` |
-| `functionaltests.image`           | Full functional tests image url. | `hmctspublic.azurecr.io/spring-boot/template` |
-| `functionaltests.environment`     | Functional tests environment variables. Merged with testsConfig.environment. Overrides duplicates. | `nil` |  
-| `functionaltests.memoryRequests`  | Functional tests Requests for memory | `256Mi`|
-| `functionaltests.cpuRequests`     | Functional tests Requests for cpu | `100m`|
-| `functionaltests.memoryLimits`    | Functional tests Memory limits | `1024Mi`|
-| `functionaltests.cpuLimits`       | Functional tests CPU limits | `1000m`|
-| `smoketestscron.enabled`         | Enable smoke tests cron job. Runs tests at scheduled times | `false` |
-| `smoketestscron.schedule`         | Cron expression for scheduling smoke tests cron job | `20 0/1 * * *` |
-| `smoketestscron.image`           | Full cron smoke tests image url. | `hmctspublic.azurecr.io/spring-boot/template` |
-| `smoketestscron.environment`     | Smoke cron tests environment variables. Merged with testsConfig.environment. Overrides duplicates. | `nil` |  
-| `smoketestscron.memoryRequests`  | Smoke cron tests Requests for memory | `256Mi`|
-| `smoketestscron.cpuRequests`     | Smoke cron tests Requests for cpu | `100m`|
-| `smoketestscron.memoryLimits`    | Smoke cron tests Memory limits | `1024Mi`|
-| `smoketestscron.cpuLimits`       | Smoke cron tests CPU limits | `1000m`|
-| `functionaltestscron.enabled`         | Enable functional tests cron job. Runs tests at scheduled times | `false` |
-| `smoketestscron.schedule`             | Cron expression for scheduling functional tests cron job | `30 0/6 * * *` |
-| `functionaltestscron.image`           | Full functional tests image url. | `hmctspublic.azurecr.io/spring-boot/template` |
-| `functionaltestscron.environment`     | Functional cron tests environment variables. Merged with testsConfig.environment. Overrides duplicates. | `nil` |  
-| `functionaltestscron.memoryRequests`  | Functional cron tests Requests for memory | `256Mi`|
-| `functionaltestscron.cpuRequests`     | Functional cron tests Requests for cpu | `100m`|
-| `functionaltestscron.memoryLimits`    | Functional cron tests Memory limits | `1024Mi`|
-| `functionaltestscron.cpuLimits`       | Functional cron tests CPU limits | `1000m`|
-| `autoscaling.enabled` | Enable horizontal pod autoscaling. | `false` |
-| `autoscaling.maxReplicas` | Max replica count. Required if autoscaling.enabled is true | `` |
-| `autoscaling.targetCPUUtilizationPercentage` | target CPU utilization | `80` |
-
-
-## Adding Azure Key Vault Secrets
-Key vault secrets can be mounted to the container filesystem using what's called a [keyvault-flexvolume](https://github.com/Azure/kubernetes-keyvault-flexvol). A flexvolume is just a kubernetes volume from the user point of view. This means that the keyvault secrets are accessible as files after they have been mounted.
-To do this you need to add the **keyVaults** section to the configuration.
+## Language Settings
+Language has been set to none on this chart to avoid teams needing to do a changeover from chart-java to chart-base, 
+however any new apps are expected to use chart-base with language set to java/nodejs etc.
 ```yaml
-keyVaults:
-    <VAULT_NAME>:
-      excludeEnvironmentSuffix: true
-      secrets:
-        - <SECRET_NAME>
-        - <SECRET_NAME2>
-    <VAULT_NAME_2>:
-      secrets:
-        - <SECRET_NAME>
-        - <SECRET_NAME2>
+language: none
 ```
-**Where**:
-- *<VAULT_NAME>*: Name of the vault to access without the environment tag i.e. `s2s` or `bulkscan`.
-- *<SECRET_NAME>* Secret name as it is in the vault. Note this is case and punctuation sensitive. i.e. in s2s there is the `microservicekey-cmcLegalFrontend` secret.
-- *excludeEnvironmentSuffix*: This is used for the global key vaults where there is not environment suffix ( e.g `-aat` ) required. It defaults to false if it is not there and should only be added if you are using a global key-vault.
-
-**Note**: To enable `keyVaults` to be mounted as flexvolumes :
-- When not using Jenkins, explicitly set global.enableKeyVaults to `true` .
-- When not using pod identity, your service principal credentials need to be added to your namespace as a Kubernetes secret named `kvcreds` and accessible by the KeyVault FlexVolume driver. 
-
 
 ## Development and Testing
 
