@@ -4,7 +4,6 @@ imagePullPolicy: IfNotPresent
 replicas: 1
 registerAdditionalDns:
   enabled: false
-language: none
 memoryRequests: '512Mi'
 cpuRequests: '250m'
 memoryLimits: '2048Mi'
