@@ -22,7 +22,7 @@ livenessTimeout: 3
 livenessPeriod: 15
 livenessFailureThreshold: 3
 startupPath: '/health/liveness'
-startupDelay: 20
+startupDelay: 5
 startupTimeout: 3
 startupPeriod: 10
 startupFailureThreshold: 3
