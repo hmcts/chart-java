@@ -21,6 +21,11 @@ livenessDelay: 30
 livenessTimeout: 3
 livenessPeriod: 15
 livenessFailureThreshold: 3
+startupPath: '/health/liveness'
+startupDelay: 30
+startupTimeout: 3
+startupPeriod: 15
+startupFailureThreshold: 3
 saEnabled: true
 devApplicationInsightsInstrumentKeyName: AZURE_APPLICATIONINSIGHTS_INSTRUMENTATIONKEY
 devApplicationInsightsInstrumentKey: '00000000-0000-0000-0000-000000000000'
