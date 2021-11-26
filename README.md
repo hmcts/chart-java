@@ -82,7 +82,7 @@ java:
   startupPeriod: 120
   startupFailureThreshold: 3
 ```
-Also see example [Pull Request](https://github.com/hmcts/cnp-flux-config/pull/12891).  
+Also see example [pull request](https://github.com/hmcts/cnp-flux-config/pull/12891/files).  
 
 ## Postgresql
 
