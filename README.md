@@ -82,7 +82,8 @@ java:
   startupPeriod: 120
   startupFailureThreshold: 3
 ```
-Also see example [Pull Request](https://github.com/hmcts/cnp-flux-config/pull/12891)
+Also see example [Pull Request](https://github.com/hmcts/cnp-flux-config/pull/12891).  
+
 ## Postgresql
 
 If you need to use a Postgresql database for testing then you can enable it 
