@@ -62,6 +62,27 @@ keyVaults:
       - smoke-test-user-password
 ```
 
+## Startup probes
+Startup probes are defined in the [library template](https://github.com/hmcts/chart-library/tree/dtspo-2201-startup-probes#startup-probes) and should be configured for slow starting applications. 
+The default values below (defined in the chart) should be sufficient for most applications but can be overriden as required.
+```yaml
+startupPath: '/health/liveness'
+startupDelay: 5
+startupTimeout: 3
+startupPeriod: 10
+startupFailureThreshold: 3
+```
+
+To use startup probes for a slow starting application, configure the value of `(startupFailureThreshold x startupPeriodSeconds)` to cover the longest startup time required by the application.  
+
+### Example configuration
+The below example will allow the application 360 seconds to complete startup
+```yaml
+java:
+  startupPeriod: 120
+  startupFailureThreshold: 3
+```
+Also see example [Pull Request](https://github.com/hmcts/cnp-flux-config/pull/12891)
 ## Postgresql
 
 If you need to use a Postgresql database for testing then you can enable it 
