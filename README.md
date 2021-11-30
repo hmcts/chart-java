@@ -73,12 +73,15 @@ startupPeriod: 10
 startupFailureThreshold: 3
 ```
 
-To use startup probes for a slow starting application, configure the value of `(startupFailureThreshold x startupPeriodSeconds)` to cover the longest startup time required by the application.  
+To configure startup probes for a slow starting application:
+- Set the value of `(startupFailureThreshold x startupPeriodSeconds)` to cover the longest startup time required by the application  
+- If `livenessDelay` is currently configured, set the value to `0`
 
 ### Example configuration
 The below example will allow the application 360 seconds to complete startup.
 ```yaml
 java:
+  livenessDelay: 0
   startupPeriod: 120
   startupFailureThreshold: 3
 ```
