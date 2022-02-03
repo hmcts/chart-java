@@ -1,1 +1,1 @@
-{{- template "hmcts.ingress.v2.tpl" . -}}
+{{- template "hmcts.ingress.v3.tpl" . -}}
