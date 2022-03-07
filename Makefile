@@ -4,9 +4,9 @@ RELEASE := chart-${CHART}-release
 NAMESPACE := chart-tests
 TEST := ${RELEASE}-test-service
 ACR := hmctspublic
-ACR_SUBSCRIPTION := DCD-CFT-Sandbox
-AKS_RESOURCE_GROUP := cnp-aks-sandbox-rg
-AKS_CLUSTER := cnp-aks-sandbox-cluster
+ACR_SUBSCRIPTION := DCD-CFTAPPS-DEV
+AKS_RESOURCE_GROUP := cft-preview-00-rg
+AKS_CLUSTER := cft-preview-00-aks
 
 setup:
 	az account set --subscription ${ACR_SUBSCRIPTION}
