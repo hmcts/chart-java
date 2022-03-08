@@ -151,9 +151,9 @@ java:
 
 ## Development and Testing
 
-Default configuration (e.g. default image and ingress host) is setup for sandbox. This is suitable for local development and testing.
+Default configuration (e.g. default image and ingress host) is setup for preview. This is suitable for local development and testing.
 
-- Ensure you have logged in with `az cli` and are using `sandbox` subscription (use `az account show` to display the current one).
+- Ensure you have logged in with `az cli` and are using `preview` subscription (use `az account show` to display the current one).
 - For local development see the `Makefile` for available targets.
 - To execute an end-to-end build, deploy and test run `make`.
 - to clean up deployed releases, charts, test pods and local charts, run `make clean`
