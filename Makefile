@@ -7,7 +7,6 @@ ACR := hmctspublic
 ACR_SUBSCRIPTION := DCD-CFTAPPS-DEV
 AKS_RESOURCE_GROUP := cft-preview-00-rg
 AKS_CLUSTER := cft-preview-00-aks
-CONTEXT := $(k config get-contexts | grep ${AKS_CLUSTER} | wc -l)
 
 setup:
 	az account set --subscription ${ACR_SUBSCRIPTION}
