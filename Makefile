@@ -7,17 +7,12 @@ ACR := hmctspublic
 ACR_SUBSCRIPTION := DCD-CFTAPPS-DEV
 AKS_RESOURCE_GROUP := cft-preview-00-rg
 AKS_CLUSTER := cft-preview-00-aks
-CONTEXT := $(kubectl config get-contexts ${AKS_CLUSTER})
+CONTEXT := $(k config get-contexts | grep ${AKS_CLUSTER} | wc -l)
 
 setup:
 	az account set --subscription ${ACR_SUBSCRIPTION}
 	az configure --defaults acr=${ACR}
-
-ifneq ($(CONTEXT),)
-az aks get-credentials --resource-group ${AKS_RESOURCE_GROUP} --name ${AKS_CLUSTER}
-else
-	kubectl config use-context ${AKS_CLUSTER}
-endif
+	az aks get-credentials --resource-group ${AKS_RESOURCE_GROUP} --name ${AKS_CLUSTER}
 
 clean:
 	-helm uninstall ${RELEASE} -n ${NAMESPACE}
