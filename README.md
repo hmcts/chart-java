@@ -96,8 +96,8 @@ by setting the following flag in your application config with:
 java:
   environment:
     DB_HOST: "{{ .Release.Name }}-postgresql"
-    DB_USER_NAME: "{{ .Values.java.postgresql.postgresqlUsername}}"
-    DB_PASSWORD: "{{ .Values.java.postgresql.postgresqlPassword}}"
+    DB_USER_NAME: "{{ .Values.java.postgresql.auth.username}}"
+    DB_PASSWORD: "{{ .Values.java.postgresql.auth.password}}"
 
 postgresql:
   #Whether to deploy the Postgres Chart or not
