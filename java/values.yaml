@@ -42,6 +42,7 @@ dnsConfig:
 pdb:
   enabled: true
   maxUnavailable: 50%
+disableTraefikTls: true
 
 ## Postgres chart configuration
 ## https://github.com/helm/charts/blob/master/stable/postgresql/values.yaml
