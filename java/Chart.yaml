@@ -16,7 +16,7 @@ keywords:
 
 dependencies:
   - name: library
-    version: 1.0.8
+    version: 1.0.9-alpha
     repository: https://hmctspublic.azurecr.io/helm/v1/repo/
   - name: postgresql
     version: 11.6.14
