@@ -102,3 +102,7 @@ functionaltestscron:
 #
 autoscaling:
   enabled: false
+  cpu:
+    averageUtilization: 80
+  memory:
+    averageUtilization: 80
