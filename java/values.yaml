@@ -4,7 +4,7 @@ imagePullPolicy: IfNotPresent
 replicas: 1
 registerAdditionalDns:
   enabled: false
-memoryRequests: '512Mi'
+memoryRequests: '1024Mi'
 cpuRequests: '250m'
 memoryLimits: '2048Mi'
 cpuLimits: '1500m'
@@ -103,6 +103,8 @@ functionaltestscron:
 autoscaling:
   enabled: false
   cpu:
+    enabled: true
     averageUtilization: 80
   memory:
+    enabled: true
     averageUtilization: 80
