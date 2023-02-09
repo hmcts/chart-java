@@ -19,6 +19,6 @@ dependencies:
     version: 2.0.6
     repository: https://hmctspublic.azurecr.io/helm/v1/repo/
   - name: postgresql
-    version: 12.1.14
+    version: 12.1.15
     repository: https://charts.bitnami.com/bitnami
     condition: postgresql.enabled
