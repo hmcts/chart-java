@@ -1,15 +1,15 @@
-image: hmctspublic.azurecr.io/spring-boot/template
+image: 'hmctspublic.azurecr.io/plum/recipe-backend:latest'
+environment:
+  POSTGRES_SSL_MODE: disable
+  POSTGRES_PASSWORD: "{{ .Values.postgresql.auth.password}}"
+  POSTGRES_DATABASE: "{{ .Values.postgresql.auth.database }}"
+  POSTGRES_USER: "{{ .Values.postgresql.auth.username }}"
+  POSTGRES_HOST: "{{ .Release.Name }}-postgresql"
 replicas: 2
 useInterpodAntiAffinity: true
 ingressHost: "{{.Release.Name}}.service.core-compute-preview.internal"
 additionalIngressHosts: ["ci-01.{{.Values.global.environment}}.platform.hmcts.net"]
 imagePullPolicy: Always
-environment:
-  REFORM_TEAM: cnp
-  REFORM_SERVICE_NAME: rhubarb-backend
-  REFORM_ENVIRONMENT: preview
-  CONFIG_TEMPLATE: "{{ .Release.Name }}-config"
-  BOOLEAN_EXAMPLE: false
 configmap:
   VAR_A: VALUE_A
   VAR_B: VALUE_B
