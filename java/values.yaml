@@ -49,7 +49,7 @@ pdb:
 postgresql:
   image:
     registry: hmctspublic.azurecr.io
-    repository: imported/bitnami/postgres
+    repository: imported/bitnami/postgresql
     tag: '11.16.0'
   ## Whether to deploy the Postgres Chart or not
   enabled: false
