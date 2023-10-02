@@ -109,3 +109,4 @@ autoscaling:
   memory:
     enabled: true
     averageUtilization: 80
+useWorkloadIdentity: true

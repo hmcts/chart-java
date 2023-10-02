@@ -20,18 +20,11 @@ secrets:
     disabled: true
 prometheus:
   enabled: true
-aadIdentityName: money-claims
 keyVaults:
-  "cmc":
+  "plumsi":
     excludeEnvironmentSuffix: false
     secrets:
-      - smoke-test-citizen-username
-      - smoke-test-user-password
-      - os-postcode-lookup-api-key
-      - AppInsightsInstrumentationKey
-      - citizen-oauth-client-secret
-      - citizen-draft-store-primary
-      - citizen-cookie-encryption-key
+      - test-secret
 postgresql:
   enabled: true
 global:
