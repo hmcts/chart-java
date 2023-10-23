@@ -11,7 +11,7 @@ resources:
   repositories:
   - repository: cnp-library
     type: github
-    ref: refs/heads/master
+    ref: refs/heads/DTSPO-15395-move-script
     name: hmcts/cnp-azuredevops-libraries
     endpoint: 'hmcts'
 
