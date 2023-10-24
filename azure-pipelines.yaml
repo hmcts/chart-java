@@ -9,9 +9,9 @@ pr:
     - master
 resources:
   repositories:
-  - repository: cnp-library
+  - repository: cnp-azuredevops-libraries
     type: github
-    ref: refs/heads/DTSPO-15395-move-script
+    ref: refs/DTSPO-15395-move-script
     name: hmcts/cnp-azuredevops-libraries
     endpoint: 'hmcts'
 
@@ -19,12 +19,20 @@ variables:
   - name: agentPool
     value: ubuntu-latest
 
+
 jobs:
 - job: Validate
   pool:
     vmImage: ${{ variables.agentPool }}
   steps:
-  - template: steps/charts/validate.yaml@cnp-library
+  - task: Bash@3
+    displayName: Determine Active Cluster - Bash
+    inputs:
+      targetType: 'inline'
+      script: |
+        pwd
+        ls -alrt
+  - template: steps/charts/validate.yaml@cnp-azuredevops-libraries
     parameters:
       chartName: java
       chartReleaseName: chart-java-ci-test
@@ -42,7 +50,7 @@ jobs:
   pool:
     vmImage: ${{ variables.agentPool }}
   steps:
-  - template: steps/charts/release.yaml@cnp-library
+  - template: steps/charts/release.yaml@cnp-azuredevops-libraries
     parameters:
       chartName: java
       chartReleaseName: chart-java
