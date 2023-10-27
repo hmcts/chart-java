@@ -11,7 +11,7 @@ resources:
   repositories:
   - repository: cnp-azuredevops-libraries
     type: github
-    ref: refs/heads/DTSPO-15395-move-script
+    ref: refs/heads/DTSPO-15395-auto-detect-script
     name: hmcts/cnp-azuredevops-libraries
     endpoint: 'hmcts'
 
@@ -25,13 +25,6 @@ jobs:
   pool:
     vmImage: ${{ variables.agentPool }}
   steps:
-  - task: Bash@3
-    displayName: Determine Active Cluster - Bash
-    inputs:
-      targetType: 'inline'
-      script: |
-        pwd
-        ls -alrt
   - template: steps/charts/validate.yaml@cnp-azuredevops-libraries
     parameters:
       chartName: java
