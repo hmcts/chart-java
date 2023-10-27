@@ -9,7 +9,7 @@ pr:
     - master
 resources:
   repositories:
-  - repository: cnp-azuredevops-libraries
+  - repository: cnp-library
     type: github
     ref: refs/heads/DTSPO-15395-auto-detect-script
     name: hmcts/cnp-azuredevops-libraries
@@ -19,13 +19,12 @@ variables:
   - name: agentPool
     value: ubuntu-latest
 
-
 jobs:
 - job: Validate
   pool:
     vmImage: ${{ variables.agentPool }}
   steps:
-  - template: steps/charts/validate.yaml@cnp-azuredevops-libraries
+  - template: steps/charts/validate.yaml@cnp-library
     parameters:
       chartName: java
       chartReleaseName: chart-java-ci-test
@@ -43,7 +42,7 @@ jobs:
   pool:
     vmImage: ${{ variables.agentPool }}
   steps:
-  - template: steps/charts/release.yaml@cnp-azuredevops-libraries
+  - template: steps/charts/release.yaml@cnp-library
     parameters:
       chartName: java
       chartReleaseName: chart-java
