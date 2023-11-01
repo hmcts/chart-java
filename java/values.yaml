@@ -26,7 +26,7 @@ startupTimeout: 3
 startupPeriod: 10
 startupFailureThreshold: 20
 saEnabled: true
-serviceAccountName: test
+serviceAccountName: chart-tests
 devApplicationInsightsInstrumentKeyName: AZURE_APPLICATIONINSIGHTS_INSTRUMENTATIONKEY
 devApplicationInsightsInstrumentKey: '00000000-0000-0000-0000-000000000000'
 useInterpodAntiAffinity: true
