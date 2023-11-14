@@ -16,7 +16,7 @@ keywords:
 
 dependencies:
   - name: library
-    version: 2.0.22-rc4
+    version: 2.0.22-rc5
     repository: https://hmctspublic.azurecr.io/helm/v1/repo/
   - name: postgresql
     version: 12.12.10
