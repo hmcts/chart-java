@@ -26,6 +26,8 @@ startupTimeout: 3
 startupPeriod: 10
 startupFailureThreshold: 20
 saEnabled: true
+spotInstances:
+  enabled: false
 devApplicationInsightsInstrumentKeyName: AZURE_APPLICATIONINSIGHTS_INSTRUMENTATIONKEY
 devApplicationInsightsInstrumentKey: '00000000-0000-0000-0000-000000000000'
 useInterpodAntiAffinity: true
