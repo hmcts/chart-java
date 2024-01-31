@@ -104,7 +104,7 @@ functionaltestscron:
 #  targetCPUUtilizationPercentage: 80
 #
 autoscaling:
-  enabled: false
+  enabled: true
   cpu:
     enabled: true
     averageUtilization: 80
