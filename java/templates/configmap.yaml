@@ -1,1 +1,1 @@
-{{- template "hmcts.configmap.v2.tpl" . -}}
+{{- template "hmcts.configmap.v2.2.3.tpl" . -}}
