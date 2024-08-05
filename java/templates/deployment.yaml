@@ -1,1 +1,1 @@
-{{- template "hmcts.deployment.v2.2.3.tpl" . -}}
+{{- template "hmcts.deployment.v5.tpl" . -}}
