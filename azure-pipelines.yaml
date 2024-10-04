@@ -47,3 +47,4 @@ jobs:
       chartName: java
       chartReleaseName: chart-java
       chartNamespace: chart-tests
+      branchName: convert-to-helm3-command
