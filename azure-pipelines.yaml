@@ -33,11 +33,11 @@ jobs:
 
 - job: Release
   # Make sure we have a tag to run this job
-  condition: >
-    and(
-        succeeded(),
-        startsWith(variables['Build.SourceBranch'], 'refs/tags/')
-      )
+  # condition: >
+  #   and(
+  #       succeeded(),
+  #       startsWith(variables['Build.SourceBranch'], 'refs/tags/')
+  #     )
   dependsOn: Validate
   pool:
     vmImage: ${{ variables.agentPool }}
