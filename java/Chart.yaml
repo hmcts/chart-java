@@ -16,8 +16,8 @@ keywords:
 
 dependencies:
   - name: library
-    version: 2.2.1
-    repository: https://hmctspublic.azurecr.io/helm/v1/repo/
+    version: 2.2.2
+    repository: oci://hmctspublic.azurecr.io/helm
   - name: postgresql
     version: 14.0.1
     repository: https://charts.bitnami.com/bitnami
