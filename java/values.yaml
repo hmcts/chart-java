@@ -52,7 +52,7 @@ postgresql:
   image:
     registry: hmctspublic.azurecr.io
     repository: imported/bitnami/postgresql
-    tag: '16.0.0'
+    tag: '15.0.0'
   ## Whether to deploy the Postgres Chart or not
   enabled: false
 ## Default Postgres Configuration parameters
