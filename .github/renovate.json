@@ -1,32 +1,5 @@
 {
-  "enabledManagers": [
-    "helm-requirements"
-  ],
-  "helm-requirements": {
-    "fileMatch": [
-      "\\Chart.yaml$"
-    ],
-    "aliases": {
-      "hmctspublic": "https://hmctspublic.azurecr.io/helm/v1/repo/"
-    }
-  },
   "extends": [
     "local>hmcts/.github:renovate-config"
-  ],
-  "hostRules": [
-    {
-      "description": "Credentials for OCI Helm charts from my private registry",
-      "matchHost": "https://hmctsprod.azurecr.io/helm",
-      "hostType": "docker",
-      "username": "{{ secrets.RENOVATE_ACR_USER }}",
-      "password": "{{ secrets.RENOVATE_ACR_TOKEN }}"
-    },
-    {
-      "description": "Credentials for OCI Helm charts from my private registry",
-      "matchHost": "https://hmctsprod.azurecr.io/helm",
-      "hostType": "docker",
-      "username": "{{ secrets.RENOVATE_ACR_APPID }}",
-      "password": "{{ secrets.RENOVATE_ACR_SECRET }}"
-    }
   ]
 }
