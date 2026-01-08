@@ -64,6 +64,18 @@ postgresql:
   primary:
     persistence:
       enabled: false
+  ## Override metrics image for postgresql-exporter
+  metrics:
+    image:
+      registry: hmctspublic.azurecr.io
+      repository: imported/bitnami/postgres-exporter
+      tag: '0.15.0-debian-12-r16'
+  ## Override volume permissions image for os-shell
+  volumePermissions:
+    image:
+      registry: hmctspublic.azurecr.io
+      repository: imported/bitnami/os-shell
+      tag: '12-debian-12-r18'
 
 global:
   enableKeyVaults: false

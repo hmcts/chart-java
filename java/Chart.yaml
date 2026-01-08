@@ -20,5 +20,5 @@ dependencies:
     repository: oci://hmctsprod.azurecr.io/helm
   - name: postgresql
     version: 15.2.4
-    repository: https://charts.bitnami.com/bitnami
+    repository: oci://registry-1.docker.io/bitnamicharts
     condition: postgresql.enabled
