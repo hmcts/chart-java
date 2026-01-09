@@ -3,7 +3,7 @@ description: A Helm chart for HMCTS Java Microservices
 name: java
 # This is the chart version. This doesn't need to be incremented on every change.
 # It is managed by release pipeline based on Github tag
-version: 0.1.0 # Do not change
+version: 0.1.1
 appVersion: 0.1.0 # Do not change
 type: application
 icon: https://github.com/hmcts/chart-java/raw/master/images/icons8-java-50.png
@@ -16,7 +16,7 @@ keywords:
 
 dependencies:
   - name: library
-    version: 2.2.2
+    version: 2.2.3
     repository: oci://hmctsprod.azurecr.io/helm
   - name: postgresql
     version: 15.2.4
