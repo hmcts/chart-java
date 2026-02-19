@@ -21,4 +21,5 @@ dependencies:
   - name: hmcts-bitnami-postgresql
     version: 0.3.0
     repository: oci://hmctsprod.azurecr.io/helm
+    alias: postgresql
     condition: postgresql.enabled
