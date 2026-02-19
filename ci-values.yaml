@@ -25,7 +25,7 @@ keyVaults:
     excludeEnvironmentSuffix: false
     secrets:
       - test-secret
-hmcts-bitnami-postgresql:
+postgresql:
   primary:
     ## Disable Postgres Persistence
     persistence:
