@@ -1,11 +1,2 @@
-# Minimal values for SSA null-field regression testing.
-# Tests that all mandatory typed fields have a concrete default without needing
-# consumer-supplied values. Everything below this line should be covered by
-# values.yaml defaults after the chart-library Phase 2 fixes are applied.
-#
-# Usage:
-#   helm template test java/ -f ci-values-minimal.yaml \
-#     | grep -E ": null$|: \"null\"$"
-#   (no output = clean)
-
-image: hmctspublic.azurecr.io/test/app:latest
+# Fed into: kubeconform
+image: hmctspublic.azurecr.io/test/app:latest # only required field; all other values fall through to values.yaml defaults
