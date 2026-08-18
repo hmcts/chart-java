@@ -1,8 +1,13 @@
 suite: ConfigMap tests
 templates:
   - templates/configmap.yaml
+# NOTE: the CI pipeline merges this chart's ci-values.yaml (which sets a real
+# configmap: {VAR_A, VAR_B}) as a base values file alongside these tests' own
+# `set:` overrides, so the "not set" case explicitly nulls it out.
 tests:
-  - it: should not render ConfigMap when configmap is not set (chart default)
+  - it: should not render ConfigMap when configmap is not set
+    set:
+      configmap: null
     asserts:
       - hasDocuments:
           count: 0

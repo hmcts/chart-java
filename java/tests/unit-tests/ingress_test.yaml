@@ -1,8 +1,16 @@
 suite: Ingress tests
 templates:
   - templates/ingress.yaml
+# NOTE: the CI pipeline merges this chart's ci-values.yaml (which sets a real
+# ingressHost and additionalIngressHosts) as a base values file alongside these
+# tests' own `set:` overrides. Tests that need "no ingressHost configured"
+# behaviour therefore explicitly null it out rather than relying on chart
+# defaults.
 tests:
-  - it: should not render Ingress when ingressHost is not set and registerAdditionalDns is disabled (chart default)
+  - it: should not render Ingress when ingressHost is not set and registerAdditionalDns is disabled
+    set:
+      ingressHost: null
+      registerAdditionalDns.enabled: false
     asserts:
       - hasDocuments:
           count: 0
@@ -53,6 +61,7 @@ tests:
 
   - it: should render Ingress when registerAdditionalDns.enabled is true
     set:
+      ingressHost: null
       registerAdditionalDns.enabled: true
       registerAdditionalDns.prefix: myapp
       registerAdditionalDns.primaryIngressHost: example.com

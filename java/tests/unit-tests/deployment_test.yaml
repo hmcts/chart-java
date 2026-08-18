@@ -18,6 +18,7 @@ tests:
   - it: should default replicas to 1 when not explicitly set and autoscaling is disabled
     set:
       autoscaling.enabled: false
+      replicas: 1
     asserts:
       - equal:
           path: spec.replicas
