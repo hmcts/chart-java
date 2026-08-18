@@ -1,0 +1,75 @@
+suite: Deployment tests
+templates:
+  - templates/deployment.yaml
+tests:
+  - it: should render a Deployment
+    asserts:
+      - isKind:
+          of: Deployment
+      - isAPIVersion:
+          of: apps/v1
+
+  - it: should name the resource using the release name template
+    asserts:
+      - equal:
+          path: metadata.name
+          value: release-name-java
+
+  - it: should default replicas to 1 when not explicitly set and autoscaling is disabled
+    set:
+      autoscaling.enabled: false
+    asserts:
+      - equal:
+          path: spec.replicas
+          value: 1
+
+  - it: should use the provided replicas value when set and autoscaling is disabled
+    set:
+      autoscaling.enabled: false
+      replicas: 4
+    asserts:
+      - equal:
+          path: spec.replicas
+          value: 4
+
+  - it: should not render replicas field when autoscaling is enabled (chart default)
+    asserts:
+      - notExists:
+          path: spec.replicas
+
+  - it: should set the container image from the required image value
+    set:
+      image: hmctspublic.azurecr.io/java/example:latest
+    asserts:
+      - equal:
+          path: spec.template.spec.containers[0].image
+          value: hmctspublic.azurecr.io/java/example:latest
+
+  - it: should mark the pod for workload identity when useWorkloadIdentity is true
+    set:
+      useWorkloadIdentity: true
+    asserts:
+      - equal:
+          path: spec.template.metadata.labels["azure.workload.identity/use"]
+          value: "true"
+
+  - it: should set imagePullPolicy from values
+    set:
+      imagePullPolicy: Always
+    asserts:
+      - equal:
+          path: spec.template.spec.containers[0].imagePullPolicy
+          value: Always
+
+  - it: should render spot instance toleration when spotInstances.enabled is true
+    set:
+      spotInstances.enabled: true
+    asserts:
+      - contains:
+          path: spec.template.spec.tolerations
+          content:
+            key: kubernetes.azure.com/scalesetpriority
+            effect: NoSchedule
+            operator: Equal
+            value: spot
+

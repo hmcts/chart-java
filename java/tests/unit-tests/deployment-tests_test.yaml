@@ -1,0 +1,60 @@
+suite: Deployment tests (smoke/functional test jobs) tests
+templates:
+  - templates/deployment-tests.yaml
+tests:
+  - it: should not render smoke or functional test jobs by default (chart default has them disabled)
+    asserts:
+      - hasDocuments:
+          count: 0
+
+  - it: should render a smoke test job when smoketests.enabled is true
+    set:
+      smoketests:
+        enabled: true
+        image: hmctspublic.azurecr.io/spring-boot/template-test
+    asserts:
+      - hasDocuments:
+          count: 1
+
+  - it: should render a functional test job when functionaltests.enabled is true
+    set:
+      functionaltests:
+        enabled: true
+        image: hmctspublic.azurecr.io/spring-boot/template-test
+    asserts:
+      - hasDocuments:
+          count: 1
+
+  - it: should render a smoke test cron job when both smoketestscron.enabled and global.smoketestscron.enabled are true (chart default global value)
+    set:
+      smoketestscron:
+        enabled: true
+        image: hmctspublic.azurecr.io/spring-boot/template-test
+        schedule: "20 0/1 * * *"
+    asserts:
+      - hasDocuments:
+          count: 1
+
+  - it: should not render a smoke test cron job when global.smoketestscron.enabled is false
+    set:
+      global.smoketestscron.enabled: false
+      smoketestscron:
+        enabled: true
+        image: hmctspublic.azurecr.io/spring-boot/template-test
+        schedule: "20 0/1 * * *"
+    asserts:
+      - hasDocuments:
+          count: 0
+
+  - it: should render both smoke and functional test jobs together when both are enabled
+    set:
+      smoketests:
+        enabled: true
+        image: hmctspublic.azurecr.io/spring-boot/template-test
+      functionaltests:
+        enabled: true
+        image: hmctspublic.azurecr.io/spring-boot/template-test
+    asserts:
+      - hasDocuments:
+          count: 2
+

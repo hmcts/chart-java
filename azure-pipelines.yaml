@@ -31,6 +31,7 @@ jobs:
       chartNamespace: chart-tests
       helmInstallTimeout: "500"
       kubeconformValuesFile: ci-values-minimal.yaml
+      runUnitTests: true
 
 - job: Release
   # Make sure we have a tag to run this job

@@ -1,0 +1,32 @@
+suite: ConfigMap tests
+templates:
+  - templates/configmap.yaml
+tests:
+  - it: should not render ConfigMap when configmap is not set (chart default)
+    asserts:
+      - hasDocuments:
+          count: 0
+
+  - it: should render ConfigMap when configmap is set
+    set:
+      configmap:
+        VAR_A: VALUE_A
+    asserts:
+      - isKind:
+          of: ConfigMap
+      - equal:
+          path: metadata.name
+          value: release-name-java
+
+  - it: should render data entries from configmap values
+    set:
+      configmap:
+        VAR_A: VALUE_A
+        VAR_B: VALUE_B
+    asserts:
+      - equal:
+          path: data.VAR_A
+          value: VALUE_A
+      - equal:
+          path: data.VAR_B
+          value: VALUE_B

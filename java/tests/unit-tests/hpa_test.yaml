@@ -1,0 +1,72 @@
+suite: HPA tests
+templates:
+  - templates/hpa.yaml
+tests:
+  - it: should not render HPA when autoscaling.enabled is false
+    set:
+      autoscaling.enabled: false
+    asserts:
+      - hasDocuments:
+          count: 0
+
+  - it: should render HPA when autoscaling.enabled is true (chart default)
+    asserts:
+      - isKind:
+          of: HorizontalPodAutoscaler
+      - isAPIVersion:
+          of: autoscaling/v2
+
+  - it: should name the resource using the release name template
+    asserts:
+      - equal:
+          path: metadata.name
+          value: release-name-java
+
+  - it: should default minReplicas to replicas value when autoscaling.minReplicas is not set
+    set:
+      replicas: 3
+    asserts:
+      - equal:
+          path: spec.minReplicas
+          value: 3
+
+  - it: should set maxReplicas to autoscaling.maxReplicas when provided
+    set:
+      replicas: 2
+      autoscaling.maxReplicas: 7
+    asserts:
+      - equal:
+          path: spec.maxReplicas
+          value: 7
+
+  - it: should include CPU metric using the chart default averageUtilization of 80
+    asserts:
+      - contains:
+          path: spec.metrics
+          content:
+            type: Resource
+            resource:
+              name: cpu
+              target:
+                type: Utilization
+                averageUtilization: 80
+
+  - it: should include memory metric using the chart default averageUtilization of 80
+    asserts:
+      - contains:
+          path: spec.metrics
+          content:
+            type: Resource
+            resource:
+              name: memory
+              target:
+                type: Utilization
+                averageUtilization: 80
+
+  - it: should not render HPA when global.devMode is true and autoscaling.enabledForDevMode is not set
+    set:
+      global.devMode: true
+    asserts:
+      - hasDocuments:
+          count: 0
+

@@ -1,0 +1,48 @@
+suite: Service tests
+templates:
+  - templates/service.yaml
+tests:
+  - it: should render a Service
+    asserts:
+      - isKind:
+          of: Service
+      - isAPIVersion:
+          of: v1
+
+  - it: should name the resource using the release name template
+    asserts:
+      - equal:
+          path: metadata.name
+          value: release-name-java
+
+  - it: should set targetPort to applicationPort when provided
+    set:
+      applicationPort: 4550
+    asserts:
+      - equal:
+          path: spec.ports[0].targetPort
+          value: 4550
+
+  - it: should fall back to port 80 as targetPort when applicationPort is not set
+    set:
+      applicationPort: null
+    asserts:
+      - equal:
+          path: spec.ports[0].targetPort
+          value: 80
+
+  - it: should render session affinity annotations when ingressSessionAffinity is enabled
+    set:
+      ingressSessionAffinity.enabled: true
+      ingressSessionAffinity.sessionCookieName: sticky
+    asserts:
+      - equal:
+          path: metadata.annotations["traefik.ingress.kubernetes.io/service.sticky.cookie.name"]
+          value: sticky
+
+  - it: should not render session affinity annotations when ingressSessionAffinity is disabled
+    set:
+      ingressSessionAffinity.enabled: false
+    asserts:
+      - notExists:
+          path: metadata.annotations

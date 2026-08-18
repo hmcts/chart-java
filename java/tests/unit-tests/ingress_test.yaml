@@ -1,0 +1,65 @@
+suite: Ingress tests
+templates:
+  - templates/ingress.yaml
+tests:
+  - it: should not render Ingress when ingressHost is not set and registerAdditionalDns is disabled (chart default)
+    asserts:
+      - hasDocuments:
+          count: 0
+
+  - it: should render Ingress when ingressHost is set
+    set:
+      ingressHost: myapp.example.com
+    asserts:
+      - isKind:
+          of: Ingress
+      - equal:
+          path: metadata.name
+          value: release-name-java
+
+  - it: should render TLS annotation by default since disableTraefikTls is true in this chart's values
+    set:
+      ingressHost: myapp.example.com
+    asserts:
+      - notExists:
+          path: metadata.annotations["traefik.ingress.kubernetes.io/router.tls"]
+
+  - it: should render TLS annotation when disableTraefikTls is overridden to false
+    set:
+      ingressHost: myapp.example.com
+      disableTraefikTls: false
+    asserts:
+      - equal:
+          path: metadata.annotations["traefik.ingress.kubernetes.io/router.tls"]
+          value: "true"
+
+  - it: should use ingressClass traefik by default
+    set:
+      ingressHost: myapp.example.com
+    asserts:
+      - equal:
+          path: spec.ingressClassName
+          value: traefik
+
+  - it: should render an additional rule for each additionalIngressHost
+    set:
+      ingressHost: myapp.example.com
+      additionalIngressHosts:
+        - extra.example.com
+    asserts:
+      - equal:
+          path: spec.rules[1].host
+          value: extra.example.com
+
+  - it: should render Ingress when registerAdditionalDns.enabled is true
+    set:
+      registerAdditionalDns.enabled: true
+      registerAdditionalDns.prefix: myapp
+      registerAdditionalDns.primaryIngressHost: example.com
+    asserts:
+      - isKind:
+          of: Ingress
+      - equal:
+          path: spec.rules[0].host
+          value: myapp-example.com
+
