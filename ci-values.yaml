@@ -27,6 +27,19 @@ keyVaults:
       - test-secret
 postgresql:
   enabled: true
+  primary:
+    ## Disable Postgres Persistence
+    persistence:
+      enabled: false
+    ## extra volume mount for PostgreSQL writes socket lock file to /var/run/postgresql directory
+    extraVolumes:
+      - name: postgresql-run
+        emptyDir: {}
+      ## @param primary.extraVolumeMounts Optionally specify extra list of additional volumeMounts for the PostgreSQL Primary container(s)
+      ##
+    extraVolumeMounts:
+      - name: postgresql-run
+        mountPath: /var/run/postgresql
 global:
   tenantId: "531ff96d-0ae9-462a-8d2d-bec7c0b42082"
   environment: aat
