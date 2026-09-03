@@ -16,7 +16,7 @@ keywords:
 
 dependencies:
   - name: library
-    version: 2.3.0
+    version: 2.3.1
     repository: oci://hmctsprod.azurecr.io/helm
   - name: hmcts-postgresql
     version: 0.4.0
